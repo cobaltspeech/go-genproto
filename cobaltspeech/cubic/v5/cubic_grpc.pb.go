@@ -18,12 +18,12 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CubicServiceClient interface {
-	// Queries the Version of the Server.
+	// Queries the version of the server.
 	Version(ctx context.Context, in *VersionRequest, opts ...grpc.CallOption) (*VersionResponse, error)
 	// Retrieves a list of available speech recognition models.
 	ListModels(ctx context.Context, in *ListModelsRequest, opts ...grpc.CallOption) (*ListModelsResponse, error)
-	// Performs bidirectional streaming speech recognition.  Receive results while
-	// sending audio.  This method is only available via GRPC and not via
+	// Performs bidirectional streaming speech recognition. Receive results while
+	// sending audio. This method is only available via GRPC and not via
 	// HTTP+JSON. However, a web browser may use websockets to use this service.
 	StreamingRecognize(ctx context.Context, opts ...grpc.CallOption) (CubicService_StreamingRecognizeClient, error)
 	// Compiles recognition context information, such as a specialized list of
@@ -111,12 +111,12 @@ func (c *cubicServiceClient) CompileContext(ctx context.Context, in *CompileCont
 // All implementations must embed UnimplementedCubicServiceServer
 // for forward compatibility
 type CubicServiceServer interface {
-	// Queries the Version of the Server.
+	// Queries the version of the server.
 	Version(context.Context, *VersionRequest) (*VersionResponse, error)
 	// Retrieves a list of available speech recognition models.
 	ListModels(context.Context, *ListModelsRequest) (*ListModelsResponse, error)
-	// Performs bidirectional streaming speech recognition.  Receive results while
-	// sending audio.  This method is only available via GRPC and not via
+	// Performs bidirectional streaming speech recognition. Receive results while
+	// sending audio. This method is only available via GRPC and not via
 	// HTTP+JSON. However, a web browser may use websockets to use this service.
 	StreamingRecognize(CubicService_StreamingRecognizeServer) error
 	// Compiles recognition context information, such as a specialized list of

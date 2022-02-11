@@ -92,7 +92,8 @@ func (ByteOrder) EnumDescriptor() ([]byte, []int) {
 type AudioEncoding int32
 
 const (
-	// AUDIO_ENCODING_UNSPECIFIED is the default value of this type.
+	// AUDIO_ENCODING_UNSPECIFIED is the default value of this type and will
+	// result in an error.
 	AudioEncoding_AUDIO_ENCODING_UNSPECIFIED AudioEncoding = 0
 	// PCM signed-integer
 	AudioEncoding_AUDIO_ENCODING_SIGNED AudioEncoding = 1
@@ -258,7 +259,7 @@ type VersionResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// version of the server handling these requests.
+	// Version of the server handling these requests.
 	Version string `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
 }
 
@@ -390,12 +391,12 @@ func (x *ListModelsResponse) GetModels() []*Model {
 }
 
 // The top-level messages sent by the client for the `StreamingRecognize`
-// request. In this streaming call, multiple `StreamingRecognizeRequest`
-// messages should be sent. The first message must contain a `RecognitionConfig`
-// message only, and all subsequent messages must contain `RecognitionAudio`
-// only. All `RecognitionAudio` messages must contain non-empty audio. If audio
-// content is empty, the server may choose to interpret it as end of stream and
-// stop accepting any further messages.
+// method. In this streaming call, multiple `StreamingRecognizeRequest` messages
+// should be sent. The first message must contain a `RecognitionConfig` message
+// only, and all subsequent messages must contain `RecognitionAudio` only. All
+// `RecognitionAudio` messages must contain non-empty audio. If audio content is
+// empty, the server may choose to interpret it as end of stream and stop
+// accepting any further messages.
 type StreamingRecognizeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -495,9 +496,8 @@ type StreamingRecognizeResponse struct {
 	// results. Clients can continue streaming audio even after receiving these
 	// messages. This error message is meant to be informational.
 	//
-	// An example of when these errors maybe produced: audio is sampled at a
-	// lower rate than expected by model, producing possibly less accurate
-	// results.
+	// An example of when these errors maybe produced: audio is sampled at a lower
+	// rate than expected by model, producing possibly less accurate results.
 	Error *RecognitionError `protobuf:"bytes,2,opt,name=error,proto3,oneof" json:"error,omitempty"`
 }
 
@@ -745,7 +745,7 @@ type RecognitionConfig struct {
 	// does not use this field for any other purpose.
 	Metadata *RecognitionMetadata `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// This is an optional field for providing any additional context information
-	// that may aid speech recognition.  This can also be used to add
+	// that may aid speech recognition. This can also be used to add
 	// out-of-vocabulary words to the model or boost recognition of specific
 	// proper names or commands. Context information must be pre-compiled via the
 	// `CompileContext()` method.
@@ -884,8 +884,8 @@ type AudioFormatRAW struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Encoding of the samples. It must be specified exactly and using the default
-	// value of `AUDIO_ENCODING_UNSPECIFIED` will result in an error.
+	// Encoding of the samples. It must be specified explicitly and using the
+	// default value of `AUDIO_ENCODING_UNSPECIFIED` will result in an error.
 	Encoding AudioEncoding `protobuf:"varint,1,opt,name=encoding,proto3,enum=cobaltspeech.cubic.v5.AudioEncoding" json:"encoding,omitempty"`
 	// Bit depth of each sample (e.g. 8, 16, 24, 32, etc.). This is a required
 	// field.
@@ -975,7 +975,7 @@ type RecognitionMetadata struct {
 
 	// Any custom metadata that the client wants to associate with the recording.
 	// This could be a simple string (e.g. a tracing ID) or structured data
-	// (e.g. JSON)
+	// (e.g. JSON).
 	CustomMetadata string `protobuf:"bytes,1,opt,name=custom_metadata,json=customMetadata,proto3" json:"custom_metadata,omitempty"`
 }
 
@@ -1019,8 +1019,8 @@ func (x *RecognitionMetadata) GetCustomMetadata() string {
 }
 
 // A collection of additional context information that may aid speech
-// recognition.  This can be used to add out-of-vocabulary words to
-// the model or to boost recognition of specific proper names or commands.
+// recognition. This can be used to add out-of-vocabulary words to the model or
+// to boost recognition of specific proper names or commands.
 type RecognitionContext struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1140,10 +1140,10 @@ type ContextPhrase struct {
 	// words, with the desired word given a bigger boost factor.
 	//
 	// By default, all phrases or words provided in the `RecongitionContext` are
-	// given an equal probability of occurring. The boost factors larger than 1
-	// will make the phrase or word more probable. A boost factor of 2 corresponds
-	// to making the phrase or word twice as more likely, while a boost factor of
-	// 0.5 means half as less likely.
+	// given an equal probability of occurring. Boost factors larger than 1 make
+	// the phrase or word more probable and boost factors less than 1 make it less
+	// likely. A boost factor of 2 corresponds to making the phrase or word twice
+	// as likely, while a boost factor of 0.5 means half as likely.
 	Boost float32 `protobuf:"fixed32,2,opt,name=boost,proto3" json:"boost,omitempty"`
 }
 
@@ -1247,11 +1247,11 @@ type Model struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Unique identifier of the model.  This identifier is used to choose the
-	// model that should be used for recognition, and is specified in the
+	// Unique identifier of the model. This identifier is used to choose the model
+	// that should be used for recognition, and is specified in the
 	// `RecognitionConfig` message.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	// Model name.  This is a concise name describing the model, and maybe
+	// Model name. This is a concise name describing the model, and may be
 	// presented to the end-user, for example, to help choose which model to use
 	// for their recognition task.
 	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
@@ -1441,8 +1441,8 @@ type RecognitionResult struct {
 	// An n-best list of recognition hypotheses alternatives
 	Alternatives []*RecognitionAlternative `protobuf:"bytes,1,rep,name=alternatives,proto3" json:"alternatives,omitempty"`
 	// If this is set to true, it denotes that the result is an interim partial
-	// result, and could change after more audio is processed.  If unset, or set
-	// to false, it denotes that this is a final result and will not change.
+	// result, and could change after more audio is processed. If unset, or set to
+	// false, it denotes that this is a final result and will not change.
 	//
 	// Servers are not required to implement support for returning partial
 	// results, and clients should generally not depend on their availability.
@@ -1574,19 +1574,18 @@ type RecognitionAlternative struct {
 	//
 	// The transcript will be formatted according to the servers formatting
 	// configuration. If you want the raw transcript, please see the field
-	// `transcript_raw`.  If the server is configured to not use any formatting,
+	// `transcript_raw`. If the server is configured to not use any formatting,
 	// then this field will contain the raw transcript.
 	//
-	// As an example, if the spoken utterance was "four people", and the
-	// server was configured to format numbers, this field would be set to
-	// "4 people".
+	// As an example, if the spoken utterance was "four people", and the server
+	// was configured to format numbers, this field would be set to "4 people".
 	TranscriptFormatted string `protobuf:"bytes,1,opt,name=transcript_formatted,json=transcriptFormatted,proto3" json:"transcript_formatted,omitempty"`
 	// Text representing the transcription of the words that the user spoke,
 	// without any formatting applied. If you want the formatted transcript,
 	// please see the field `transcript_formatted`.
 	//
-	// As an example, if the spoken utterance was `here are four words`,
-	// this field would be set to "HERE ARE FOUR WORDS".
+	// As an example, if the spoken utterance was `four people`, this field would
+	// be set to "FOUR PEOPLE".
 	TranscriptRaw string `protobuf:"bytes,2,opt,name=transcript_raw,json=transcriptRaw,proto3" json:"transcript_raw,omitempty"`
 	// Time offset in milliseconds relative to the beginning of audio received by
 	// the recognizer and corresponding to the start of this utterance.
@@ -1596,9 +1595,8 @@ type RecognitionAlternative struct {
 	// Confidence estimate between 0 and 1. A higher number represents a higher
 	// likelihood of the output being correct.
 	Confidence float64 `protobuf:"fixed64,5,opt,name=confidence,proto3" json:"confidence,omitempty"`
-	// Word-level details corresponding to the transcripts.  This
-	// is available only if `enable_word_details` was set to `true` in the
-	// `RecognitionConfig`.
+	// Word-level details corresponding to the transcripts. This is available only
+	// if `enable_word_details` was set to `true` in the `RecognitionConfig`.
 	WordDetails *WordDetails `protobuf:"bytes,6,opt,name=word_details,json=wordDetails,proto3" json:"word_details,omitempty"`
 }
 
@@ -1741,8 +1739,8 @@ type WordInfo struct {
 
 	// The actual word in the text
 	Word string `protobuf:"bytes,1,opt,name=word,proto3" json:"word,omitempty"`
-	// Confidence estimate between 0 and 1.  A higher number represents a
-	// higher likelihood that the word was correctly recognized.
+	// Confidence estimate between 0 and 1. A higher number represents a higher
+	// likelihood that the word was correctly recognized.
 	Confidence float64 `protobuf:"fixed64,2,opt,name=confidence,proto3" json:"confidence,omitempty"`
 	// Time offset in milliseconds relative to the beginning of audio received by
 	// the recognizer and corresponding to the start of this spoken word.
@@ -1935,7 +1933,7 @@ type ConfusionNetworkArc struct {
 
 	// Word in the recognized transcript
 	Word string `protobuf:"bytes,1,opt,name=word,proto3" json:"word,omitempty"`
-	// Confidence estimate between 0 and 1.  A higher number represents a higher
+	// Confidence estimate between 0 and 1. A higher number represents a higher
 	// likelihood that the word was correctly recognized.
 	Confidence float64 `protobuf:"fixed64,2,opt,name=confidence,proto3" json:"confidence,omitempty"`
 	// Features related to this arc
