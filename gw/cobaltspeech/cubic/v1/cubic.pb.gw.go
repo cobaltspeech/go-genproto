@@ -192,12 +192,13 @@ func RegisterCubicHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Version", runtime.WithHTTPPathPattern("/api/version"))
+		var err error
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Version", runtime.WithHTTPPathPattern("/api/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Cubic_Version_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Cubic_Version_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -215,12 +216,13 @@ func RegisterCubicHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/ListModels", runtime.WithHTTPPathPattern("/api/listmodels"))
+		var err error
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/ListModels", runtime.WithHTTPPathPattern("/api/listmodels"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Cubic_ListModels_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Cubic_ListModels_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -238,12 +240,13 @@ func RegisterCubicHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Recognize", runtime.WithHTTPPathPattern("/api/recognize"))
+		var err error
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Recognize", runtime.WithHTTPPathPattern("/api/recognize"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Cubic_Recognize_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Cubic_Recognize_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -268,12 +271,13 @@ func RegisterCubicHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/CompileContext", runtime.WithHTTPPathPattern("/api/compilecontext"))
+		var err error
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/CompileContext", runtime.WithHTTPPathPattern("/api/compilecontext"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_Cubic_CompileContext_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_Cubic_CompileContext_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -330,12 +334,13 @@ func RegisterCubicHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Version", runtime.WithHTTPPathPattern("/api/version"))
+		var err error
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Version", runtime.WithHTTPPathPattern("/api/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Cubic_Version_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Cubic_Version_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -350,12 +355,13 @@ func RegisterCubicHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/ListModels", runtime.WithHTTPPathPattern("/api/listmodels"))
+		var err error
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/ListModels", runtime.WithHTTPPathPattern("/api/listmodels"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Cubic_ListModels_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Cubic_ListModels_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -370,12 +376,13 @@ func RegisterCubicHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Recognize", runtime.WithHTTPPathPattern("/api/recognize"))
+		var err error
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Recognize", runtime.WithHTTPPathPattern("/api/recognize"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Cubic_Recognize_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Cubic_Recognize_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -390,12 +397,13 @@ func RegisterCubicHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/StreamingRecognize", runtime.WithHTTPPathPattern("/api/stream"))
+		var err error
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/StreamingRecognize", runtime.WithHTTPPathPattern("/api/stream"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Cubic_StreamingRecognize_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Cubic_StreamingRecognize_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -410,12 +418,13 @@ func RegisterCubicHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/CompileContext", runtime.WithHTTPPathPattern("/api/compilecontext"))
+		var err error
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/CompileContext", runtime.WithHTTPPathPattern("/api/compilecontext"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_Cubic_CompileContext_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Cubic_CompileContext_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)

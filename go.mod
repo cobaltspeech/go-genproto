@@ -3,15 +3,15 @@ module github.com/cobaltspeech/go-genproto
 go 1.17
 
 require (
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.3
-	google.golang.org/genproto v0.0.0-20220208230804-65c12eb4c068
-	google.golang.org/grpc v1.44.0
-	google.golang.org/protobuf v1.27.1
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.3
+	google.golang.org/genproto v0.0.0-20220617124728-180714bec0ad
+	google.golang.org/grpc v1.47.0
+	google.golang.org/protobuf v1.28.0
 )
 
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
-	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4 // indirect
-	golang.org/x/sys v0.0.0-20210510120138-977fb7262007 // indirect
-	golang.org/x/text v0.3.5 // indirect
+	golang.org/x/net v0.0.0-20220617184016-355a448f1bc9 // indirect
+	golang.org/x/sys v0.0.0-20220615213510-4f61da869c0c // indirect
+	golang.org/x/text v0.3.7 // indirect
 )
