@@ -75,9 +75,21 @@ type BluehengeServiceClient interface {
 	// which can be helpful for displaying a directory or table of contents.
 	// The full details of an individual procedure can be retrieved via GetProcedure.
 	ListProcedures(ctx context.Context, in *ListProceduresRequest, opts ...grpc.CallOption) (*ListProceduresResponse, error)
+	// Returns a list of all the trees.
+	// This list is contains a simplified representation of the trees,
+	// which can be helpful for displaying a directory or table of contents.
+	// The full details of an individual tree can be retrieved via GetTree.
+	ListTrees(ctx context.Context, in *ListTreesRequest, opts ...grpc.CallOption) (*ListTreesResponse, error)
 	// Gets a single procedure identified by id.
 	// The response returns everything you should need to be able to display the Procedure and it's Steps and Tasks to the user.
 	GetProcedure(ctx context.Context, in *GetProcedureRequest, opts ...grpc.CallOption) (*GetProcedureResponse, error)
+	// Gets a single tree identified by id.
+	// Trees contain instructions followed by questions to help users
+	// diagnose problems. The answers at each step point to another
+	// TreeNode to continue the diagnosis. This response returns an
+	// information bearing Tree struct with a list of its TreeNodes in
+	// a linear order starting with the first one the user should see.
+	GetTree(ctx context.Context, in *GetTreeRequest, opts ...grpc.CallOption) (*GetTreeResponse, error)
 	// Saves a note in a specific step during a procedure.
 	SaveNote(ctx context.Context, in *SaveNoteRequest, opts ...grpc.CallOption) (*SaveNoteResponse, error)
 	// Gets the data related with an image.
@@ -244,9 +256,27 @@ func (c *bluehengeServiceClient) ListProcedures(ctx context.Context, in *ListPro
 	return out, nil
 }
 
+func (c *bluehengeServiceClient) ListTrees(ctx context.Context, in *ListTreesRequest, opts ...grpc.CallOption) (*ListTreesResponse, error) {
+	out := new(ListTreesResponse)
+	err := c.cc.Invoke(ctx, "/cobaltspeech.bluehenge.v2.BluehengeService/ListTrees", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *bluehengeServiceClient) GetProcedure(ctx context.Context, in *GetProcedureRequest, opts ...grpc.CallOption) (*GetProcedureResponse, error) {
 	out := new(GetProcedureResponse)
 	err := c.cc.Invoke(ctx, "/cobaltspeech.bluehenge.v2.BluehengeService/GetProcedure", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bluehengeServiceClient) GetTree(ctx context.Context, in *GetTreeRequest, opts ...grpc.CallOption) (*GetTreeResponse, error) {
+	out := new(GetTreeResponse)
+	err := c.cc.Invoke(ctx, "/cobaltspeech.bluehenge.v2.BluehengeService/GetTree", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -328,9 +358,21 @@ type BluehengeServiceServer interface {
 	// which can be helpful for displaying a directory or table of contents.
 	// The full details of an individual procedure can be retrieved via GetProcedure.
 	ListProcedures(context.Context, *ListProceduresRequest) (*ListProceduresResponse, error)
+	// Returns a list of all the trees.
+	// This list is contains a simplified representation of the trees,
+	// which can be helpful for displaying a directory or table of contents.
+	// The full details of an individual tree can be retrieved via GetTree.
+	ListTrees(context.Context, *ListTreesRequest) (*ListTreesResponse, error)
 	// Gets a single procedure identified by id.
 	// The response returns everything you should need to be able to display the Procedure and it's Steps and Tasks to the user.
 	GetProcedure(context.Context, *GetProcedureRequest) (*GetProcedureResponse, error)
+	// Gets a single tree identified by id.
+	// Trees contain instructions followed by questions to help users
+	// diagnose problems. The answers at each step point to another
+	// TreeNode to continue the diagnosis. This response returns an
+	// information bearing Tree struct with a list of its TreeNodes in
+	// a linear order starting with the first one the user should see.
+	GetTree(context.Context, *GetTreeRequest) (*GetTreeResponse, error)
 	// Saves a note in a specific step during a procedure.
 	SaveNote(context.Context, *SaveNoteRequest) (*SaveNoteResponse, error)
 	// Gets the data related with an image.
@@ -370,8 +412,14 @@ func (UnimplementedBluehengeServiceServer) Transcribe(BluehengeService_Transcrib
 func (UnimplementedBluehengeServiceServer) ListProcedures(context.Context, *ListProceduresRequest) (*ListProceduresResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListProcedures not implemented")
 }
+func (UnimplementedBluehengeServiceServer) ListTrees(context.Context, *ListTreesRequest) (*ListTreesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTrees not implemented")
+}
 func (UnimplementedBluehengeServiceServer) GetProcedure(context.Context, *GetProcedureRequest) (*GetProcedureResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProcedure not implemented")
+}
+func (UnimplementedBluehengeServiceServer) GetTree(context.Context, *GetTreeRequest) (*GetTreeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTree not implemented")
 }
 func (UnimplementedBluehengeServiceServer) SaveNote(context.Context, *SaveNoteRequest) (*SaveNoteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveNote not implemented")
@@ -573,6 +621,24 @@ func _BluehengeService_ListProcedures_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BluehengeService_ListTrees_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTreesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BluehengeServiceServer).ListTrees(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cobaltspeech.bluehenge.v2.BluehengeService/ListTrees",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BluehengeServiceServer).ListTrees(ctx, req.(*ListTreesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _BluehengeService_GetProcedure_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetProcedureRequest)
 	if err := dec(in); err != nil {
@@ -587,6 +653,24 @@ func _BluehengeService_GetProcedure_Handler(srv interface{}, ctx context.Context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BluehengeServiceServer).GetProcedure(ctx, req.(*GetProcedureRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BluehengeService_GetTree_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTreeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BluehengeServiceServer).GetTree(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cobaltspeech.bluehenge.v2.BluehengeService/GetTree",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BluehengeServiceServer).GetTree(ctx, req.(*GetTreeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -659,8 +743,16 @@ var BluehengeService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _BluehengeService_ListProcedures_Handler,
 		},
 		{
+			MethodName: "ListTrees",
+			Handler:    _BluehengeService_ListTrees_Handler,
+		},
+		{
 			MethodName: "GetProcedure",
 			Handler:    _BluehengeService_GetProcedure_Handler,
+		},
+		{
+			MethodName: "GetTree",
+			Handler:    _BluehengeService_GetTree_Handler,
 		},
 		{
 			MethodName: "SaveNote",
