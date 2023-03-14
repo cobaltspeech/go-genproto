@@ -159,7 +159,7 @@ func RegisterTranscribeServiceHandlerServer(ctx context.Context, mux *runtime.Se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/Version", runtime.WithHTTPPathPattern("/api/v5/version"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/Version", runtime.WithHTTPPathPattern("/api/transcribe/v5/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -184,7 +184,7 @@ func RegisterTranscribeServiceHandlerServer(ctx context.Context, mux *runtime.Se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/ListModels", runtime.WithHTTPPathPattern("/api/v5/listmodels"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/ListModels", runtime.WithHTTPPathPattern("/api/transcribe/v5/listmodels"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -216,7 +216,7 @@ func RegisterTranscribeServiceHandlerServer(ctx context.Context, mux *runtime.Se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/CompileContext", runtime.WithHTTPPathPattern("/api/v5/compilecontext"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/CompileContext", runtime.WithHTTPPathPattern("/api/transcribe/v5/compilecontext"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -280,7 +280,7 @@ func RegisterTranscribeServiceHandlerClient(ctx context.Context, mux *runtime.Se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/Version", runtime.WithHTTPPathPattern("/api/v5/version"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/Version", runtime.WithHTTPPathPattern("/api/transcribe/v5/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -302,7 +302,7 @@ func RegisterTranscribeServiceHandlerClient(ctx context.Context, mux *runtime.Se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/ListModels", runtime.WithHTTPPathPattern("/api/v5/listmodels"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/ListModels", runtime.WithHTTPPathPattern("/api/transcribe/v5/listmodels"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -324,7 +324,7 @@ func RegisterTranscribeServiceHandlerClient(ctx context.Context, mux *runtime.Se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/StreamingRecognize", runtime.WithHTTPPathPattern("/api/v5/stream"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/StreamingRecognize", runtime.WithHTTPPathPattern("/api/transcribe/v5/stream"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -346,7 +346,7 @@ func RegisterTranscribeServiceHandlerClient(ctx context.Context, mux *runtime.Se
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/CompileContext", runtime.WithHTTPPathPattern("/api/v5/compilecontext"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/CompileContext", runtime.WithHTTPPathPattern("/api/transcribe/v5/compilecontext"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -366,13 +366,13 @@ func RegisterTranscribeServiceHandlerClient(ctx context.Context, mux *runtime.Se
 }
 
 var (
-	pattern_TranscribeService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v5", "version"}, ""))
+	pattern_TranscribeService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "transcribe", "v5", "version"}, ""))
 
-	pattern_TranscribeService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v5", "listmodels"}, ""))
+	pattern_TranscribeService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "transcribe", "v5", "listmodels"}, ""))
 
-	pattern_TranscribeService_StreamingRecognize_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v5", "stream"}, ""))
+	pattern_TranscribeService_StreamingRecognize_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "transcribe", "v5", "stream"}, ""))
 
-	pattern_TranscribeService_CompileContext_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v5", "compilecontext"}, ""))
+	pattern_TranscribeService_CompileContext_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "transcribe", "v5", "compilecontext"}, ""))
 )
 
 var (
