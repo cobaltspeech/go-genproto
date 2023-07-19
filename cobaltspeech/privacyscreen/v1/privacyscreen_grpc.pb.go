@@ -35,6 +35,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	PrivacyScreenService_Version_FullMethodName                         = "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/Version"
 	PrivacyScreenService_ListModels_FullMethodName                      = "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/ListModels"
+	PrivacyScreenService_RedactText_FullMethodName                      = "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/RedactText"
 	PrivacyScreenService_RedactTranscript_FullMethodName                = "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/RedactTranscript"
 	PrivacyScreenService_StreamingRedactTranscribedAudio_FullMethodName = "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/StreamingRedactTranscribedAudio"
 	PrivacyScreenService_StreamingTranscribeAndRedact_FullMethodName    = "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/StreamingTranscribeAndRedact"
@@ -48,6 +49,9 @@ type PrivacyScreenServiceClient interface {
 	Version(ctx context.Context, in *VersionRequest, opts ...grpc.CallOption) (*VersionResponse, error)
 	// ListModels returns information about the models the server can access.
 	ListModels(ctx context.Context, in *ListModelsRequest, opts ...grpc.CallOption) (*ListModelsResponse, error)
+	// Redact text using a redaction engine that is configured with the provided
+	// redaction configuration.
+	RedactText(ctx context.Context, in *RedactTextRequest, opts ...grpc.CallOption) (*RedactTextResponse, error)
 	// redacts transcript using a redaction engine that is configured with the
 	// provided redaction configuration.
 	RedactTranscript(ctx context.Context, in *RedactTranscriptRequest, opts ...grpc.CallOption) (*RedactTranscriptResponse, error)
@@ -80,6 +84,15 @@ func (c *privacyScreenServiceClient) Version(ctx context.Context, in *VersionReq
 func (c *privacyScreenServiceClient) ListModels(ctx context.Context, in *ListModelsRequest, opts ...grpc.CallOption) (*ListModelsResponse, error) {
 	out := new(ListModelsResponse)
 	err := c.cc.Invoke(ctx, PrivacyScreenService_ListModels_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *privacyScreenServiceClient) RedactText(ctx context.Context, in *RedactTextRequest, opts ...grpc.CallOption) (*RedactTextResponse, error) {
+	out := new(RedactTextResponse)
+	err := c.cc.Invoke(ctx, PrivacyScreenService_RedactText_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -165,6 +178,9 @@ type PrivacyScreenServiceServer interface {
 	Version(context.Context, *VersionRequest) (*VersionResponse, error)
 	// ListModels returns information about the models the server can access.
 	ListModels(context.Context, *ListModelsRequest) (*ListModelsResponse, error)
+	// Redact text using a redaction engine that is configured with the provided
+	// redaction configuration.
+	RedactText(context.Context, *RedactTextRequest) (*RedactTextResponse, error)
 	// redacts transcript using a redaction engine that is configured with the
 	// provided redaction configuration.
 	RedactTranscript(context.Context, *RedactTranscriptRequest) (*RedactTranscriptResponse, error)
@@ -187,6 +203,9 @@ func (UnimplementedPrivacyScreenServiceServer) Version(context.Context, *Version
 }
 func (UnimplementedPrivacyScreenServiceServer) ListModels(context.Context, *ListModelsRequest) (*ListModelsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListModels not implemented")
+}
+func (UnimplementedPrivacyScreenServiceServer) RedactText(context.Context, *RedactTextRequest) (*RedactTextResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RedactText not implemented")
 }
 func (UnimplementedPrivacyScreenServiceServer) RedactTranscript(context.Context, *RedactTranscriptRequest) (*RedactTranscriptResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RedactTranscript not implemented")
@@ -242,6 +261,24 @@ func _PrivacyScreenService_ListModels_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PrivacyScreenServiceServer).ListModels(ctx, req.(*ListModelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PrivacyScreenService_RedactText_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RedactTextRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PrivacyScreenServiceServer).RedactText(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PrivacyScreenService_RedactText_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PrivacyScreenServiceServer).RedactText(ctx, req.(*RedactTextRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -330,6 +367,10 @@ var PrivacyScreenService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListModels",
 			Handler:    _PrivacyScreenService_ListModels_Handler,
+		},
+		{
+			MethodName: "RedactText",
+			Handler:    _PrivacyScreenService_RedactText_Handler,
 		},
 		{
 			MethodName: "RedactTranscript",
