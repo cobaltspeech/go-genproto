@@ -33,14 +33,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	DiathekeService_Version_FullMethodName       = "/cobaltspeech.diatheke.v3.DiathekeService/Version"
-	DiathekeService_ListModels_FullMethodName    = "/cobaltspeech.diatheke.v3.DiathekeService/ListModels"
-	DiathekeService_CreateSession_FullMethodName = "/cobaltspeech.diatheke.v3.DiathekeService/CreateSession"
-	DiathekeService_DeleteSession_FullMethodName = "/cobaltspeech.diatheke.v3.DiathekeService/DeleteSession"
-	DiathekeService_UpdateSession_FullMethodName = "/cobaltspeech.diatheke.v3.DiathekeService/UpdateSession"
-	DiathekeService_StreamASR_FullMethodName     = "/cobaltspeech.diatheke.v3.DiathekeService/StreamASR"
-	DiathekeService_StreamTTS_FullMethodName     = "/cobaltspeech.diatheke.v3.DiathekeService/StreamTTS"
-	DiathekeService_Transcribe_FullMethodName    = "/cobaltspeech.diatheke.v3.DiathekeService/Transcribe"
+	DiathekeService_Version_FullMethodName               = "/cobaltspeech.diatheke.v3.DiathekeService/Version"
+	DiathekeService_ListModels_FullMethodName            = "/cobaltspeech.diatheke.v3.DiathekeService/ListModels"
+	DiathekeService_CreateSession_FullMethodName         = "/cobaltspeech.diatheke.v3.DiathekeService/CreateSession"
+	DiathekeService_DeleteSession_FullMethodName         = "/cobaltspeech.diatheke.v3.DiathekeService/DeleteSession"
+	DiathekeService_UpdateSession_FullMethodName         = "/cobaltspeech.diatheke.v3.DiathekeService/UpdateSession"
+	DiathekeService_StreamASR_FullMethodName             = "/cobaltspeech.diatheke.v3.DiathekeService/StreamASR"
+	DiathekeService_StreamTTS_FullMethodName             = "/cobaltspeech.diatheke.v3.DiathekeService/StreamTTS"
+	DiathekeService_Transcribe_FullMethodName            = "/cobaltspeech.diatheke.v3.DiathekeService/Transcribe"
+	DiathekeService_StreamASRWithPartials_FullMethodName = "/cobaltspeech.diatheke.v3.DiathekeService/StreamASRWithPartials"
 )
 
 // DiathekeServiceClient is the client API for DiathekeService service.
@@ -95,6 +96,16 @@ type DiathekeServiceClient interface {
 	// closes it, a predefined duration of silence (non-speech)
 	// occurs, or the end-transcription intent is recognized.
 	Transcribe(ctx context.Context, opts ...grpc.CallOption) (DiathekeService_TranscribeClient, error)
+	// Performs bidirectional streaming speech recognition. Receive results while
+	// sending audio. Each result will either be a partial ASR result, or a final
+	// result. Partial results will be sent as soon as they are ready, and all
+	// results will be sent, regardless of any wakeword configuration in the
+	// session. A final result will be sent exactly once, and the stream will be
+	// closed then. If a session has a wakeword enabled, the final result will
+	// only be emitted if the required wakeword is present. The ASRResult in the
+	// final message maybe used in the UpdateSession method for further dialog
+	// processing.
+	StreamASRWithPartials(ctx context.Context, opts ...grpc.CallOption) (DiathekeService_StreamASRWithPartialsClient, error)
 }
 
 type diathekeServiceClient struct {
@@ -247,6 +258,37 @@ func (x *diathekeServiceTranscribeClient) Recv() (*TranscribeResponse, error) {
 	return m, nil
 }
 
+func (c *diathekeServiceClient) StreamASRWithPartials(ctx context.Context, opts ...grpc.CallOption) (DiathekeService_StreamASRWithPartialsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &DiathekeService_ServiceDesc.Streams[3], DiathekeService_StreamASRWithPartials_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &diathekeServiceStreamASRWithPartialsClient{stream}
+	return x, nil
+}
+
+type DiathekeService_StreamASRWithPartialsClient interface {
+	Send(*StreamASRWithPartialsRequest) error
+	Recv() (*StreamASRWithPartialsResponse, error)
+	grpc.ClientStream
+}
+
+type diathekeServiceStreamASRWithPartialsClient struct {
+	grpc.ClientStream
+}
+
+func (x *diathekeServiceStreamASRWithPartialsClient) Send(m *StreamASRWithPartialsRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *diathekeServiceStreamASRWithPartialsClient) Recv() (*StreamASRWithPartialsResponse, error) {
+	m := new(StreamASRWithPartialsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // DiathekeServiceServer is the server API for DiathekeService service.
 // All implementations must embed UnimplementedDiathekeServiceServer
 // for forward compatibility
@@ -299,6 +341,16 @@ type DiathekeServiceServer interface {
 	// closes it, a predefined duration of silence (non-speech)
 	// occurs, or the end-transcription intent is recognized.
 	Transcribe(DiathekeService_TranscribeServer) error
+	// Performs bidirectional streaming speech recognition. Receive results while
+	// sending audio. Each result will either be a partial ASR result, or a final
+	// result. Partial results will be sent as soon as they are ready, and all
+	// results will be sent, regardless of any wakeword configuration in the
+	// session. A final result will be sent exactly once, and the stream will be
+	// closed then. If a session has a wakeword enabled, the final result will
+	// only be emitted if the required wakeword is present. The ASRResult in the
+	// final message maybe used in the UpdateSession method for further dialog
+	// processing.
+	StreamASRWithPartials(DiathekeService_StreamASRWithPartialsServer) error
 	mustEmbedUnimplementedDiathekeServiceServer()
 }
 
@@ -329,6 +381,9 @@ func (UnimplementedDiathekeServiceServer) StreamTTS(*StreamTTSRequest, DiathekeS
 }
 func (UnimplementedDiathekeServiceServer) Transcribe(DiathekeService_TranscribeServer) error {
 	return status.Errorf(codes.Unimplemented, "method Transcribe not implemented")
+}
+func (UnimplementedDiathekeServiceServer) StreamASRWithPartials(DiathekeService_StreamASRWithPartialsServer) error {
+	return status.Errorf(codes.Unimplemented, "method StreamASRWithPartials not implemented")
 }
 func (UnimplementedDiathekeServiceServer) mustEmbedUnimplementedDiathekeServiceServer() {}
 
@@ -506,6 +561,32 @@ func (x *diathekeServiceTranscribeServer) Recv() (*TranscribeRequest, error) {
 	return m, nil
 }
 
+func _DiathekeService_StreamASRWithPartials_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(DiathekeServiceServer).StreamASRWithPartials(&diathekeServiceStreamASRWithPartialsServer{stream})
+}
+
+type DiathekeService_StreamASRWithPartialsServer interface {
+	Send(*StreamASRWithPartialsResponse) error
+	Recv() (*StreamASRWithPartialsRequest, error)
+	grpc.ServerStream
+}
+
+type diathekeServiceStreamASRWithPartialsServer struct {
+	grpc.ServerStream
+}
+
+func (x *diathekeServiceStreamASRWithPartialsServer) Send(m *StreamASRWithPartialsResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *diathekeServiceStreamASRWithPartialsServer) Recv() (*StreamASRWithPartialsRequest, error) {
+	m := new(StreamASRWithPartialsRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // DiathekeService_ServiceDesc is the grpc.ServiceDesc for DiathekeService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -548,6 +629,12 @@ var DiathekeService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "Transcribe",
 			Handler:       _DiathekeService_Transcribe_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "StreamASRWithPartials",
+			Handler:       _DiathekeService_StreamASRWithPartials_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},

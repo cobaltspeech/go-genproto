@@ -1658,6 +1658,185 @@ func (x *StreamASRResponse) GetAsrResult() *ASRResult {
 	return nil
 }
 
+// The top-level messages sent by the client for the `StreamASRWithPartials`
+// method. In this streaming call, multiple `StreamASRWithPartialsRequest`
+// messages should be sent. The first message must contain a `TokenData`
+// message only and all subsequent messages must contain audio data only.
+type StreamASRWithPartialsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Data:
+	//
+	//	*StreamASRWithPartialsRequest_Token
+	//	*StreamASRWithPartialsRequest_Audio
+	Data isStreamASRWithPartialsRequest_Data `protobuf_oneof:"data"`
+}
+
+func (x *StreamASRWithPartialsRequest) Reset() {
+	*x = StreamASRWithPartialsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[26]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StreamASRWithPartialsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StreamASRWithPartialsRequest) ProtoMessage() {}
+
+func (x *StreamASRWithPartialsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[26]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StreamASRWithPartialsRequest.ProtoReflect.Descriptor instead.
+func (*StreamASRWithPartialsRequest) Descriptor() ([]byte, []int) {
+	return file_cobaltspeech_diatheke_v3_diatheke_proto_rawDescGZIP(), []int{26}
+}
+
+func (m *StreamASRWithPartialsRequest) GetData() isStreamASRWithPartialsRequest_Data {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+func (x *StreamASRWithPartialsRequest) GetToken() *TokenData {
+	if x, ok := x.GetData().(*StreamASRWithPartialsRequest_Token); ok {
+		return x.Token
+	}
+	return nil
+}
+
+func (x *StreamASRWithPartialsRequest) GetAudio() []byte {
+	if x, ok := x.GetData().(*StreamASRWithPartialsRequest_Audio); ok {
+		return x.Audio
+	}
+	return nil
+}
+
+type isStreamASRWithPartialsRequest_Data interface {
+	isStreamASRWithPartialsRequest_Data()
+}
+
+type StreamASRWithPartialsRequest_Token struct {
+	// Session data, used to determine the correct Cubic
+	// model to use for ASR, with other contextual
+	// information.
+	Token *TokenData `protobuf:"bytes,1,opt,name=token,proto3,oneof"`
+}
+
+type StreamASRWithPartialsRequest_Audio struct {
+	// Audio data to transcribe.
+	Audio []byte `protobuf:"bytes,2,opt,name=audio,proto3,oneof"`
+}
+
+func (*StreamASRWithPartialsRequest_Token) isStreamASRWithPartialsRequest_Data() {}
+
+func (*StreamASRWithPartialsRequest_Audio) isStreamASRWithPartialsRequest_Data() {}
+
+// The top-level messages sent by the server for the `StreamASRWithPartials`
+// method. This streaming call will return multiple `StreamASRWithPartialsResponse`
+// messages. The messages are multiple messages contain partial recognition
+// result from ASR engine and one last message contain an `ASRResult` that be use
+// to update Diatheke session.
+type StreamASRWithPartialsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Data:
+	//
+	//	*StreamASRWithPartialsResponse_PartialResult
+	//	*StreamASRWithPartialsResponse_AsrResult
+	Data isStreamASRWithPartialsResponse_Data `protobuf_oneof:"data"`
+}
+
+func (x *StreamASRWithPartialsResponse) Reset() {
+	*x = StreamASRWithPartialsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[27]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StreamASRWithPartialsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StreamASRWithPartialsResponse) ProtoMessage() {}
+
+func (x *StreamASRWithPartialsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[27]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StreamASRWithPartialsResponse.ProtoReflect.Descriptor instead.
+func (*StreamASRWithPartialsResponse) Descriptor() ([]byte, []int) {
+	return file_cobaltspeech_diatheke_v3_diatheke_proto_rawDescGZIP(), []int{27}
+}
+
+func (m *StreamASRWithPartialsResponse) GetData() isStreamASRWithPartialsResponse_Data {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+func (x *StreamASRWithPartialsResponse) GetPartialResult() *v5.RecognitionResult {
+	if x, ok := x.GetData().(*StreamASRWithPartialsResponse_PartialResult); ok {
+		return x.PartialResult
+	}
+	return nil
+}
+
+func (x *StreamASRWithPartialsResponse) GetAsrResult() *ASRResult {
+	if x, ok := x.GetData().(*StreamASRWithPartialsResponse_AsrResult); ok {
+		return x.AsrResult
+	}
+	return nil
+}
+
+type isStreamASRWithPartialsResponse_Data interface {
+	isStreamASRWithPartialsResponse_Data()
+}
+
+type StreamASRWithPartialsResponse_PartialResult struct {
+	// An interim partial result, and could change after more audio is processed
+	// and should not be used to update Diatheke session.
+	PartialResult *v5.RecognitionResult `protobuf:"bytes,1,opt,name=partial_result,json=partialResult,proto3,oneof"`
+}
+
+type StreamASRWithPartialsResponse_AsrResult struct {
+	// Final result from ASR engine. This can be use to update Diatheke session
+	// via `UpdateSession` method.
+	AsrResult *ASRResult `protobuf:"bytes,2,opt,name=asr_result,json=asrResult,proto3,oneof"`
+}
+
+func (*StreamASRWithPartialsResponse_PartialResult) isStreamASRWithPartialsResponse_Data() {}
+
+func (*StreamASRWithPartialsResponse_AsrResult) isStreamASRWithPartialsResponse_Data() {}
+
 // The result from the ASR stream, sent after the ASR engine
 // has endpointed or the stream was closed by the client.
 type ASRResult struct {
@@ -1686,7 +1865,7 @@ type ASRResult struct {
 func (x *ASRResult) Reset() {
 	*x = ASRResult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[26]
+		mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[28]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1699,7 +1878,7 @@ func (x *ASRResult) String() string {
 func (*ASRResult) ProtoMessage() {}
 
 func (x *ASRResult) ProtoReflect() protoreflect.Message {
-	mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[26]
+	mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[28]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1712,7 +1891,7 @@ func (x *ASRResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ASRResult.ProtoReflect.Descriptor instead.
 func (*ASRResult) Descriptor() ([]byte, []int) {
-	return file_cobaltspeech_diatheke_v3_diatheke_proto_rawDescGZIP(), []int{26}
+	return file_cobaltspeech_diatheke_v3_diatheke_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *ASRResult) GetText() string {
@@ -1760,7 +1939,7 @@ type TranscribeRequest struct {
 func (x *TranscribeRequest) Reset() {
 	*x = TranscribeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[27]
+		mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[29]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1773,7 +1952,7 @@ func (x *TranscribeRequest) String() string {
 func (*TranscribeRequest) ProtoMessage() {}
 
 func (x *TranscribeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[27]
+	mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[29]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1786,7 +1965,7 @@ func (x *TranscribeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TranscribeRequest.ProtoReflect.Descriptor instead.
 func (*TranscribeRequest) Descriptor() ([]byte, []int) {
-	return file_cobaltspeech_diatheke_v3_diatheke_proto_rawDescGZIP(), []int{27}
+	return file_cobaltspeech_diatheke_v3_diatheke_proto_rawDescGZIP(), []int{29}
 }
 
 func (m *TranscribeRequest) GetData() isTranscribeRequest_Data {
@@ -1858,7 +2037,7 @@ type TranscribeResponse struct {
 func (x *TranscribeResponse) Reset() {
 	*x = TranscribeResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[28]
+		mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[30]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1871,7 +2050,7 @@ func (x *TranscribeResponse) String() string {
 func (*TranscribeResponse) ProtoMessage() {}
 
 func (x *TranscribeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[28]
+	mi := &file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[30]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1884,7 +2063,7 @@ func (x *TranscribeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TranscribeResponse.ProtoReflect.Descriptor instead.
 func (*TranscribeResponse) Descriptor() ([]byte, []int) {
-	return file_cobaltspeech_diatheke_v3_diatheke_proto_rawDescGZIP(), []int{28}
+	return file_cobaltspeech_diatheke_v3_diatheke_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *TranscribeResponse) GetText() string {
@@ -2119,7 +2298,27 @@ var file_cobaltspeech_diatheke_v3_diatheke_proto_rawDesc = []byte{
 	0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x63,
 	0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x64, 0x69, 0x61, 0x74,
 	0x68, 0x65, 0x6b, 0x65, 0x2e, 0x76, 0x33, 0x2e, 0x41, 0x53, 0x52, 0x52, 0x65, 0x73, 0x75, 0x6c,
-	0x74, 0x52, 0x09, 0x61, 0x73, 0x72, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0xa9, 0x01, 0x0a,
+	0x74, 0x52, 0x09, 0x61, 0x73, 0x72, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x7b, 0x0a, 0x1c,
+	0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x41, 0x53, 0x52, 0x57, 0x69, 0x74, 0x68, 0x50, 0x61, 0x72,
+	0x74, 0x69, 0x61, 0x6c, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x3b, 0x0a, 0x05,
+	0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x63, 0x6f,
+	0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x64, 0x69, 0x61, 0x74, 0x68,
+	0x65, 0x6b, 0x65, 0x2e, 0x76, 0x33, 0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x44, 0x61, 0x74, 0x61,
+	0x48, 0x00, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x16, 0x0a, 0x05, 0x61, 0x75, 0x64,
+	0x69, 0x6f, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x48, 0x00, 0x52, 0x05, 0x61, 0x75, 0x64, 0x69,
+	0x6f, 0x42, 0x06, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0xc0, 0x01, 0x0a, 0x1d, 0x53, 0x74,
+	0x72, 0x65, 0x61, 0x6d, 0x41, 0x53, 0x52, 0x57, 0x69, 0x74, 0x68, 0x50, 0x61, 0x72, 0x74, 0x69,
+	0x61, 0x6c, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x51, 0x0a, 0x0e, 0x70,
+	0x61, 0x72, 0x74, 0x69, 0x61, 0x6c, 0x5f, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x28, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65,
+	0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x76, 0x35, 0x2e, 0x52, 0x65, 0x63, 0x6f,
+	0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x48, 0x00, 0x52,
+	0x0d, 0x70, 0x61, 0x72, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x44,
+	0x0a, 0x0a, 0x61, 0x73, 0x72, 0x5f, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x23, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63,
+	0x68, 0x2e, 0x64, 0x69, 0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x2e, 0x76, 0x33, 0x2e, 0x41, 0x53,
+	0x52, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x48, 0x00, 0x52, 0x09, 0x61, 0x73, 0x72, 0x52, 0x65,
+	0x73, 0x75, 0x6c, 0x74, 0x42, 0x06, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0xa9, 0x01, 0x0a,
 	0x09, 0x41, 0x53, 0x52, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x65,
 	0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x74, 0x65, 0x78, 0x74, 0x12, 0x1e,
 	0x0a, 0x0a, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x64, 0x65, 0x6e, 0x63, 0x65, 0x18, 0x02, 0x20, 0x01,
@@ -2149,7 +2348,7 @@ var file_cobaltspeech_diatheke_v3_diatheke_proto_rawDesc = []byte{
 	0x01, 0x28, 0x0b, 0x32, 0x28, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65,
 	0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x76, 0x35, 0x2e, 0x52, 0x65, 0x63, 0x6f,
 	0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x0b, 0x63,
-	0x75, 0x62, 0x69, 0x63, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x32, 0xfd, 0x06, 0x0a, 0x0f, 0x44,
+	0x75, 0x62, 0x69, 0x63, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x32, 0x8e, 0x08, 0x0a, 0x0f, 0x44,
 	0x69, 0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x60,
 	0x0a, 0x07, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x28, 0x2e, 0x63, 0x6f, 0x62, 0x61,
 	0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x64, 0x69, 0x61, 0x74, 0x68, 0x65, 0x6b,
@@ -2205,23 +2404,32 @@ var file_cobaltspeech_diatheke_v3_diatheke_proto_rawDesc = []byte{
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2c, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73,
 	0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x64, 0x69, 0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x2e, 0x76,
 	0x33, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x28, 0x01, 0x30, 0x01, 0x42, 0xf8, 0x01, 0x0a, 0x1c, 0x63,
-	0x6f, 0x6d, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e,
-	0x64, 0x69, 0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x2e, 0x76, 0x33, 0x42, 0x0d, 0x44, 0x69, 0x61,
-	0x74, 0x68, 0x65, 0x6b, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x47, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73,
-	0x70, 0x65, 0x65, 0x63, 0x68, 0x2f, 0x67, 0x6f, 0x2d, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x2f, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2f, 0x64,
-	0x69, 0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x2f, 0x76, 0x33, 0x3b, 0x64, 0x69, 0x61, 0x74, 0x68,
-	0x65, 0x6b, 0x65, 0x76, 0x33, 0xa2, 0x02, 0x03, 0x43, 0x44, 0x58, 0xaa, 0x02, 0x18, 0x43, 0x6f,
-	0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x44, 0x69, 0x61, 0x74, 0x68,
-	0x65, 0x6b, 0x65, 0x2e, 0x56, 0x33, 0xca, 0x02, 0x18, 0x43, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73,
-	0x70, 0x65, 0x65, 0x63, 0x68, 0x5c, 0x44, 0x69, 0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x5c, 0x56,
-	0x33, 0xe2, 0x02, 0x24, 0x43, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68,
-	0x5c, 0x44, 0x69, 0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x5c, 0x56, 0x33, 0x5c, 0x47, 0x50, 0x42,
-	0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x1a, 0x43, 0x6f, 0x62, 0x61, 0x6c,
-	0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x3a, 0x3a, 0x44, 0x69, 0x61, 0x74, 0x68, 0x65, 0x6b,
-	0x65, 0x3a, 0x3a, 0x56, 0x33, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x28, 0x01, 0x30, 0x01, 0x12, 0x8e, 0x01, 0x0a, 0x15, 0x53,
+	0x74, 0x72, 0x65, 0x61, 0x6d, 0x41, 0x53, 0x52, 0x57, 0x69, 0x74, 0x68, 0x50, 0x61, 0x72, 0x74,
+	0x69, 0x61, 0x6c, 0x73, 0x12, 0x36, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65,
+	0x65, 0x63, 0x68, 0x2e, 0x64, 0x69, 0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x2e, 0x76, 0x33, 0x2e,
+	0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x41, 0x53, 0x52, 0x57, 0x69, 0x74, 0x68, 0x50, 0x61, 0x72,
+	0x74, 0x69, 0x61, 0x6c, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x37, 0x2e, 0x63,
+	0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x64, 0x69, 0x61, 0x74,
+	0x68, 0x65, 0x6b, 0x65, 0x2e, 0x76, 0x33, 0x2e, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x41, 0x53,
+	0x52, 0x57, 0x69, 0x74, 0x68, 0x50, 0x61, 0x72, 0x74, 0x69, 0x61, 0x6c, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x28, 0x01, 0x30, 0x01, 0x42, 0xf8, 0x01, 0x0a, 0x1c,
+	0x63, 0x6f, 0x6d, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68,
+	0x2e, 0x64, 0x69, 0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x2e, 0x76, 0x33, 0x42, 0x0d, 0x44, 0x69,
+	0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x47, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74,
+	0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2f, 0x67, 0x6f, 0x2d, 0x67, 0x65, 0x6e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2f,
+	0x64, 0x69, 0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x2f, 0x76, 0x33, 0x3b, 0x64, 0x69, 0x61, 0x74,
+	0x68, 0x65, 0x6b, 0x65, 0x76, 0x33, 0xa2, 0x02, 0x03, 0x43, 0x44, 0x58, 0xaa, 0x02, 0x18, 0x43,
+	0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x44, 0x69, 0x61, 0x74,
+	0x68, 0x65, 0x6b, 0x65, 0x2e, 0x56, 0x33, 0xca, 0x02, 0x18, 0x43, 0x6f, 0x62, 0x61, 0x6c, 0x74,
+	0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x5c, 0x44, 0x69, 0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x5c,
+	0x56, 0x33, 0xe2, 0x02, 0x24, 0x43, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63,
+	0x68, 0x5c, 0x44, 0x69, 0x61, 0x74, 0x68, 0x65, 0x6b, 0x65, 0x5c, 0x56, 0x33, 0x5c, 0x47, 0x50,
+	0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x1a, 0x43, 0x6f, 0x62, 0x61,
+	0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x3a, 0x3a, 0x44, 0x69, 0x61, 0x74, 0x68, 0x65,
+	0x6b, 0x65, 0x3a, 0x3a, 0x56, 0x33, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2236,42 +2444,44 @@ func file_cobaltspeech_diatheke_v3_diatheke_proto_rawDescGZIP() []byte {
 	return file_cobaltspeech_diatheke_v3_diatheke_proto_rawDescData
 }
 
-var file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
+var file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
 var file_cobaltspeech_diatheke_v3_diatheke_proto_goTypes = []interface{}{
-	(*VersionRequest)(nil),        // 0: cobaltspeech.diatheke.v3.VersionRequest
-	(*VersionResponse)(nil),       // 1: cobaltspeech.diatheke.v3.VersionResponse
-	(*ListModelsRequest)(nil),     // 2: cobaltspeech.diatheke.v3.ListModelsRequest
-	(*ListModelsResponse)(nil),    // 3: cobaltspeech.diatheke.v3.ListModelsResponse
-	(*CreateSessionRequest)(nil),  // 4: cobaltspeech.diatheke.v3.CreateSessionRequest
-	(*CreateSessionResponse)(nil), // 5: cobaltspeech.diatheke.v3.CreateSessionResponse
-	(*DeleteSessionRequest)(nil),  // 6: cobaltspeech.diatheke.v3.DeleteSessionRequest
-	(*DeleteSessionResponse)(nil), // 7: cobaltspeech.diatheke.v3.DeleteSessionResponse
-	(*UpdateSessionRequest)(nil),  // 8: cobaltspeech.diatheke.v3.UpdateSessionRequest
-	(*UpdateSessionResponse)(nil), // 9: cobaltspeech.diatheke.v3.UpdateSessionResponse
-	(*StreamTTSRequest)(nil),      // 10: cobaltspeech.diatheke.v3.StreamTTSRequest
-	(*StreamTTSResponse)(nil),     // 11: cobaltspeech.diatheke.v3.StreamTTSResponse
-	(*ModelInfo)(nil),             // 12: cobaltspeech.diatheke.v3.ModelInfo
-	(*SessionInput)(nil),          // 13: cobaltspeech.diatheke.v3.SessionInput
-	(*TokenData)(nil),             // 14: cobaltspeech.diatheke.v3.TokenData
-	(*TextInput)(nil),             // 15: cobaltspeech.diatheke.v3.TextInput
-	(*CommandResult)(nil),         // 16: cobaltspeech.diatheke.v3.CommandResult
-	(*SetStory)(nil),              // 17: cobaltspeech.diatheke.v3.SetStory
-	(*SessionOutput)(nil),         // 18: cobaltspeech.diatheke.v3.SessionOutput
-	(*ActionData)(nil),            // 19: cobaltspeech.diatheke.v3.ActionData
-	(*WaitForUserAction)(nil),     // 20: cobaltspeech.diatheke.v3.WaitForUserAction
-	(*CommandAction)(nil),         // 21: cobaltspeech.diatheke.v3.CommandAction
-	(*ReplyAction)(nil),           // 22: cobaltspeech.diatheke.v3.ReplyAction
-	(*TranscribeAction)(nil),      // 23: cobaltspeech.diatheke.v3.TranscribeAction
-	(*StreamASRRequest)(nil),      // 24: cobaltspeech.diatheke.v3.StreamASRRequest
-	(*StreamASRResponse)(nil),     // 25: cobaltspeech.diatheke.v3.StreamASRResponse
-	(*ASRResult)(nil),             // 26: cobaltspeech.diatheke.v3.ASRResult
-	(*TranscribeRequest)(nil),     // 27: cobaltspeech.diatheke.v3.TranscribeRequest
-	(*TranscribeResponse)(nil),    // 28: cobaltspeech.diatheke.v3.TranscribeResponse
-	nil,                           // 29: cobaltspeech.diatheke.v3.CommandResult.OutParametersEntry
-	nil,                           // 30: cobaltspeech.diatheke.v3.SetStory.ParametersEntry
-	nil,                           // 31: cobaltspeech.diatheke.v3.CommandAction.InputParametersEntry
-	(*v2.ParseResponse)(nil),      // 32: cobaltspeech.chosun.v2.ParseResponse
-	(*v5.RecognitionResult)(nil),  // 33: cobaltspeech.cubic.v5.RecognitionResult
+	(*VersionRequest)(nil),                // 0: cobaltspeech.diatheke.v3.VersionRequest
+	(*VersionResponse)(nil),               // 1: cobaltspeech.diatheke.v3.VersionResponse
+	(*ListModelsRequest)(nil),             // 2: cobaltspeech.diatheke.v3.ListModelsRequest
+	(*ListModelsResponse)(nil),            // 3: cobaltspeech.diatheke.v3.ListModelsResponse
+	(*CreateSessionRequest)(nil),          // 4: cobaltspeech.diatheke.v3.CreateSessionRequest
+	(*CreateSessionResponse)(nil),         // 5: cobaltspeech.diatheke.v3.CreateSessionResponse
+	(*DeleteSessionRequest)(nil),          // 6: cobaltspeech.diatheke.v3.DeleteSessionRequest
+	(*DeleteSessionResponse)(nil),         // 7: cobaltspeech.diatheke.v3.DeleteSessionResponse
+	(*UpdateSessionRequest)(nil),          // 8: cobaltspeech.diatheke.v3.UpdateSessionRequest
+	(*UpdateSessionResponse)(nil),         // 9: cobaltspeech.diatheke.v3.UpdateSessionResponse
+	(*StreamTTSRequest)(nil),              // 10: cobaltspeech.diatheke.v3.StreamTTSRequest
+	(*StreamTTSResponse)(nil),             // 11: cobaltspeech.diatheke.v3.StreamTTSResponse
+	(*ModelInfo)(nil),                     // 12: cobaltspeech.diatheke.v3.ModelInfo
+	(*SessionInput)(nil),                  // 13: cobaltspeech.diatheke.v3.SessionInput
+	(*TokenData)(nil),                     // 14: cobaltspeech.diatheke.v3.TokenData
+	(*TextInput)(nil),                     // 15: cobaltspeech.diatheke.v3.TextInput
+	(*CommandResult)(nil),                 // 16: cobaltspeech.diatheke.v3.CommandResult
+	(*SetStory)(nil),                      // 17: cobaltspeech.diatheke.v3.SetStory
+	(*SessionOutput)(nil),                 // 18: cobaltspeech.diatheke.v3.SessionOutput
+	(*ActionData)(nil),                    // 19: cobaltspeech.diatheke.v3.ActionData
+	(*WaitForUserAction)(nil),             // 20: cobaltspeech.diatheke.v3.WaitForUserAction
+	(*CommandAction)(nil),                 // 21: cobaltspeech.diatheke.v3.CommandAction
+	(*ReplyAction)(nil),                   // 22: cobaltspeech.diatheke.v3.ReplyAction
+	(*TranscribeAction)(nil),              // 23: cobaltspeech.diatheke.v3.TranscribeAction
+	(*StreamASRRequest)(nil),              // 24: cobaltspeech.diatheke.v3.StreamASRRequest
+	(*StreamASRResponse)(nil),             // 25: cobaltspeech.diatheke.v3.StreamASRResponse
+	(*StreamASRWithPartialsRequest)(nil),  // 26: cobaltspeech.diatheke.v3.StreamASRWithPartialsRequest
+	(*StreamASRWithPartialsResponse)(nil), // 27: cobaltspeech.diatheke.v3.StreamASRWithPartialsResponse
+	(*ASRResult)(nil),                     // 28: cobaltspeech.diatheke.v3.ASRResult
+	(*TranscribeRequest)(nil),             // 29: cobaltspeech.diatheke.v3.TranscribeRequest
+	(*TranscribeResponse)(nil),            // 30: cobaltspeech.diatheke.v3.TranscribeResponse
+	nil,                                   // 31: cobaltspeech.diatheke.v3.CommandResult.OutParametersEntry
+	nil,                                   // 32: cobaltspeech.diatheke.v3.SetStory.ParametersEntry
+	nil,                                   // 33: cobaltspeech.diatheke.v3.CommandAction.InputParametersEntry
+	(*v2.ParseResponse)(nil),              // 34: cobaltspeech.chosun.v2.ParseResponse
+	(*v5.RecognitionResult)(nil),          // 35: cobaltspeech.cubic.v5.RecognitionResult
 }
 var file_cobaltspeech_diatheke_v3_diatheke_proto_depIdxs = []int32{
 	12, // 0: cobaltspeech.diatheke.v3.ListModelsResponse.models:type_name -> cobaltspeech.diatheke.v3.ModelInfo
@@ -2282,45 +2492,50 @@ var file_cobaltspeech_diatheke_v3_diatheke_proto_depIdxs = []int32{
 	22, // 5: cobaltspeech.diatheke.v3.StreamTTSRequest.reply_action:type_name -> cobaltspeech.diatheke.v3.ReplyAction
 	14, // 6: cobaltspeech.diatheke.v3.SessionInput.token:type_name -> cobaltspeech.diatheke.v3.TokenData
 	15, // 7: cobaltspeech.diatheke.v3.SessionInput.text:type_name -> cobaltspeech.diatheke.v3.TextInput
-	26, // 8: cobaltspeech.diatheke.v3.SessionInput.asr:type_name -> cobaltspeech.diatheke.v3.ASRResult
+	28, // 8: cobaltspeech.diatheke.v3.SessionInput.asr:type_name -> cobaltspeech.diatheke.v3.ASRResult
 	16, // 9: cobaltspeech.diatheke.v3.SessionInput.cmd:type_name -> cobaltspeech.diatheke.v3.CommandResult
 	17, // 10: cobaltspeech.diatheke.v3.SessionInput.story:type_name -> cobaltspeech.diatheke.v3.SetStory
-	29, // 11: cobaltspeech.diatheke.v3.CommandResult.out_parameters:type_name -> cobaltspeech.diatheke.v3.CommandResult.OutParametersEntry
-	30, // 12: cobaltspeech.diatheke.v3.SetStory.parameters:type_name -> cobaltspeech.diatheke.v3.SetStory.ParametersEntry
+	31, // 11: cobaltspeech.diatheke.v3.CommandResult.out_parameters:type_name -> cobaltspeech.diatheke.v3.CommandResult.OutParametersEntry
+	32, // 12: cobaltspeech.diatheke.v3.SetStory.parameters:type_name -> cobaltspeech.diatheke.v3.SetStory.ParametersEntry
 	14, // 13: cobaltspeech.diatheke.v3.SessionOutput.token:type_name -> cobaltspeech.diatheke.v3.TokenData
 	19, // 14: cobaltspeech.diatheke.v3.SessionOutput.action_list:type_name -> cobaltspeech.diatheke.v3.ActionData
 	20, // 15: cobaltspeech.diatheke.v3.ActionData.input:type_name -> cobaltspeech.diatheke.v3.WaitForUserAction
 	21, // 16: cobaltspeech.diatheke.v3.ActionData.command:type_name -> cobaltspeech.diatheke.v3.CommandAction
 	22, // 17: cobaltspeech.diatheke.v3.ActionData.reply:type_name -> cobaltspeech.diatheke.v3.ReplyAction
 	23, // 18: cobaltspeech.diatheke.v3.ActionData.transcribe:type_name -> cobaltspeech.diatheke.v3.TranscribeAction
-	31, // 19: cobaltspeech.diatheke.v3.CommandAction.input_parameters:type_name -> cobaltspeech.diatheke.v3.CommandAction.InputParametersEntry
-	32, // 20: cobaltspeech.diatheke.v3.CommandAction.nlu_result:type_name -> cobaltspeech.chosun.v2.ParseResponse
+	33, // 19: cobaltspeech.diatheke.v3.CommandAction.input_parameters:type_name -> cobaltspeech.diatheke.v3.CommandAction.InputParametersEntry
+	34, // 20: cobaltspeech.diatheke.v3.CommandAction.nlu_result:type_name -> cobaltspeech.chosun.v2.ParseResponse
 	14, // 21: cobaltspeech.diatheke.v3.StreamASRRequest.token:type_name -> cobaltspeech.diatheke.v3.TokenData
-	26, // 22: cobaltspeech.diatheke.v3.StreamASRResponse.asr_result:type_name -> cobaltspeech.diatheke.v3.ASRResult
-	33, // 23: cobaltspeech.diatheke.v3.ASRResult.cubic_result:type_name -> cobaltspeech.cubic.v5.RecognitionResult
-	23, // 24: cobaltspeech.diatheke.v3.TranscribeRequest.action:type_name -> cobaltspeech.diatheke.v3.TranscribeAction
-	33, // 25: cobaltspeech.diatheke.v3.TranscribeResponse.cubic_result:type_name -> cobaltspeech.cubic.v5.RecognitionResult
-	0,  // 26: cobaltspeech.diatheke.v3.DiathekeService.Version:input_type -> cobaltspeech.diatheke.v3.VersionRequest
-	2,  // 27: cobaltspeech.diatheke.v3.DiathekeService.ListModels:input_type -> cobaltspeech.diatheke.v3.ListModelsRequest
-	4,  // 28: cobaltspeech.diatheke.v3.DiathekeService.CreateSession:input_type -> cobaltspeech.diatheke.v3.CreateSessionRequest
-	6,  // 29: cobaltspeech.diatheke.v3.DiathekeService.DeleteSession:input_type -> cobaltspeech.diatheke.v3.DeleteSessionRequest
-	8,  // 30: cobaltspeech.diatheke.v3.DiathekeService.UpdateSession:input_type -> cobaltspeech.diatheke.v3.UpdateSessionRequest
-	24, // 31: cobaltspeech.diatheke.v3.DiathekeService.StreamASR:input_type -> cobaltspeech.diatheke.v3.StreamASRRequest
-	10, // 32: cobaltspeech.diatheke.v3.DiathekeService.StreamTTS:input_type -> cobaltspeech.diatheke.v3.StreamTTSRequest
-	27, // 33: cobaltspeech.diatheke.v3.DiathekeService.Transcribe:input_type -> cobaltspeech.diatheke.v3.TranscribeRequest
-	1,  // 34: cobaltspeech.diatheke.v3.DiathekeService.Version:output_type -> cobaltspeech.diatheke.v3.VersionResponse
-	3,  // 35: cobaltspeech.diatheke.v3.DiathekeService.ListModels:output_type -> cobaltspeech.diatheke.v3.ListModelsResponse
-	5,  // 36: cobaltspeech.diatheke.v3.DiathekeService.CreateSession:output_type -> cobaltspeech.diatheke.v3.CreateSessionResponse
-	7,  // 37: cobaltspeech.diatheke.v3.DiathekeService.DeleteSession:output_type -> cobaltspeech.diatheke.v3.DeleteSessionResponse
-	9,  // 38: cobaltspeech.diatheke.v3.DiathekeService.UpdateSession:output_type -> cobaltspeech.diatheke.v3.UpdateSessionResponse
-	25, // 39: cobaltspeech.diatheke.v3.DiathekeService.StreamASR:output_type -> cobaltspeech.diatheke.v3.StreamASRResponse
-	11, // 40: cobaltspeech.diatheke.v3.DiathekeService.StreamTTS:output_type -> cobaltspeech.diatheke.v3.StreamTTSResponse
-	28, // 41: cobaltspeech.diatheke.v3.DiathekeService.Transcribe:output_type -> cobaltspeech.diatheke.v3.TranscribeResponse
-	34, // [34:42] is the sub-list for method output_type
-	26, // [26:34] is the sub-list for method input_type
-	26, // [26:26] is the sub-list for extension type_name
-	26, // [26:26] is the sub-list for extension extendee
-	0,  // [0:26] is the sub-list for field type_name
+	28, // 22: cobaltspeech.diatheke.v3.StreamASRResponse.asr_result:type_name -> cobaltspeech.diatheke.v3.ASRResult
+	14, // 23: cobaltspeech.diatheke.v3.StreamASRWithPartialsRequest.token:type_name -> cobaltspeech.diatheke.v3.TokenData
+	35, // 24: cobaltspeech.diatheke.v3.StreamASRWithPartialsResponse.partial_result:type_name -> cobaltspeech.cubic.v5.RecognitionResult
+	28, // 25: cobaltspeech.diatheke.v3.StreamASRWithPartialsResponse.asr_result:type_name -> cobaltspeech.diatheke.v3.ASRResult
+	35, // 26: cobaltspeech.diatheke.v3.ASRResult.cubic_result:type_name -> cobaltspeech.cubic.v5.RecognitionResult
+	23, // 27: cobaltspeech.diatheke.v3.TranscribeRequest.action:type_name -> cobaltspeech.diatheke.v3.TranscribeAction
+	35, // 28: cobaltspeech.diatheke.v3.TranscribeResponse.cubic_result:type_name -> cobaltspeech.cubic.v5.RecognitionResult
+	0,  // 29: cobaltspeech.diatheke.v3.DiathekeService.Version:input_type -> cobaltspeech.diatheke.v3.VersionRequest
+	2,  // 30: cobaltspeech.diatheke.v3.DiathekeService.ListModels:input_type -> cobaltspeech.diatheke.v3.ListModelsRequest
+	4,  // 31: cobaltspeech.diatheke.v3.DiathekeService.CreateSession:input_type -> cobaltspeech.diatheke.v3.CreateSessionRequest
+	6,  // 32: cobaltspeech.diatheke.v3.DiathekeService.DeleteSession:input_type -> cobaltspeech.diatheke.v3.DeleteSessionRequest
+	8,  // 33: cobaltspeech.diatheke.v3.DiathekeService.UpdateSession:input_type -> cobaltspeech.diatheke.v3.UpdateSessionRequest
+	24, // 34: cobaltspeech.diatheke.v3.DiathekeService.StreamASR:input_type -> cobaltspeech.diatheke.v3.StreamASRRequest
+	10, // 35: cobaltspeech.diatheke.v3.DiathekeService.StreamTTS:input_type -> cobaltspeech.diatheke.v3.StreamTTSRequest
+	29, // 36: cobaltspeech.diatheke.v3.DiathekeService.Transcribe:input_type -> cobaltspeech.diatheke.v3.TranscribeRequest
+	26, // 37: cobaltspeech.diatheke.v3.DiathekeService.StreamASRWithPartials:input_type -> cobaltspeech.diatheke.v3.StreamASRWithPartialsRequest
+	1,  // 38: cobaltspeech.diatheke.v3.DiathekeService.Version:output_type -> cobaltspeech.diatheke.v3.VersionResponse
+	3,  // 39: cobaltspeech.diatheke.v3.DiathekeService.ListModels:output_type -> cobaltspeech.diatheke.v3.ListModelsResponse
+	5,  // 40: cobaltspeech.diatheke.v3.DiathekeService.CreateSession:output_type -> cobaltspeech.diatheke.v3.CreateSessionResponse
+	7,  // 41: cobaltspeech.diatheke.v3.DiathekeService.DeleteSession:output_type -> cobaltspeech.diatheke.v3.DeleteSessionResponse
+	9,  // 42: cobaltspeech.diatheke.v3.DiathekeService.UpdateSession:output_type -> cobaltspeech.diatheke.v3.UpdateSessionResponse
+	25, // 43: cobaltspeech.diatheke.v3.DiathekeService.StreamASR:output_type -> cobaltspeech.diatheke.v3.StreamASRResponse
+	11, // 44: cobaltspeech.diatheke.v3.DiathekeService.StreamTTS:output_type -> cobaltspeech.diatheke.v3.StreamTTSResponse
+	30, // 45: cobaltspeech.diatheke.v3.DiathekeService.Transcribe:output_type -> cobaltspeech.diatheke.v3.TranscribeResponse
+	27, // 46: cobaltspeech.diatheke.v3.DiathekeService.StreamASRWithPartials:output_type -> cobaltspeech.diatheke.v3.StreamASRWithPartialsResponse
+	38, // [38:47] is the sub-list for method output_type
+	29, // [29:38] is the sub-list for method input_type
+	29, // [29:29] is the sub-list for extension type_name
+	29, // [29:29] is the sub-list for extension extendee
+	0,  // [0:29] is the sub-list for field type_name
 }
 
 func init() { file_cobaltspeech_diatheke_v3_diatheke_proto_init() }
@@ -2642,7 +2857,7 @@ func file_cobaltspeech_diatheke_v3_diatheke_proto_init() {
 			}
 		}
 		file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ASRResult); i {
+			switch v := v.(*StreamASRWithPartialsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2654,7 +2869,7 @@ func file_cobaltspeech_diatheke_v3_diatheke_proto_init() {
 			}
 		}
 		file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TranscribeRequest); i {
+			switch v := v.(*StreamASRWithPartialsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2666,6 +2881,30 @@ func file_cobaltspeech_diatheke_v3_diatheke_proto_init() {
 			}
 		}
 		file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ASRResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TranscribeRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*TranscribeResponse); i {
 			case 0:
 				return &v.state
@@ -2694,7 +2933,15 @@ func file_cobaltspeech_diatheke_v3_diatheke_proto_init() {
 		(*StreamASRRequest_Token)(nil),
 		(*StreamASRRequest_Audio)(nil),
 	}
+	file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[26].OneofWrappers = []interface{}{
+		(*StreamASRWithPartialsRequest_Token)(nil),
+		(*StreamASRWithPartialsRequest_Audio)(nil),
+	}
 	file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[27].OneofWrappers = []interface{}{
+		(*StreamASRWithPartialsResponse_PartialResult)(nil),
+		(*StreamASRWithPartialsResponse_AsrResult)(nil),
+	}
+	file_cobaltspeech_diatheke_v3_diatheke_proto_msgTypes[29].OneofWrappers = []interface{}{
 		(*TranscribeRequest_Action)(nil),
 		(*TranscribeRequest_Audio)(nil),
 	}
@@ -2704,7 +2951,7 @@ func file_cobaltspeech_diatheke_v3_diatheke_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_cobaltspeech_diatheke_v3_diatheke_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   32,
+			NumMessages:   34,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
