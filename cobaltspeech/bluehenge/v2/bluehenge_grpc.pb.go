@@ -43,9 +43,11 @@ const (
 	BluehengeService_ListTrees_FullMethodName                 = "/cobaltspeech.bluehenge.v2.BluehengeService/ListTrees"
 	BluehengeService_ListEntities_FullMethodName              = "/cobaltspeech.bluehenge.v2.BluehengeService/ListEntities"
 	BluehengeService_GetProcedure_FullMethodName              = "/cobaltspeech.bluehenge.v2.BluehengeService/GetProcedure"
+	BluehengeService_GetTask_FullMethodName                   = "/cobaltspeech.bluehenge.v2.BluehengeService/GetTask"
 	BluehengeService_GetTree_FullMethodName                   = "/cobaltspeech.bluehenge.v2.BluehengeService/GetTree"
 	BluehengeService_SaveNote_FullMethodName                  = "/cobaltspeech.bluehenge.v2.BluehengeService/SaveNote"
 	BluehengeService_GetExtractionRelationship_FullMethodName = "/cobaltspeech.bluehenge.v2.BluehengeService/GetExtractionRelationship"
+	BluehengeService_GetEntity_FullMethodName                 = "/cobaltspeech.bluehenge.v2.BluehengeService/GetEntity"
 	BluehengeService_GetEntityImageData_FullMethodName        = "/cobaltspeech.bluehenge.v2.BluehengeService/GetEntityImageData"
 )
 
@@ -118,6 +120,9 @@ type BluehengeServiceClient interface {
 	// Gets a single procedure identified by id.
 	// The response returns everything you should need to be able to display the Procedure and it's Steps and Tasks to the user.
 	GetProcedure(ctx context.Context, in *GetProcedureRequest, opts ...grpc.CallOption) (*GetProcedureResponse, error)
+	// Gets a single task identified by id.
+	// The response returns everything you should need to be able to display the Task and it's Steps to the user.
+	GetTask(ctx context.Context, in *GetTaskRequest, opts ...grpc.CallOption) (*GetTaskResponse, error)
 	// Gets a single tree identified by id.
 	// Trees contain instructions followed by questions to help users
 	// diagnose problems. The answers at each step point to another
@@ -132,6 +137,10 @@ type BluehengeServiceClient interface {
 	// Extractions contain Subject-Relation-Object sets. For example,
 	// entity:"sky", relation:"has color", object:"blue".
 	GetExtractionRelationship(ctx context.Context, in *GetExtractionRelationshipRequest, opts ...grpc.CallOption) (*GetExtractionRelationshipResponse, error)
+	// Gets the data contained within a single entity identified by name.
+	// Entities contain information about parts and other question
+	// answering content. See Entity for more details.
+	GetEntity(ctx context.Context, in *GetEntityRequest, opts ...grpc.CallOption) (*GetEntityResponse, error)
 	// Gets the data related with an image.
 	// The actual image will be served over HTTP.
 	GetEntityImageData(ctx context.Context, in *GetEntityImageDataRequest, opts ...grpc.CallOption) (*GetEntityImageDataResponse, error)
@@ -323,6 +332,15 @@ func (c *bluehengeServiceClient) GetProcedure(ctx context.Context, in *GetProced
 	return out, nil
 }
 
+func (c *bluehengeServiceClient) GetTask(ctx context.Context, in *GetTaskRequest, opts ...grpc.CallOption) (*GetTaskResponse, error) {
+	out := new(GetTaskResponse)
+	err := c.cc.Invoke(ctx, BluehengeService_GetTask_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *bluehengeServiceClient) GetTree(ctx context.Context, in *GetTreeRequest, opts ...grpc.CallOption) (*GetTreeResponse, error) {
 	out := new(GetTreeResponse)
 	err := c.cc.Invoke(ctx, BluehengeService_GetTree_FullMethodName, in, out, opts...)
@@ -344,6 +362,15 @@ func (c *bluehengeServiceClient) SaveNote(ctx context.Context, in *SaveNoteReque
 func (c *bluehengeServiceClient) GetExtractionRelationship(ctx context.Context, in *GetExtractionRelationshipRequest, opts ...grpc.CallOption) (*GetExtractionRelationshipResponse, error) {
 	out := new(GetExtractionRelationshipResponse)
 	err := c.cc.Invoke(ctx, BluehengeService_GetExtractionRelationship_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bluehengeServiceClient) GetEntity(ctx context.Context, in *GetEntityRequest, opts ...grpc.CallOption) (*GetEntityResponse, error) {
+	out := new(GetEntityResponse)
+	err := c.cc.Invoke(ctx, BluehengeService_GetEntity_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -428,6 +455,9 @@ type BluehengeServiceServer interface {
 	// Gets a single procedure identified by id.
 	// The response returns everything you should need to be able to display the Procedure and it's Steps and Tasks to the user.
 	GetProcedure(context.Context, *GetProcedureRequest) (*GetProcedureResponse, error)
+	// Gets a single task identified by id.
+	// The response returns everything you should need to be able to display the Task and it's Steps to the user.
+	GetTask(context.Context, *GetTaskRequest) (*GetTaskResponse, error)
 	// Gets a single tree identified by id.
 	// Trees contain instructions followed by questions to help users
 	// diagnose problems. The answers at each step point to another
@@ -442,6 +472,10 @@ type BluehengeServiceServer interface {
 	// Extractions contain Subject-Relation-Object sets. For example,
 	// entity:"sky", relation:"has color", object:"blue".
 	GetExtractionRelationship(context.Context, *GetExtractionRelationshipRequest) (*GetExtractionRelationshipResponse, error)
+	// Gets the data contained within a single entity identified by name.
+	// Entities contain information about parts and other question
+	// answering content. See Entity for more details.
+	GetEntity(context.Context, *GetEntityRequest) (*GetEntityResponse, error)
 	// Gets the data related with an image.
 	// The actual image will be served over HTTP.
 	GetEntityImageData(context.Context, *GetEntityImageDataRequest) (*GetEntityImageDataResponse, error)
@@ -488,6 +522,9 @@ func (UnimplementedBluehengeServiceServer) ListEntities(context.Context, *ListEn
 func (UnimplementedBluehengeServiceServer) GetProcedure(context.Context, *GetProcedureRequest) (*GetProcedureResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProcedure not implemented")
 }
+func (UnimplementedBluehengeServiceServer) GetTask(context.Context, *GetTaskRequest) (*GetTaskResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTask not implemented")
+}
 func (UnimplementedBluehengeServiceServer) GetTree(context.Context, *GetTreeRequest) (*GetTreeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTree not implemented")
 }
@@ -496,6 +533,9 @@ func (UnimplementedBluehengeServiceServer) SaveNote(context.Context, *SaveNoteRe
 }
 func (UnimplementedBluehengeServiceServer) GetExtractionRelationship(context.Context, *GetExtractionRelationshipRequest) (*GetExtractionRelationshipResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetExtractionRelationship not implemented")
+}
+func (UnimplementedBluehengeServiceServer) GetEntity(context.Context, *GetEntityRequest) (*GetEntityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEntity not implemented")
 }
 func (UnimplementedBluehengeServiceServer) GetEntityImageData(context.Context, *GetEntityImageDataRequest) (*GetEntityImageDataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEntityImageData not implemented")
@@ -748,6 +788,24 @@ func _BluehengeService_GetProcedure_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BluehengeService_GetTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BluehengeServiceServer).GetTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BluehengeService_GetTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BluehengeServiceServer).GetTask(ctx, req.(*GetTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _BluehengeService_GetTree_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetTreeRequest)
 	if err := dec(in); err != nil {
@@ -798,6 +856,24 @@ func _BluehengeService_GetExtractionRelationship_Handler(srv interface{}, ctx co
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BluehengeServiceServer).GetExtractionRelationship(ctx, req.(*GetExtractionRelationshipRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BluehengeService_GetEntity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetEntityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BluehengeServiceServer).GetEntity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BluehengeService_GetEntity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BluehengeServiceServer).GetEntity(ctx, req.(*GetEntityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -864,6 +940,10 @@ var BluehengeService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _BluehengeService_GetProcedure_Handler,
 		},
 		{
+			MethodName: "GetTask",
+			Handler:    _BluehengeService_GetTask_Handler,
+		},
+		{
 			MethodName: "GetTree",
 			Handler:    _BluehengeService_GetTree_Handler,
 		},
@@ -874,6 +954,10 @@ var BluehengeService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetExtractionRelationship",
 			Handler:    _BluehengeService_GetExtractionRelationship_Handler,
+		},
+		{
+			MethodName: "GetEntity",
+			Handler:    _BluehengeService_GetEntity_Handler,
 		},
 		{
 			MethodName: "GetEntityImageData",
