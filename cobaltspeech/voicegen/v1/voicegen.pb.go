@@ -1086,7 +1086,7 @@ func (x *AudioFormat) GetByteOrder() ByteOrder {
 	return ByteOrder_BYTE_ORDER_UNSPECIFIED
 }
 
-// Audio to be sent to the synthesizer
+// Text input to be sent to the synthesizer
 type SynthesisText struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1134,7 +1134,7 @@ func (x *SynthesisText) GetText() string {
 	return ""
 }
 
-// Audio to be sent to the synthesizer
+// Synthesize audio from the synthesizer
 type SynthesizedAudio struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
