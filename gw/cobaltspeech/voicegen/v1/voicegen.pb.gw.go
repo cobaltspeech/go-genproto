@@ -110,7 +110,7 @@ func RegisterVoiceGenServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/Version", runtime.WithHTTPPathPattern("/api/v1/version"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/Version", runtime.WithHTTPPathPattern("/api/voicegen/v1/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -135,7 +135,7 @@ func RegisterVoiceGenServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/ListModels", runtime.WithHTTPPathPattern("/api/v1/listmodels"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/ListModels", runtime.WithHTTPPathPattern("/api/voicegen/v1/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -206,7 +206,7 @@ func RegisterVoiceGenServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/Version", runtime.WithHTTPPathPattern("/api/v1/version"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/Version", runtime.WithHTTPPathPattern("/api/voicegen/v1/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -228,7 +228,7 @@ func RegisterVoiceGenServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/ListModels", runtime.WithHTTPPathPattern("/api/v1/listmodels"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/ListModels", runtime.WithHTTPPathPattern("/api/voicegen/v1/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -250,7 +250,7 @@ func RegisterVoiceGenServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/StreamingSynthesize", runtime.WithHTTPPathPattern("/api/v1/synthesize"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/StreamingSynthesize", runtime.WithHTTPPathPattern("/api/voicegen/v1/streaming-synthesize"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -270,11 +270,11 @@ func RegisterVoiceGenServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 }
 
 var (
-	pattern_VoiceGenService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "version"}, ""))
+	pattern_VoiceGenService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicegen", "v1", "version"}, ""))
 
-	pattern_VoiceGenService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "listmodels"}, ""))
+	pattern_VoiceGenService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicegen", "v1", "list-models"}, ""))
 
-	pattern_VoiceGenService_StreamingSynthesize_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "synthesize"}, ""))
+	pattern_VoiceGenService_StreamingSynthesize_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicegen", "v1", "streaming-synthesize"}, ""))
 )
 
 var (

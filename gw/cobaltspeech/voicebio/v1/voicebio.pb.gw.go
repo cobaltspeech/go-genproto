@@ -214,7 +214,7 @@ func RegisterVoiceBioServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/Version", runtime.WithHTTPPathPattern("/api/v1/version"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/Version", runtime.WithHTTPPathPattern("/api/voicebio/v1/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -239,7 +239,7 @@ func RegisterVoiceBioServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/ListModels", runtime.WithHTTPPathPattern("/api/v1/listmodels"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/ListModels", runtime.WithHTTPPathPattern("/api/voicebio/v1/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -324,7 +324,7 @@ func RegisterVoiceBioServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/Version", runtime.WithHTTPPathPattern("/api/v1/version"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/Version", runtime.WithHTTPPathPattern("/api/voicebio/v1/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -346,7 +346,7 @@ func RegisterVoiceBioServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/ListModels", runtime.WithHTTPPathPattern("/api/v1/listmodels"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/ListModels", runtime.WithHTTPPathPattern("/api/voicebio/v1/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -368,7 +368,7 @@ func RegisterVoiceBioServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/StreamingEnroll", runtime.WithHTTPPathPattern("/api/v1/streaming_enroll"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/StreamingEnroll", runtime.WithHTTPPathPattern("/api/voicebio/v1/streaming-enroll"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -390,7 +390,7 @@ func RegisterVoiceBioServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/StreamingVerify", runtime.WithHTTPPathPattern("/api/v1/streaming_verify"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/StreamingVerify", runtime.WithHTTPPathPattern("/api/voicebio/v1/streaming-verify"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -412,7 +412,7 @@ func RegisterVoiceBioServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/StreamingIdentify", runtime.WithHTTPPathPattern("/api/v1/streaming_identify"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/StreamingIdentify", runtime.WithHTTPPathPattern("/api/voicebio/v1/streaming-identify"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -432,15 +432,15 @@ func RegisterVoiceBioServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 }
 
 var (
-	pattern_VoiceBioService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "version"}, ""))
+	pattern_VoiceBioService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "version"}, ""))
 
-	pattern_VoiceBioService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "listmodels"}, ""))
+	pattern_VoiceBioService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "list-models"}, ""))
 
-	pattern_VoiceBioService_StreamingEnroll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "streaming_enroll"}, ""))
+	pattern_VoiceBioService_StreamingEnroll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "streaming-enroll"}, ""))
 
-	pattern_VoiceBioService_StreamingVerify_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "streaming_verify"}, ""))
+	pattern_VoiceBioService_StreamingVerify_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "streaming-verify"}, ""))
 
-	pattern_VoiceBioService_StreamingIdentify_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "streaming_identify"}, ""))
+	pattern_VoiceBioService_StreamingIdentify_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "streaming-identify"}, ""))
 )
 
 var (

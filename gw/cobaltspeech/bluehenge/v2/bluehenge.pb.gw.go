@@ -310,40 +310,6 @@ func local_request_BluehengeService_GetTask_0(ctx context.Context, marshaler run
 
 }
 
-func request_BluehengeService_GetTree_0(ctx context.Context, marshaler runtime.Marshaler, client extBluehengev2.BluehengeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extBluehengev2.GetTreeRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-
-	msg, err := client.GetTree(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
-	return msg, metadata, err
-
-}
-
-func local_request_BluehengeService_GetTree_0(ctx context.Context, marshaler runtime.Marshaler, server extBluehengev2.BluehengeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extBluehengev2.GetTreeRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-
-	msg, err := server.GetTree(ctx, &protoReq)
-	return msg, metadata, err
-
-}
-
 func request_BluehengeService_SaveNote_0(ctx context.Context, marshaler runtime.Marshaler, client extBluehengev2.BluehengeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq extBluehengev2.SaveNoteRequest
 	var metadata runtime.ServerMetadata
@@ -494,7 +460,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/Version", runtime.WithHTTPPathPattern("/api/v2/version"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/Version", runtime.WithHTTPPathPattern("/api/bluehenge/v2/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -519,7 +485,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListModels", runtime.WithHTTPPathPattern("/api/v2/listmodels"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListModels", runtime.WithHTTPPathPattern("/api/bluehenge/v2/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -544,7 +510,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/CreateSession", runtime.WithHTTPPathPattern("/api/v2/createsession"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/CreateSession", runtime.WithHTTPPathPattern("/api/bluehenge/v2/create-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -569,7 +535,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/DeleteSession", runtime.WithHTTPPathPattern("/api/v2/deletesession"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/DeleteSession", runtime.WithHTTPPathPattern("/api/bluehenge/v2/delete-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -594,7 +560,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/UpdateSession", runtime.WithHTTPPathPattern("/api/v2/updatesession"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/UpdateSession", runtime.WithHTTPPathPattern("/api/bluehenge/v2/update-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -619,7 +585,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListProcedures", runtime.WithHTTPPathPattern("/api/v2/listprocedures"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListProcedures", runtime.WithHTTPPathPattern("/api/bluehenge/v2/list-procedures"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -644,7 +610,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListTrees", runtime.WithHTTPPathPattern("/api/v2/listtrees"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListTrees", runtime.WithHTTPPathPattern("/api/bluehenge/v2/list-trees"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -669,7 +635,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListEntities", runtime.WithHTTPPathPattern("/api/v2/listentities"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListEntities", runtime.WithHTTPPathPattern("/api/bluehenge/v2/list-entities"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -694,7 +660,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetProcedure", runtime.WithHTTPPathPattern("/api/v2/getprocedure"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetProcedure", runtime.WithHTTPPathPattern("/api/bluehenge/v2/get-procedure"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -719,7 +685,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetTask", runtime.WithHTTPPathPattern("/api/v2/gettask"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetTask", runtime.WithHTTPPathPattern("/api/bluehenge/v2/get-task"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -736,31 +702,6 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 
 	})
 
-	mux.Handle("POST", pattern_BluehengeService_GetTree_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetTree", runtime.WithHTTPPathPattern("/api/v2/gettree"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_BluehengeService_GetTree_0(annotatedContext, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_BluehengeService_GetTree_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
 	mux.Handle("POST", pattern_BluehengeService_SaveNote_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -769,7 +710,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/SaveNote", runtime.WithHTTPPathPattern("/api/v2/savenote"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/SaveNote", runtime.WithHTTPPathPattern("/api/bluehenge/v2/save-note"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -794,7 +735,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetExtractionRelationship", runtime.WithHTTPPathPattern("/api/v2/getextractionrelationship"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetExtractionRelationship", runtime.WithHTTPPathPattern("/api/bluehenge/v2/get-extraction-relationship"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -819,7 +760,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetEntity", runtime.WithHTTPPathPattern("/api/v2/getentity"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetEntity", runtime.WithHTTPPathPattern("/api/bluehenge/v2/get-entity"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -844,7 +785,7 @@ func RegisterBluehengeServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetEntityImageData", runtime.WithHTTPPathPattern("/api/v2/getentityimage"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetEntityImageData", runtime.WithHTTPPathPattern("/api/bluehenge/v2/get-entity-image-data"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -908,7 +849,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/Version", runtime.WithHTTPPathPattern("/api/v2/version"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/Version", runtime.WithHTTPPathPattern("/api/bluehenge/v2/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -930,7 +871,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListModels", runtime.WithHTTPPathPattern("/api/v2/listmodels"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListModels", runtime.WithHTTPPathPattern("/api/bluehenge/v2/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -952,7 +893,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/CreateSession", runtime.WithHTTPPathPattern("/api/v2/createsession"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/CreateSession", runtime.WithHTTPPathPattern("/api/bluehenge/v2/create-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -974,7 +915,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/DeleteSession", runtime.WithHTTPPathPattern("/api/v2/deletesession"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/DeleteSession", runtime.WithHTTPPathPattern("/api/bluehenge/v2/delete-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -996,7 +937,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/UpdateSession", runtime.WithHTTPPathPattern("/api/v2/updatesession"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/UpdateSession", runtime.WithHTTPPathPattern("/api/bluehenge/v2/update-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1018,7 +959,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListProcedures", runtime.WithHTTPPathPattern("/api/v2/listprocedures"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListProcedures", runtime.WithHTTPPathPattern("/api/bluehenge/v2/list-procedures"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1040,7 +981,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListTrees", runtime.WithHTTPPathPattern("/api/v2/listtrees"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListTrees", runtime.WithHTTPPathPattern("/api/bluehenge/v2/list-trees"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1062,7 +1003,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListEntities", runtime.WithHTTPPathPattern("/api/v2/listentities"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/ListEntities", runtime.WithHTTPPathPattern("/api/bluehenge/v2/list-entities"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1084,7 +1025,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetProcedure", runtime.WithHTTPPathPattern("/api/v2/getprocedure"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetProcedure", runtime.WithHTTPPathPattern("/api/bluehenge/v2/get-procedure"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1106,7 +1047,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetTask", runtime.WithHTTPPathPattern("/api/v2/gettask"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetTask", runtime.WithHTTPPathPattern("/api/bluehenge/v2/get-task"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1122,35 +1063,13 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 
 	})
 
-	mux.Handle("POST", pattern_BluehengeService_GetTree_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetTree", runtime.WithHTTPPathPattern("/api/v2/gettree"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_BluehengeService_GetTree_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_BluehengeService_GetTree_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
 	mux.Handle("POST", pattern_BluehengeService_SaveNote_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/SaveNote", runtime.WithHTTPPathPattern("/api/v2/savenote"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/SaveNote", runtime.WithHTTPPathPattern("/api/bluehenge/v2/save-note"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1172,7 +1091,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetExtractionRelationship", runtime.WithHTTPPathPattern("/api/v2/getextractionrelationship"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetExtractionRelationship", runtime.WithHTTPPathPattern("/api/bluehenge/v2/get-extraction-relationship"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1194,7 +1113,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetEntity", runtime.WithHTTPPathPattern("/api/v2/getentity"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetEntity", runtime.WithHTTPPathPattern("/api/bluehenge/v2/get-entity"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1216,7 +1135,7 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetEntityImageData", runtime.WithHTTPPathPattern("/api/v2/getentityimage"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.bluehenge.v2.BluehengeService/GetEntityImageData", runtime.WithHTTPPathPattern("/api/bluehenge/v2/get-entity-image-data"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1236,35 +1155,33 @@ func RegisterBluehengeServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 }
 
 var (
-	pattern_BluehengeService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "version"}, ""))
+	pattern_BluehengeService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "version"}, ""))
 
-	pattern_BluehengeService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "listmodels"}, ""))
+	pattern_BluehengeService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "list-models"}, ""))
 
-	pattern_BluehengeService_CreateSession_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "createsession"}, ""))
+	pattern_BluehengeService_CreateSession_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "create-session"}, ""))
 
-	pattern_BluehengeService_DeleteSession_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "deletesession"}, ""))
+	pattern_BluehengeService_DeleteSession_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "delete-session"}, ""))
 
-	pattern_BluehengeService_UpdateSession_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "updatesession"}, ""))
+	pattern_BluehengeService_UpdateSession_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "update-session"}, ""))
 
-	pattern_BluehengeService_ListProcedures_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "listprocedures"}, ""))
+	pattern_BluehengeService_ListProcedures_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "list-procedures"}, ""))
 
-	pattern_BluehengeService_ListTrees_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "listtrees"}, ""))
+	pattern_BluehengeService_ListTrees_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "list-trees"}, ""))
 
-	pattern_BluehengeService_ListEntities_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "listentities"}, ""))
+	pattern_BluehengeService_ListEntities_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "list-entities"}, ""))
 
-	pattern_BluehengeService_GetProcedure_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "getprocedure"}, ""))
+	pattern_BluehengeService_GetProcedure_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "get-procedure"}, ""))
 
-	pattern_BluehengeService_GetTask_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "gettask"}, ""))
+	pattern_BluehengeService_GetTask_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "get-task"}, ""))
 
-	pattern_BluehengeService_GetTree_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "gettree"}, ""))
+	pattern_BluehengeService_SaveNote_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "save-note"}, ""))
 
-	pattern_BluehengeService_SaveNote_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "savenote"}, ""))
+	pattern_BluehengeService_GetExtractionRelationship_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "get-extraction-relationship"}, ""))
 
-	pattern_BluehengeService_GetExtractionRelationship_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "getextractionrelationship"}, ""))
+	pattern_BluehengeService_GetEntity_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "get-entity"}, ""))
 
-	pattern_BluehengeService_GetEntity_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "getentity"}, ""))
-
-	pattern_BluehengeService_GetEntityImageData_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "getentityimage"}, ""))
+	pattern_BluehengeService_GetEntityImageData_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "bluehenge", "v2", "get-entity-image-data"}, ""))
 )
 
 var (
@@ -1287,8 +1204,6 @@ var (
 	forward_BluehengeService_GetProcedure_0 = runtime.ForwardResponseMessage
 
 	forward_BluehengeService_GetTask_0 = runtime.ForwardResponseMessage
-
-	forward_BluehengeService_GetTree_0 = runtime.ForwardResponseMessage
 
 	forward_BluehengeService_SaveNote_0 = runtime.ForwardResponseMessage
 

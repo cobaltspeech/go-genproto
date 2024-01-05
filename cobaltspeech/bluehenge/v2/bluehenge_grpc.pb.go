@@ -106,7 +106,8 @@ type BluehengeServiceClient interface {
 	// Returns a list of all the procedures.
 	// This list is contains a simplified representation of the procedures,
 	// which can be helpful for displaying a directory or table of contents.
-	// The full details of an individual procedure can be retrieved via GetProcedure.
+	// The full details of an individual procedure can be retrieved via
+	// GetProcedure.
 	ListProcedures(ctx context.Context, in *ListProceduresRequest, opts ...grpc.CallOption) (*ListProceduresResponse, error)
 	// Returns a list of all the trees.
 	// This list is contains a simplified representation of the trees,
@@ -118,10 +119,12 @@ type BluehengeServiceClient interface {
 	// be used for fuzzy matching or any other time you need everything.
 	ListEntities(ctx context.Context, in *ListEntitiesRequest, opts ...grpc.CallOption) (*ListEntitiesResponse, error)
 	// Gets a single procedure identified by id.
-	// The response returns everything you should need to be able to display the Procedure and it's Steps and Tasks to the user.
+	// The response returns everything you should need to be able to display the
+	// Procedure and it's Steps and Tasks to the user.
 	GetProcedure(ctx context.Context, in *GetProcedureRequest, opts ...grpc.CallOption) (*GetProcedureResponse, error)
 	// Gets a single task identified by id.
-	// The response returns everything you should need to be able to display the Task and it's Steps to the user.
+	// The response returns everything you should need to be able to display the
+	// Task and it's Steps to the user.
 	GetTask(ctx context.Context, in *GetTaskRequest, opts ...grpc.CallOption) (*GetTaskResponse, error)
 	// Gets a single tree identified by id.
 	// Trees contain instructions followed by questions to help users
@@ -441,7 +444,8 @@ type BluehengeServiceServer interface {
 	// Returns a list of all the procedures.
 	// This list is contains a simplified representation of the procedures,
 	// which can be helpful for displaying a directory or table of contents.
-	// The full details of an individual procedure can be retrieved via GetProcedure.
+	// The full details of an individual procedure can be retrieved via
+	// GetProcedure.
 	ListProcedures(context.Context, *ListProceduresRequest) (*ListProceduresResponse, error)
 	// Returns a list of all the trees.
 	// This list is contains a simplified representation of the trees,
@@ -453,10 +457,12 @@ type BluehengeServiceServer interface {
 	// be used for fuzzy matching or any other time you need everything.
 	ListEntities(context.Context, *ListEntitiesRequest) (*ListEntitiesResponse, error)
 	// Gets a single procedure identified by id.
-	// The response returns everything you should need to be able to display the Procedure and it's Steps and Tasks to the user.
+	// The response returns everything you should need to be able to display the
+	// Procedure and it's Steps and Tasks to the user.
 	GetProcedure(context.Context, *GetProcedureRequest) (*GetProcedureResponse, error)
 	// Gets a single task identified by id.
-	// The response returns everything you should need to be able to display the Task and it's Steps to the user.
+	// The response returns everything you should need to be able to display the
+	// Task and it's Steps to the user.
 	GetTask(context.Context, *GetTaskRequest) (*GetTaskResponse, error)
 	// Gets a single tree identified by id.
 	// Trees contain instructions followed by questions to help users
