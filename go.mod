@@ -1,6 +1,6 @@
 module github.com/cobaltspeech/go-genproto
 
-go 1.17
+go 1.22
 
 require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1
