@@ -966,8 +966,9 @@ type RecognitionMetadata struct {
 	// (e.g. JSON).
 	CustomMetadata string `protobuf:"bytes,1,opt,name=custom_metadata,json=customMetadata,proto3" json:"custom_metadata,omitempty"`
 	// This is an optional field to specify custom ID to identify the recognition
-	// session. It is preferred that this should be a simple string, and not
-	// structured data.
+	// session. This ID maybe recorded by the server in logs or other storage,
+	// and should therefore not include any sensitive information. The ID should
+	// be a simple string, limited in length to 64 bytes.
 	CustomId      string `protobuf:"bytes,2,opt,name=custom_id,json=customId,proto3" json:"custom_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
