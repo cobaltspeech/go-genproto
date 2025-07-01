@@ -10,6 +10,7 @@ package voicegenv1
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net/http"
 
@@ -25,64 +26,74 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = metadata.Join
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = errors.New
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = metadata.Join
+)
 
 func request_VoiceGenService_Version_0(ctx context.Context, marshaler runtime.Marshaler, client extVoicegenv1.VoiceGenServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extVoicegenv1.VersionRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extVoicegenv1.VersionRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.Version(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_VoiceGenService_Version_0(ctx context.Context, marshaler runtime.Marshaler, server extVoicegenv1.VoiceGenServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extVoicegenv1.VersionRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extVoicegenv1.VersionRequest
+		metadata runtime.ServerMetadata
+	)
 	msg, err := server.Version(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_VoiceGenService_ListModels_0(ctx context.Context, marshaler runtime.Marshaler, client extVoicegenv1.VoiceGenServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extVoicegenv1.ListModelsRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extVoicegenv1.ListModelsRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.ListModels(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_VoiceGenService_ListModels_0(ctx context.Context, marshaler runtime.Marshaler, server extVoicegenv1.VoiceGenServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extVoicegenv1.ListModelsRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extVoicegenv1.ListModelsRequest
+		metadata runtime.ServerMetadata
+	)
 	msg, err := server.ListModels(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_VoiceGenService_StreamingSynthesize_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_VoiceGenService_StreamingSynthesize_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_VoiceGenService_StreamingSynthesize_0(ctx context.Context, marshaler runtime.Marshaler, client extVoicegenv1.VoiceGenServiceClient, req *http.Request, pathParams map[string]string) (extVoicegenv1.VoiceGenService_StreamingSynthesizeClient, runtime.ServerMetadata, error) {
-	var protoReq extVoicegenv1.StreamingSynthesizeRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extVoicegenv1.StreamingSynthesizeRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_VoiceGenService_StreamingSynthesize_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	stream, err := client.StreamingSynthesize(ctx, &protoReq)
 	if err != nil {
 		return nil, metadata, err
@@ -93,7 +104,6 @@ func request_VoiceGenService_StreamingSynthesize_0(ctx context.Context, marshale
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 // RegisterVoiceGenServiceHandlerServer registers the http handlers for service VoiceGenService to "mux".
@@ -102,16 +112,13 @@ func request_VoiceGenService_StreamingSynthesize_0(ctx context.Context, marshale
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterVoiceGenServiceHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterVoiceGenServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server extVoicegenv1.VoiceGenServiceServer) error {
-
-	mux.Handle("GET", pattern_VoiceGenService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceGenService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/Version", runtime.WithHTTPPathPattern("/api/voicegen/v1/version"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/Version", runtime.WithHTTPPathPattern("/api/voicegen/v1/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -123,20 +130,15 @@ func RegisterVoiceGenServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_VoiceGenService_Version_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_VoiceGenService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceGenService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/ListModels", runtime.WithHTTPPathPattern("/api/voicegen/v1/list-models"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/ListModels", runtime.WithHTTPPathPattern("/api/voicegen/v1/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -148,12 +150,10 @@ func RegisterVoiceGenServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_VoiceGenService_ListModels_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
-	mux.Handle("GET", pattern_VoiceGenService_StreamingSynthesize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceGenService_StreamingSynthesize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -184,7 +184,6 @@ func RegisterVoiceGenServiceHandlerFromEndpoint(ctx context.Context, mux *runtim
 			}
 		}()
 	}()
-
 	return RegisterVoiceGenServiceHandler(ctx, mux, conn)
 }
 
@@ -200,14 +199,11 @@ func RegisterVoiceGenServiceHandler(ctx context.Context, mux *runtime.ServeMux, 
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "extVoicegenv1.VoiceGenServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterVoiceGenServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client extVoicegenv1.VoiceGenServiceClient) error {
-
-	mux.Handle("GET", pattern_VoiceGenService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceGenService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/Version", runtime.WithHTTPPathPattern("/api/voicegen/v1/version"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/Version", runtime.WithHTTPPathPattern("/api/voicegen/v1/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -218,18 +214,13 @@ func RegisterVoiceGenServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_VoiceGenService_Version_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_VoiceGenService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceGenService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/ListModels", runtime.WithHTTPPathPattern("/api/voicegen/v1/list-models"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/ListModels", runtime.WithHTTPPathPattern("/api/voicegen/v1/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -240,18 +231,13 @@ func RegisterVoiceGenServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_VoiceGenService_ListModels_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_VoiceGenService_StreamingSynthesize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceGenService_StreamingSynthesize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/StreamingSynthesize", runtime.WithHTTPPathPattern("/api/voicegen/v1/streaming-synthesize"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicegen.v1.VoiceGenService/StreamingSynthesize", runtime.WithHTTPPathPattern("/api/voicegen/v1/streaming-synthesize"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -262,26 +248,19 @@ func RegisterVoiceGenServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_VoiceGenService_StreamingSynthesize_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
-
 	return nil
 }
 
 var (
-	pattern_VoiceGenService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicegen", "v1", "version"}, ""))
-
-	pattern_VoiceGenService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicegen", "v1", "list-models"}, ""))
-
+	pattern_VoiceGenService_Version_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicegen", "v1", "version"}, ""))
+	pattern_VoiceGenService_ListModels_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicegen", "v1", "list-models"}, ""))
 	pattern_VoiceGenService_StreamingSynthesize_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicegen", "v1", "streaming-synthesize"}, ""))
 )
 
 var (
-	forward_VoiceGenService_Version_0 = runtime.ForwardResponseMessage
-
-	forward_VoiceGenService_ListModels_0 = runtime.ForwardResponseMessage
-
+	forward_VoiceGenService_Version_0             = runtime.ForwardResponseMessage
+	forward_VoiceGenService_ListModels_0          = runtime.ForwardResponseMessage
 	forward_VoiceGenService_StreamingSynthesize_0 = runtime.ForwardResponseStream
 )

@@ -10,6 +10,7 @@ package voicebiov1
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net/http"
 
@@ -25,47 +26,56 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = metadata.Join
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = errors.New
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = metadata.Join
+)
 
 func request_VoiceBioService_Version_0(ctx context.Context, marshaler runtime.Marshaler, client extVoicebiov1.VoiceBioServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extVoicebiov1.VersionRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extVoicebiov1.VersionRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.Version(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_VoiceBioService_Version_0(ctx context.Context, marshaler runtime.Marshaler, server extVoicebiov1.VoiceBioServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extVoicebiov1.VersionRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extVoicebiov1.VersionRequest
+		metadata runtime.ServerMetadata
+	)
 	msg, err := server.Version(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_VoiceBioService_ListModels_0(ctx context.Context, marshaler runtime.Marshaler, client extVoicebiov1.VoiceBioServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extVoicebiov1.ListModelsRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extVoicebiov1.ListModelsRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.ListModels(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_VoiceBioService_ListModels_0(ctx context.Context, marshaler runtime.Marshaler, server extVoicebiov1.VoiceBioServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extVoicebiov1.ListModelsRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extVoicebiov1.ListModelsRequest
+		metadata runtime.ServerMetadata
+	)
 	msg, err := server.ListModels(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_VoiceBioService_StreamingEnroll_0(ctx context.Context, marshaler runtime.Marshaler, client extVoicebiov1.VoiceBioServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -79,7 +89,7 @@ func request_VoiceBioService_StreamingEnroll_0(ctx context.Context, marshaler ru
 	for {
 		var protoReq extVoicebiov1.StreamingEnrollRequest
 		err = dec.Decode(&protoReq)
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		if err != nil {
@@ -87,14 +97,13 @@ func request_VoiceBioService_StreamingEnroll_0(ctx context.Context, marshaler ru
 			return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 		}
 		if err = stream.Send(&protoReq); err != nil {
-			if err == io.EOF {
+			if errors.Is(err, io.EOF) {
 				break
 			}
 			grpclog.Errorf("Failed to send request: %v", err)
 			return nil, metadata, err
 		}
 	}
-
 	if err := stream.CloseSend(); err != nil {
 		grpclog.Errorf("Failed to terminate client stream: %v", err)
 		return nil, metadata, err
@@ -105,11 +114,9 @@ func request_VoiceBioService_StreamingEnroll_0(ctx context.Context, marshaler ru
 		return nil, metadata, err
 	}
 	metadata.HeaderMD = header
-
 	msg, err := stream.CloseAndRecv()
 	metadata.TrailerMD = stream.Trailer()
 	return msg, metadata, err
-
 }
 
 func request_VoiceBioService_StreamingVerify_0(ctx context.Context, marshaler runtime.Marshaler, client extVoicebiov1.VoiceBioServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -123,7 +130,7 @@ func request_VoiceBioService_StreamingVerify_0(ctx context.Context, marshaler ru
 	for {
 		var protoReq extVoicebiov1.StreamingVerifyRequest
 		err = dec.Decode(&protoReq)
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		if err != nil {
@@ -131,14 +138,13 @@ func request_VoiceBioService_StreamingVerify_0(ctx context.Context, marshaler ru
 			return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 		}
 		if err = stream.Send(&protoReq); err != nil {
-			if err == io.EOF {
+			if errors.Is(err, io.EOF) {
 				break
 			}
 			grpclog.Errorf("Failed to send request: %v", err)
 			return nil, metadata, err
 		}
 	}
-
 	if err := stream.CloseSend(); err != nil {
 		grpclog.Errorf("Failed to terminate client stream: %v", err)
 		return nil, metadata, err
@@ -149,11 +155,9 @@ func request_VoiceBioService_StreamingVerify_0(ctx context.Context, marshaler ru
 		return nil, metadata, err
 	}
 	metadata.HeaderMD = header
-
 	msg, err := stream.CloseAndRecv()
 	metadata.TrailerMD = stream.Trailer()
 	return msg, metadata, err
-
 }
 
 func request_VoiceBioService_StreamingIdentify_0(ctx context.Context, marshaler runtime.Marshaler, client extVoicebiov1.VoiceBioServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -167,7 +171,7 @@ func request_VoiceBioService_StreamingIdentify_0(ctx context.Context, marshaler 
 	for {
 		var protoReq extVoicebiov1.StreamingIdentifyRequest
 		err = dec.Decode(&protoReq)
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		if err != nil {
@@ -175,14 +179,13 @@ func request_VoiceBioService_StreamingIdentify_0(ctx context.Context, marshaler 
 			return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 		}
 		if err = stream.Send(&protoReq); err != nil {
-			if err == io.EOF {
+			if errors.Is(err, io.EOF) {
 				break
 			}
 			grpclog.Errorf("Failed to send request: %v", err)
 			return nil, metadata, err
 		}
 	}
-
 	if err := stream.CloseSend(); err != nil {
 		grpclog.Errorf("Failed to terminate client stream: %v", err)
 		return nil, metadata, err
@@ -193,11 +196,9 @@ func request_VoiceBioService_StreamingIdentify_0(ctx context.Context, marshaler 
 		return nil, metadata, err
 	}
 	metadata.HeaderMD = header
-
 	msg, err := stream.CloseAndRecv()
 	metadata.TrailerMD = stream.Trailer()
 	return msg, metadata, err
-
 }
 
 // RegisterVoiceBioServiceHandlerServer registers the http handlers for service VoiceBioService to "mux".
@@ -206,16 +207,13 @@ func request_VoiceBioService_StreamingIdentify_0(ctx context.Context, marshaler 
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterVoiceBioServiceHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterVoiceBioServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server extVoicebiov1.VoiceBioServiceServer) error {
-
-	mux.Handle("GET", pattern_VoiceBioService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceBioService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/Version", runtime.WithHTTPPathPattern("/api/voicebio/v1/version"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/Version", runtime.WithHTTPPathPattern("/api/voicebio/v1/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -227,20 +225,15 @@ func RegisterVoiceBioServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_VoiceBioService_Version_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_VoiceBioService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceBioService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/ListModels", runtime.WithHTTPPathPattern("/api/voicebio/v1/list-models"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/ListModels", runtime.WithHTTPPathPattern("/api/voicebio/v1/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -252,26 +245,24 @@ func RegisterVoiceBioServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_VoiceBioService_ListModels_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
-	mux.Handle("GET", pattern_VoiceBioService_StreamingEnroll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceBioService_StreamingEnroll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
 
-	mux.Handle("GET", pattern_VoiceBioService_StreamingVerify_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceBioService_StreamingVerify_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
 
-	mux.Handle("GET", pattern_VoiceBioService_StreamingIdentify_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceBioService_StreamingIdentify_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -302,7 +293,6 @@ func RegisterVoiceBioServiceHandlerFromEndpoint(ctx context.Context, mux *runtim
 			}
 		}()
 	}()
-
 	return RegisterVoiceBioServiceHandler(ctx, mux, conn)
 }
 
@@ -318,14 +308,11 @@ func RegisterVoiceBioServiceHandler(ctx context.Context, mux *runtime.ServeMux, 
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "extVoicebiov1.VoiceBioServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterVoiceBioServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client extVoicebiov1.VoiceBioServiceClient) error {
-
-	mux.Handle("GET", pattern_VoiceBioService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceBioService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/Version", runtime.WithHTTPPathPattern("/api/voicebio/v1/version"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/Version", runtime.WithHTTPPathPattern("/api/voicebio/v1/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -336,18 +323,13 @@ func RegisterVoiceBioServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_VoiceBioService_Version_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_VoiceBioService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceBioService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/ListModels", runtime.WithHTTPPathPattern("/api/voicebio/v1/list-models"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/ListModels", runtime.WithHTTPPathPattern("/api/voicebio/v1/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -358,18 +340,13 @@ func RegisterVoiceBioServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_VoiceBioService_ListModels_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_VoiceBioService_StreamingEnroll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceBioService_StreamingEnroll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/StreamingEnroll", runtime.WithHTTPPathPattern("/api/voicebio/v1/streaming-enroll"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/StreamingEnroll", runtime.WithHTTPPathPattern("/api/voicebio/v1/streaming-enroll"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -380,18 +357,13 @@ func RegisterVoiceBioServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_VoiceBioService_StreamingEnroll_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_VoiceBioService_StreamingVerify_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceBioService_StreamingVerify_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/StreamingVerify", runtime.WithHTTPPathPattern("/api/voicebio/v1/streaming-verify"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/StreamingVerify", runtime.WithHTTPPathPattern("/api/voicebio/v1/streaming-verify"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -402,18 +374,13 @@ func RegisterVoiceBioServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_VoiceBioService_StreamingVerify_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_VoiceBioService_StreamingIdentify_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoiceBioService_StreamingIdentify_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/StreamingIdentify", runtime.WithHTTPPathPattern("/api/voicebio/v1/streaming-identify"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.voicebio.v1.VoiceBioService/StreamingIdentify", runtime.WithHTTPPathPattern("/api/voicebio/v1/streaming-identify"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -424,34 +391,23 @@ func RegisterVoiceBioServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_VoiceBioService_StreamingIdentify_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
 	return nil
 }
 
 var (
-	pattern_VoiceBioService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "version"}, ""))
-
-	pattern_VoiceBioService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "list-models"}, ""))
-
-	pattern_VoiceBioService_StreamingEnroll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "streaming-enroll"}, ""))
-
-	pattern_VoiceBioService_StreamingVerify_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "streaming-verify"}, ""))
-
+	pattern_VoiceBioService_Version_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "version"}, ""))
+	pattern_VoiceBioService_ListModels_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "list-models"}, ""))
+	pattern_VoiceBioService_StreamingEnroll_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "streaming-enroll"}, ""))
+	pattern_VoiceBioService_StreamingVerify_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "streaming-verify"}, ""))
 	pattern_VoiceBioService_StreamingIdentify_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "voicebio", "v1", "streaming-identify"}, ""))
 )
 
 var (
-	forward_VoiceBioService_Version_0 = runtime.ForwardResponseMessage
-
-	forward_VoiceBioService_ListModels_0 = runtime.ForwardResponseMessage
-
-	forward_VoiceBioService_StreamingEnroll_0 = runtime.ForwardResponseMessage
-
-	forward_VoiceBioService_StreamingVerify_0 = runtime.ForwardResponseMessage
-
+	forward_VoiceBioService_Version_0           = runtime.ForwardResponseMessage
+	forward_VoiceBioService_ListModels_0        = runtime.ForwardResponseMessage
+	forward_VoiceBioService_StreamingEnroll_0   = runtime.ForwardResponseMessage
+	forward_VoiceBioService_StreamingVerify_0   = runtime.ForwardResponseMessage
 	forward_VoiceBioService_StreamingIdentify_0 = runtime.ForwardResponseMessage
 )

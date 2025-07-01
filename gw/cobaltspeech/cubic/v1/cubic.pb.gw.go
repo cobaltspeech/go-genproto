@@ -10,6 +10,7 @@ package v1
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net/http"
 
@@ -26,73 +27,83 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = metadata.Join
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = errors.New
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = metadata.Join
+)
 
 func request_Cubic_Version_0(ctx context.Context, marshaler runtime.Marshaler, client extV1.CubicClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extEmptypb.Empty
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extEmptypb.Empty
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.Version(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Cubic_Version_0(ctx context.Context, marshaler runtime.Marshaler, server extV1.CubicServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extEmptypb.Empty
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extEmptypb.Empty
+		metadata runtime.ServerMetadata
+	)
 	msg, err := server.Version(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Cubic_ListModels_0(ctx context.Context, marshaler runtime.Marshaler, client extV1.CubicClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extV1.ListModelsRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extV1.ListModelsRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.ListModels(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Cubic_ListModels_0(ctx context.Context, marshaler runtime.Marshaler, server extV1.CubicServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extV1.ListModelsRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extV1.ListModelsRequest
+		metadata runtime.ServerMetadata
+	)
 	msg, err := server.ListModels(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Cubic_Recognize_0(ctx context.Context, marshaler runtime.Marshaler, client extV1.CubicClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extV1.RecognizeRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extV1.RecognizeRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.Recognize(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Cubic_Recognize_0(ctx context.Context, marshaler runtime.Marshaler, server extV1.CubicServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extV1.RecognizeRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extV1.RecognizeRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.Recognize(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_Cubic_StreamingRecognize_0(ctx context.Context, marshaler runtime.Marshaler, client extV1.CubicClient, req *http.Request, pathParams map[string]string) (extV1.Cubic_StreamingRecognizeClient, runtime.ServerMetadata, error) {
@@ -106,12 +117,12 @@ func request_Cubic_StreamingRecognize_0(ctx context.Context, marshaler runtime.M
 	handleSend := func() error {
 		var protoReq extV1.StreamingRecognizeRequest
 		err := dec.Decode(&protoReq)
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			return err
 		}
 		if err != nil {
 			grpclog.Errorf("Failed to decode request: %v", err)
-			return err
+			return status.Errorf(codes.InvalidArgument, "Failed to decode request: %v", err)
 		}
 		if err := stream.Send(&protoReq); err != nil {
 			grpclog.Errorf("Failed to send request: %v", err)
@@ -139,29 +150,30 @@ func request_Cubic_StreamingRecognize_0(ctx context.Context, marshaler runtime.M
 }
 
 func request_Cubic_CompileContext_0(ctx context.Context, marshaler runtime.Marshaler, client extV1.CubicClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extV1.CompileContextRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extV1.CompileContextRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.CompileContext(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Cubic_CompileContext_0(ctx context.Context, marshaler runtime.Marshaler, server extV1.CubicServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extV1.CompileContextRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extV1.CompileContextRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.CompileContext(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 // RegisterCubicHandlerServer registers the http handlers for service Cubic to "mux".
@@ -170,16 +182,13 @@ func local_request_Cubic_CompileContext_0(ctx context.Context, marshaler runtime
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterCubicHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterCubicHandlerServer(ctx context.Context, mux *runtime.ServeMux, server extV1.CubicServer) error {
-
-	mux.Handle("GET", pattern_Cubic_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_Cubic_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Version", runtime.WithHTTPPathPattern("/api/cubic/v1/version"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Version", runtime.WithHTTPPathPattern("/api/cubic/v1/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -191,20 +200,15 @@ func RegisterCubicHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_Cubic_Version_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_Cubic_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_Cubic_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/ListModels", runtime.WithHTTPPathPattern("/api/cubic/v1/list-models"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/ListModels", runtime.WithHTTPPathPattern("/api/cubic/v1/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -216,20 +220,15 @@ func RegisterCubicHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_Cubic_ListModels_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_Cubic_Recognize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_Cubic_Recognize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Recognize", runtime.WithHTTPPathPattern("/api/cubic/v1/recognize"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Recognize", runtime.WithHTTPPathPattern("/api/cubic/v1/recognize"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -241,27 +240,22 @@ func RegisterCubicHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_Cubic_Recognize_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
-	mux.Handle("POST", pattern_Cubic_StreamingRecognize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_Cubic_StreamingRecognize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
-
-	mux.Handle("POST", pattern_Cubic_CompileContext_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_Cubic_CompileContext_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/CompileContext", runtime.WithHTTPPathPattern("/api/cubic/v1/compile-context"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/CompileContext", runtime.WithHTTPPathPattern("/api/cubic/v1/compile-context"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -273,9 +267,7 @@ func RegisterCubicHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_Cubic_CompileContext_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil
@@ -302,7 +294,6 @@ func RegisterCubicHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux
 			}
 		}()
 	}()
-
 	return RegisterCubicHandler(ctx, mux, conn)
 }
 
@@ -318,14 +309,11 @@ func RegisterCubicHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "extV1.CubicClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterCubicHandlerClient(ctx context.Context, mux *runtime.ServeMux, client extV1.CubicClient) error {
-
-	mux.Handle("GET", pattern_Cubic_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_Cubic_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Version", runtime.WithHTTPPathPattern("/api/cubic/v1/version"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Version", runtime.WithHTTPPathPattern("/api/cubic/v1/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -336,18 +324,13 @@ func RegisterCubicHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_Cubic_Version_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_Cubic_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_Cubic_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/ListModels", runtime.WithHTTPPathPattern("/api/cubic/v1/list-models"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/ListModels", runtime.WithHTTPPathPattern("/api/cubic/v1/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -358,18 +341,13 @@ func RegisterCubicHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_Cubic_ListModels_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_Cubic_Recognize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_Cubic_Recognize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Recognize", runtime.WithHTTPPathPattern("/api/cubic/v1/recognize"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/Recognize", runtime.WithHTTPPathPattern("/api/cubic/v1/recognize"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -380,18 +358,13 @@ func RegisterCubicHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_Cubic_Recognize_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_Cubic_StreamingRecognize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_Cubic_StreamingRecognize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/StreamingRecognize", runtime.WithHTTPPathPattern("/api/cubic/v1/streaming-recognize"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/StreamingRecognize", runtime.WithHTTPPathPattern("/api/cubic/v1/streaming-recognize"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -402,18 +375,13 @@ func RegisterCubicHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_Cubic_StreamingRecognize_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_Cubic_CompileContext_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_Cubic_CompileContext_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/CompileContext", runtime.WithHTTPPathPattern("/api/cubic/v1/compile-context"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.cubic.Cubic/CompileContext", runtime.WithHTTPPathPattern("/api/cubic/v1/compile-context"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -424,34 +392,23 @@ func RegisterCubicHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_Cubic_CompileContext_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
 	return nil
 }
 
 var (
-	pattern_Cubic_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "cubic", "v1", "version"}, ""))
-
-	pattern_Cubic_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "cubic", "v1", "list-models"}, ""))
-
-	pattern_Cubic_Recognize_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "cubic", "v1", "recognize"}, ""))
-
+	pattern_Cubic_Version_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "cubic", "v1", "version"}, ""))
+	pattern_Cubic_ListModels_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "cubic", "v1", "list-models"}, ""))
+	pattern_Cubic_Recognize_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "cubic", "v1", "recognize"}, ""))
 	pattern_Cubic_StreamingRecognize_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "cubic", "v1", "streaming-recognize"}, ""))
-
-	pattern_Cubic_CompileContext_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "cubic", "v1", "compile-context"}, ""))
+	pattern_Cubic_CompileContext_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "cubic", "v1", "compile-context"}, ""))
 )
 
 var (
-	forward_Cubic_Version_0 = runtime.ForwardResponseMessage
-
-	forward_Cubic_ListModels_0 = runtime.ForwardResponseMessage
-
-	forward_Cubic_Recognize_0 = runtime.ForwardResponseMessage
-
+	forward_Cubic_Version_0            = runtime.ForwardResponseMessage
+	forward_Cubic_ListModels_0         = runtime.ForwardResponseMessage
+	forward_Cubic_Recognize_0          = runtime.ForwardResponseMessage
 	forward_Cubic_StreamingRecognize_0 = runtime.ForwardResponseStream
-
-	forward_Cubic_CompileContext_0 = runtime.ForwardResponseMessage
+	forward_Cubic_CompileContext_0     = runtime.ForwardResponseMessage
 )

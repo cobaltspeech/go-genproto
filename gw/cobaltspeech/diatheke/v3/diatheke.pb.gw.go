@@ -10,6 +10,7 @@ package diathekev3
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net/http"
 
@@ -25,125 +26,137 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = metadata.Join
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = errors.New
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = metadata.Join
+)
 
 func request_DiathekeService_Version_0(ctx context.Context, marshaler runtime.Marshaler, client extDiathekev3.DiathekeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extDiathekev3.VersionRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extDiathekev3.VersionRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.Version(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_DiathekeService_Version_0(ctx context.Context, marshaler runtime.Marshaler, server extDiathekev3.DiathekeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extDiathekev3.VersionRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extDiathekev3.VersionRequest
+		metadata runtime.ServerMetadata
+	)
 	msg, err := server.Version(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_DiathekeService_ListModels_0(ctx context.Context, marshaler runtime.Marshaler, client extDiathekev3.DiathekeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extDiathekev3.ListModelsRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extDiathekev3.ListModelsRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.ListModels(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_DiathekeService_ListModels_0(ctx context.Context, marshaler runtime.Marshaler, server extDiathekev3.DiathekeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extDiathekev3.ListModelsRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extDiathekev3.ListModelsRequest
+		metadata runtime.ServerMetadata
+	)
 	msg, err := server.ListModels(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_DiathekeService_CreateSession_0(ctx context.Context, marshaler runtime.Marshaler, client extDiathekev3.DiathekeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extDiathekev3.CreateSessionRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extDiathekev3.CreateSessionRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.CreateSession(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_DiathekeService_CreateSession_0(ctx context.Context, marshaler runtime.Marshaler, server extDiathekev3.DiathekeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extDiathekev3.CreateSessionRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extDiathekev3.CreateSessionRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.CreateSession(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_DiathekeService_DeleteSession_0(ctx context.Context, marshaler runtime.Marshaler, client extDiathekev3.DiathekeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extDiathekev3.DeleteSessionRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extDiathekev3.DeleteSessionRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.DeleteSession(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_DiathekeService_DeleteSession_0(ctx context.Context, marshaler runtime.Marshaler, server extDiathekev3.DiathekeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extDiathekev3.DeleteSessionRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extDiathekev3.DeleteSessionRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.DeleteSession(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_DiathekeService_UpdateSession_0(ctx context.Context, marshaler runtime.Marshaler, client extDiathekev3.DiathekeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extDiathekev3.UpdateSessionRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extDiathekev3.UpdateSessionRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.UpdateSession(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_DiathekeService_UpdateSession_0(ctx context.Context, marshaler runtime.Marshaler, server extDiathekev3.DiathekeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extDiathekev3.UpdateSessionRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extDiathekev3.UpdateSessionRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.UpdateSession(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_DiathekeService_StreamASR_0(ctx context.Context, marshaler runtime.Marshaler, client extDiathekev3.DiathekeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -157,7 +170,7 @@ func request_DiathekeService_StreamASR_0(ctx context.Context, marshaler runtime.
 	for {
 		var protoReq extDiathekev3.StreamASRRequest
 		err = dec.Decode(&protoReq)
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		if err != nil {
@@ -165,14 +178,13 @@ func request_DiathekeService_StreamASR_0(ctx context.Context, marshaler runtime.
 			return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 		}
 		if err = stream.Send(&protoReq); err != nil {
-			if err == io.EOF {
+			if errors.Is(err, io.EOF) {
 				break
 			}
 			grpclog.Errorf("Failed to send request: %v", err)
 			return nil, metadata, err
 		}
 	}
-
 	if err := stream.CloseSend(); err != nil {
 		grpclog.Errorf("Failed to terminate client stream: %v", err)
 		return nil, metadata, err
@@ -183,11 +195,9 @@ func request_DiathekeService_StreamASR_0(ctx context.Context, marshaler runtime.
 		return nil, metadata, err
 	}
 	metadata.HeaderMD = header
-
 	msg, err := stream.CloseAndRecv()
 	metadata.TrailerMD = stream.Trailer()
 	return msg, metadata, err
-
 }
 
 func request_DiathekeService_StreamASRWithPartials_0(ctx context.Context, marshaler runtime.Marshaler, client extDiathekev3.DiathekeServiceClient, req *http.Request, pathParams map[string]string) (extDiathekev3.DiathekeService_StreamASRWithPartialsClient, runtime.ServerMetadata, error) {
@@ -201,12 +211,12 @@ func request_DiathekeService_StreamASRWithPartials_0(ctx context.Context, marsha
 	handleSend := func() error {
 		var protoReq extDiathekev3.StreamASRWithPartialsRequest
 		err := dec.Decode(&protoReq)
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			return err
 		}
 		if err != nil {
 			grpclog.Errorf("Failed to decode request: %v", err)
-			return err
+			return status.Errorf(codes.InvalidArgument, "Failed to decode request: %v", err)
 		}
 		if err := stream.Send(&protoReq); err != nil {
 			grpclog.Errorf("Failed to send request: %v", err)
@@ -244,12 +254,12 @@ func request_DiathekeService_Transcribe_0(ctx context.Context, marshaler runtime
 	handleSend := func() error {
 		var protoReq extDiathekev3.TranscribeRequest
 		err := dec.Decode(&protoReq)
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			return err
 		}
 		if err != nil {
 			grpclog.Errorf("Failed to decode request: %v", err)
-			return err
+			return status.Errorf(codes.InvalidArgument, "Failed to decode request: %v", err)
 		}
 		if err := stream.Send(&protoReq); err != nil {
 			grpclog.Errorf("Failed to send request: %v", err)
@@ -276,21 +286,22 @@ func request_DiathekeService_Transcribe_0(ctx context.Context, marshaler runtime
 	return stream, metadata, nil
 }
 
-var (
-	filter_DiathekeService_StreamTTS_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_DiathekeService_StreamTTS_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_DiathekeService_StreamTTS_0(ctx context.Context, marshaler runtime.Marshaler, client extDiathekev3.DiathekeServiceClient, req *http.Request, pathParams map[string]string) (extDiathekev3.DiathekeService_StreamTTSClient, runtime.ServerMetadata, error) {
-	var protoReq extDiathekev3.StreamTTSRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extDiathekev3.StreamTTSRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_DiathekeService_StreamTTS_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	stream, err := client.StreamTTS(ctx, &protoReq)
 	if err != nil {
 		return nil, metadata, err
@@ -301,7 +312,6 @@ func request_DiathekeService_StreamTTS_0(ctx context.Context, marshaler runtime.
 	}
 	metadata.HeaderMD = header
 	return stream, metadata, nil
-
 }
 
 // RegisterDiathekeServiceHandlerServer registers the http handlers for service DiathekeService to "mux".
@@ -310,16 +320,13 @@ func request_DiathekeService_StreamTTS_0(ctx context.Context, marshaler runtime.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterDiathekeServiceHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterDiathekeServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server extDiathekev3.DiathekeServiceServer) error {
-
-	mux.Handle("GET", pattern_DiathekeService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_DiathekeService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/Version", runtime.WithHTTPPathPattern("/api/diatheke/v3/version"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/Version", runtime.WithHTTPPathPattern("/api/diatheke/v3/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -331,20 +338,15 @@ func RegisterDiathekeServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_Version_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_DiathekeService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_DiathekeService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/ListModels", runtime.WithHTTPPathPattern("/api/diatheke/v3/list-models"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/ListModels", runtime.WithHTTPPathPattern("/api/diatheke/v3/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -356,20 +358,15 @@ func RegisterDiathekeServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_ListModels_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_DiathekeService_CreateSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_DiathekeService_CreateSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/CreateSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/create-session"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/CreateSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/create-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -381,20 +378,15 @@ func RegisterDiathekeServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_CreateSession_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_DiathekeService_DeleteSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_DiathekeService_DeleteSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/DeleteSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/delete-session"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/DeleteSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/delete-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -406,20 +398,15 @@ func RegisterDiathekeServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_DeleteSession_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_DiathekeService_UpdateSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_DiathekeService_UpdateSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/UpdateSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/update-session"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/UpdateSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/update-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -431,33 +418,31 @@ func RegisterDiathekeServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_UpdateSession_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
-	mux.Handle("GET", pattern_DiathekeService_StreamASR_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_DiathekeService_StreamASR_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
 
-	mux.Handle("GET", pattern_DiathekeService_StreamASRWithPartials_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_DiathekeService_StreamASRWithPartials_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
 
-	mux.Handle("GET", pattern_DiathekeService_Transcribe_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_DiathekeService_Transcribe_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
 
-	mux.Handle("GET", pattern_DiathekeService_StreamTTS_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_DiathekeService_StreamTTS_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -488,7 +473,6 @@ func RegisterDiathekeServiceHandlerFromEndpoint(ctx context.Context, mux *runtim
 			}
 		}()
 	}()
-
 	return RegisterDiathekeServiceHandler(ctx, mux, conn)
 }
 
@@ -504,14 +488,11 @@ func RegisterDiathekeServiceHandler(ctx context.Context, mux *runtime.ServeMux, 
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "extDiathekev3.DiathekeServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterDiathekeServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client extDiathekev3.DiathekeServiceClient) error {
-
-	mux.Handle("GET", pattern_DiathekeService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_DiathekeService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/Version", runtime.WithHTTPPathPattern("/api/diatheke/v3/version"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/Version", runtime.WithHTTPPathPattern("/api/diatheke/v3/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -522,18 +503,13 @@ func RegisterDiathekeServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_Version_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_DiathekeService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_DiathekeService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/ListModels", runtime.WithHTTPPathPattern("/api/diatheke/v3/list-models"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/ListModels", runtime.WithHTTPPathPattern("/api/diatheke/v3/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -544,18 +520,13 @@ func RegisterDiathekeServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_ListModels_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_DiathekeService_CreateSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_DiathekeService_CreateSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/CreateSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/create-session"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/CreateSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/create-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -566,18 +537,13 @@ func RegisterDiathekeServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_CreateSession_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_DiathekeService_DeleteSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_DiathekeService_DeleteSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/DeleteSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/delete-session"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/DeleteSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/delete-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -588,18 +554,13 @@ func RegisterDiathekeServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_DeleteSession_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_DiathekeService_UpdateSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_DiathekeService_UpdateSession_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/UpdateSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/update-session"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/UpdateSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/update-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -610,18 +571,13 @@ func RegisterDiathekeServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_UpdateSession_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_DiathekeService_StreamASR_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_DiathekeService_StreamASR_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/StreamASR", runtime.WithHTTPPathPattern("/api/diatheke/v3/stream-asr"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/StreamASR", runtime.WithHTTPPathPattern("/api/diatheke/v3/stream-asr"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -632,18 +588,13 @@ func RegisterDiathekeServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_StreamASR_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_DiathekeService_StreamASRWithPartials_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_DiathekeService_StreamASRWithPartials_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/StreamASRWithPartials", runtime.WithHTTPPathPattern("/api/diatheke/v3/stream-asr-with-partials"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/StreamASRWithPartials", runtime.WithHTTPPathPattern("/api/diatheke/v3/stream-asr-with-partials"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -654,18 +605,13 @@ func RegisterDiathekeServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_StreamASRWithPartials_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_DiathekeService_Transcribe_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_DiathekeService_Transcribe_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/Transcribe", runtime.WithHTTPPathPattern("/api/diatheke/v3/transcribe"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/Transcribe", runtime.WithHTTPPathPattern("/api/diatheke/v3/transcribe"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -676,18 +622,13 @@ func RegisterDiathekeServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_Transcribe_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_DiathekeService_StreamTTS_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_DiathekeService_StreamTTS_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/StreamTTS", runtime.WithHTTPPathPattern("/api/diatheke/v3/stream-tts"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.diatheke.v3.DiathekeService/StreamTTS", runtime.WithHTTPPathPattern("/api/diatheke/v3/stream-tts"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -698,50 +639,31 @@ func RegisterDiathekeServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_DiathekeService_StreamTTS_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
-
 	return nil
 }
 
 var (
-	pattern_DiathekeService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "version"}, ""))
-
-	pattern_DiathekeService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "list-models"}, ""))
-
-	pattern_DiathekeService_CreateSession_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "create-session"}, ""))
-
-	pattern_DiathekeService_DeleteSession_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "delete-session"}, ""))
-
-	pattern_DiathekeService_UpdateSession_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "update-session"}, ""))
-
-	pattern_DiathekeService_StreamASR_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "stream-asr"}, ""))
-
+	pattern_DiathekeService_Version_0               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "version"}, ""))
+	pattern_DiathekeService_ListModels_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "list-models"}, ""))
+	pattern_DiathekeService_CreateSession_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "create-session"}, ""))
+	pattern_DiathekeService_DeleteSession_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "delete-session"}, ""))
+	pattern_DiathekeService_UpdateSession_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "update-session"}, ""))
+	pattern_DiathekeService_StreamASR_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "stream-asr"}, ""))
 	pattern_DiathekeService_StreamASRWithPartials_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "stream-asr-with-partials"}, ""))
-
-	pattern_DiathekeService_Transcribe_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "transcribe"}, ""))
-
-	pattern_DiathekeService_StreamTTS_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "stream-tts"}, ""))
+	pattern_DiathekeService_Transcribe_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "transcribe"}, ""))
+	pattern_DiathekeService_StreamTTS_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "stream-tts"}, ""))
 )
 
 var (
-	forward_DiathekeService_Version_0 = runtime.ForwardResponseMessage
-
-	forward_DiathekeService_ListModels_0 = runtime.ForwardResponseMessage
-
-	forward_DiathekeService_CreateSession_0 = runtime.ForwardResponseMessage
-
-	forward_DiathekeService_DeleteSession_0 = runtime.ForwardResponseMessage
-
-	forward_DiathekeService_UpdateSession_0 = runtime.ForwardResponseMessage
-
-	forward_DiathekeService_StreamASR_0 = runtime.ForwardResponseMessage
-
+	forward_DiathekeService_Version_0               = runtime.ForwardResponseMessage
+	forward_DiathekeService_ListModels_0            = runtime.ForwardResponseMessage
+	forward_DiathekeService_CreateSession_0         = runtime.ForwardResponseMessage
+	forward_DiathekeService_DeleteSession_0         = runtime.ForwardResponseMessage
+	forward_DiathekeService_UpdateSession_0         = runtime.ForwardResponseMessage
+	forward_DiathekeService_StreamASR_0             = runtime.ForwardResponseMessage
 	forward_DiathekeService_StreamASRWithPartials_0 = runtime.ForwardResponseStream
-
-	forward_DiathekeService_Transcribe_0 = runtime.ForwardResponseStream
-
-	forward_DiathekeService_StreamTTS_0 = runtime.ForwardResponseStream
+	forward_DiathekeService_Transcribe_0            = runtime.ForwardResponseStream
+	forward_DiathekeService_StreamTTS_0             = runtime.ForwardResponseStream
 )

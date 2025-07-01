@@ -10,6 +10,7 @@ package transcribev5
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net/http"
 
@@ -25,47 +26,56 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = metadata.Join
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = errors.New
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = metadata.Join
+)
 
 func request_TranscribeService_Version_0(ctx context.Context, marshaler runtime.Marshaler, client extTranscribev5.TranscribeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extTranscribev5.VersionRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extTranscribev5.VersionRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.Version(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_TranscribeService_Version_0(ctx context.Context, marshaler runtime.Marshaler, server extTranscribev5.TranscribeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extTranscribev5.VersionRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extTranscribev5.VersionRequest
+		metadata runtime.ServerMetadata
+	)
 	msg, err := server.Version(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_TranscribeService_ListModels_0(ctx context.Context, marshaler runtime.Marshaler, client extTranscribev5.TranscribeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extTranscribev5.ListModelsRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extTranscribev5.ListModelsRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.ListModels(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_TranscribeService_ListModels_0(ctx context.Context, marshaler runtime.Marshaler, server extTranscribev5.TranscribeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extTranscribev5.ListModelsRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extTranscribev5.ListModelsRequest
+		metadata runtime.ServerMetadata
+	)
 	msg, err := server.ListModels(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_TranscribeService_StreamingRecognize_0(ctx context.Context, marshaler runtime.Marshaler, client extTranscribev5.TranscribeServiceClient, req *http.Request, pathParams map[string]string) (extTranscribev5.TranscribeService_StreamingRecognizeClient, runtime.ServerMetadata, error) {
@@ -79,12 +89,12 @@ func request_TranscribeService_StreamingRecognize_0(ctx context.Context, marshal
 	handleSend := func() error {
 		var protoReq extTranscribev5.StreamingRecognizeRequest
 		err := dec.Decode(&protoReq)
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			return err
 		}
 		if err != nil {
 			grpclog.Errorf("Failed to decode request: %v", err)
-			return err
+			return status.Errorf(codes.InvalidArgument, "Failed to decode request: %v", err)
 		}
 		if err := stream.Send(&protoReq); err != nil {
 			grpclog.Errorf("Failed to send request: %v", err)
@@ -112,29 +122,30 @@ func request_TranscribeService_StreamingRecognize_0(ctx context.Context, marshal
 }
 
 func request_TranscribeService_CompileContext_0(ctx context.Context, marshaler runtime.Marshaler, client extTranscribev5.TranscribeServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extTranscribev5.CompileContextRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extTranscribev5.CompileContextRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.CompileContext(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_TranscribeService_CompileContext_0(ctx context.Context, marshaler runtime.Marshaler, server extTranscribev5.TranscribeServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extTranscribev5.CompileContextRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extTranscribev5.CompileContextRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.CompileContext(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 // RegisterTranscribeServiceHandlerServer registers the http handlers for service TranscribeService to "mux".
@@ -143,16 +154,13 @@ func local_request_TranscribeService_CompileContext_0(ctx context.Context, marsh
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterTranscribeServiceHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterTranscribeServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server extTranscribev5.TranscribeServiceServer) error {
-
-	mux.Handle("GET", pattern_TranscribeService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_TranscribeService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/Version", runtime.WithHTTPPathPattern("/api/transcribe/v5/version"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/Version", runtime.WithHTTPPathPattern("/api/transcribe/v5/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -164,20 +172,15 @@ func RegisterTranscribeServiceHandlerServer(ctx context.Context, mux *runtime.Se
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_TranscribeService_Version_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_TranscribeService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_TranscribeService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/ListModels", runtime.WithHTTPPathPattern("/api/transcribe/v5/list-models"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/ListModels", runtime.WithHTTPPathPattern("/api/transcribe/v5/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -189,27 +192,22 @@ func RegisterTranscribeServiceHandlerServer(ctx context.Context, mux *runtime.Se
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_TranscribeService_ListModels_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
-	mux.Handle("GET", pattern_TranscribeService_StreamingRecognize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_TranscribeService_StreamingRecognize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
-
-	mux.Handle("POST", pattern_TranscribeService_CompileContext_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_TranscribeService_CompileContext_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/CompileContext", runtime.WithHTTPPathPattern("/api/transcribe/v5/compile-context"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/CompileContext", runtime.WithHTTPPathPattern("/api/transcribe/v5/compile-context"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -221,9 +219,7 @@ func RegisterTranscribeServiceHandlerServer(ctx context.Context, mux *runtime.Se
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_TranscribeService_CompileContext_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil
@@ -250,7 +246,6 @@ func RegisterTranscribeServiceHandlerFromEndpoint(ctx context.Context, mux *runt
 			}
 		}()
 	}()
-
 	return RegisterTranscribeServiceHandler(ctx, mux, conn)
 }
 
@@ -266,14 +261,11 @@ func RegisterTranscribeServiceHandler(ctx context.Context, mux *runtime.ServeMux
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "extTranscribev5.TranscribeServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterTranscribeServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client extTranscribev5.TranscribeServiceClient) error {
-
-	mux.Handle("GET", pattern_TranscribeService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_TranscribeService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/Version", runtime.WithHTTPPathPattern("/api/transcribe/v5/version"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/Version", runtime.WithHTTPPathPattern("/api/transcribe/v5/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -284,18 +276,13 @@ func RegisterTranscribeServiceHandlerClient(ctx context.Context, mux *runtime.Se
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_TranscribeService_Version_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_TranscribeService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_TranscribeService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/ListModels", runtime.WithHTTPPathPattern("/api/transcribe/v5/list-models"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/ListModels", runtime.WithHTTPPathPattern("/api/transcribe/v5/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -306,18 +293,13 @@ func RegisterTranscribeServiceHandlerClient(ctx context.Context, mux *runtime.Se
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_TranscribeService_ListModels_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_TranscribeService_StreamingRecognize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_TranscribeService_StreamingRecognize_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/StreamingRecognize", runtime.WithHTTPPathPattern("/api/transcribe/v5/streaming-recognize"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/StreamingRecognize", runtime.WithHTTPPathPattern("/api/transcribe/v5/streaming-recognize"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -328,18 +310,13 @@ func RegisterTranscribeServiceHandlerClient(ctx context.Context, mux *runtime.Se
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_TranscribeService_StreamingRecognize_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_TranscribeService_CompileContext_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_TranscribeService_CompileContext_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/CompileContext", runtime.WithHTTPPathPattern("/api/transcribe/v5/compile-context"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.transcribe.v5.TranscribeService/CompileContext", runtime.WithHTTPPathPattern("/api/transcribe/v5/compile-context"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -350,30 +327,21 @@ func RegisterTranscribeServiceHandlerClient(ctx context.Context, mux *runtime.Se
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_TranscribeService_CompileContext_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
 	return nil
 }
 
 var (
-	pattern_TranscribeService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "transcribe", "v5", "version"}, ""))
-
-	pattern_TranscribeService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "transcribe", "v5", "list-models"}, ""))
-
+	pattern_TranscribeService_Version_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "transcribe", "v5", "version"}, ""))
+	pattern_TranscribeService_ListModels_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "transcribe", "v5", "list-models"}, ""))
 	pattern_TranscribeService_StreamingRecognize_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "transcribe", "v5", "streaming-recognize"}, ""))
-
-	pattern_TranscribeService_CompileContext_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "transcribe", "v5", "compile-context"}, ""))
+	pattern_TranscribeService_CompileContext_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "transcribe", "v5", "compile-context"}, ""))
 )
 
 var (
-	forward_TranscribeService_Version_0 = runtime.ForwardResponseMessage
-
-	forward_TranscribeService_ListModels_0 = runtime.ForwardResponseMessage
-
+	forward_TranscribeService_Version_0            = runtime.ForwardResponseMessage
+	forward_TranscribeService_ListModels_0         = runtime.ForwardResponseMessage
 	forward_TranscribeService_StreamingRecognize_0 = runtime.ForwardResponseStream
-
-	forward_TranscribeService_CompileContext_0 = runtime.ForwardResponseMessage
+	forward_TranscribeService_CompileContext_0     = runtime.ForwardResponseMessage
 )

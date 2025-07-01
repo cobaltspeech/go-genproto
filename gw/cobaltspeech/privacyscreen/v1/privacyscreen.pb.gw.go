@@ -10,6 +10,7 @@ package privacyscreenv1
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net/http"
 
@@ -25,99 +26,110 @@ import (
 )
 
 // Suppress "imported and not used" errors
-var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = metadata.Join
+var (
+	_ codes.Code
+	_ io.Reader
+	_ status.Status
+	_ = errors.New
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = metadata.Join
+)
 
 func request_PrivacyScreenService_Version_0(ctx context.Context, marshaler runtime.Marshaler, client extPrivacyscreenv1.PrivacyScreenServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extPrivacyscreenv1.VersionRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extPrivacyscreenv1.VersionRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.Version(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_PrivacyScreenService_Version_0(ctx context.Context, marshaler runtime.Marshaler, server extPrivacyscreenv1.PrivacyScreenServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extPrivacyscreenv1.VersionRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extPrivacyscreenv1.VersionRequest
+		metadata runtime.ServerMetadata
+	)
 	msg, err := server.Version(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_PrivacyScreenService_ListModels_0(ctx context.Context, marshaler runtime.Marshaler, client extPrivacyscreenv1.PrivacyScreenServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extPrivacyscreenv1.ListModelsRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extPrivacyscreenv1.ListModelsRequest
+		metadata runtime.ServerMetadata
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.ListModels(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_PrivacyScreenService_ListModels_0(ctx context.Context, marshaler runtime.Marshaler, server extPrivacyscreenv1.PrivacyScreenServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extPrivacyscreenv1.ListModelsRequest
-	var metadata runtime.ServerMetadata
-
+	var (
+		protoReq extPrivacyscreenv1.ListModelsRequest
+		metadata runtime.ServerMetadata
+	)
 	msg, err := server.ListModels(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_PrivacyScreenService_RedactText_0(ctx context.Context, marshaler runtime.Marshaler, client extPrivacyscreenv1.PrivacyScreenServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extPrivacyscreenv1.RedactTextRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extPrivacyscreenv1.RedactTextRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.RedactText(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_PrivacyScreenService_RedactText_0(ctx context.Context, marshaler runtime.Marshaler, server extPrivacyscreenv1.PrivacyScreenServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extPrivacyscreenv1.RedactTextRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extPrivacyscreenv1.RedactTextRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.RedactText(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_PrivacyScreenService_RedactTranscript_0(ctx context.Context, marshaler runtime.Marshaler, client extPrivacyscreenv1.PrivacyScreenServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extPrivacyscreenv1.RedactTranscriptRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extPrivacyscreenv1.RedactTranscriptRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.RedactTranscript(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_PrivacyScreenService_RedactTranscript_0(ctx context.Context, marshaler runtime.Marshaler, server extPrivacyscreenv1.PrivacyScreenServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq extPrivacyscreenv1.RedactTranscriptRequest
-	var metadata runtime.ServerMetadata
-
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+	var (
+		protoReq extPrivacyscreenv1.RedactTranscriptRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-
 	msg, err := server.RedactTranscript(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 func request_PrivacyScreenService_StreamingRedactTranscribedAudio_0(ctx context.Context, marshaler runtime.Marshaler, client extPrivacyscreenv1.PrivacyScreenServiceClient, req *http.Request, pathParams map[string]string) (extPrivacyscreenv1.PrivacyScreenService_StreamingRedactTranscribedAudioClient, runtime.ServerMetadata, error) {
@@ -131,12 +143,12 @@ func request_PrivacyScreenService_StreamingRedactTranscribedAudio_0(ctx context.
 	handleSend := func() error {
 		var protoReq extPrivacyscreenv1.StreamingRedactTranscribedAudioRequest
 		err := dec.Decode(&protoReq)
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			return err
 		}
 		if err != nil {
 			grpclog.Errorf("Failed to decode request: %v", err)
-			return err
+			return status.Errorf(codes.InvalidArgument, "Failed to decode request: %v", err)
 		}
 		if err := stream.Send(&protoReq); err != nil {
 			grpclog.Errorf("Failed to send request: %v", err)
@@ -174,12 +186,12 @@ func request_PrivacyScreenService_StreamingTranscribeAndRedact_0(ctx context.Con
 	handleSend := func() error {
 		var protoReq extPrivacyscreenv1.StreamingTranscribeAndRedactRequest
 		err := dec.Decode(&protoReq)
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			return err
 		}
 		if err != nil {
 			grpclog.Errorf("Failed to decode request: %v", err)
-			return err
+			return status.Errorf(codes.InvalidArgument, "Failed to decode request: %v", err)
 		}
 		if err := stream.Send(&protoReq); err != nil {
 			grpclog.Errorf("Failed to send request: %v", err)
@@ -212,16 +224,13 @@ func request_PrivacyScreenService_StreamingTranscribeAndRedact_0(ctx context.Con
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterPrivacyScreenServiceHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterPrivacyScreenServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server extPrivacyscreenv1.PrivacyScreenServiceServer) error {
-
-	mux.Handle("GET", pattern_PrivacyScreenService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_PrivacyScreenService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/Version", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/version"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/Version", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -233,20 +242,15 @@ func RegisterPrivacyScreenServiceHandlerServer(ctx context.Context, mux *runtime
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_PrivacyScreenService_Version_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_PrivacyScreenService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_PrivacyScreenService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/ListModels", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/list-models"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/ListModels", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -258,20 +262,15 @@ func RegisterPrivacyScreenServiceHandlerServer(ctx context.Context, mux *runtime
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_PrivacyScreenService_ListModels_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_PrivacyScreenService_RedactText_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_PrivacyScreenService_RedactText_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/RedactText", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/redact-text"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/RedactText", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/redact-text"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -283,20 +282,15 @@ func RegisterPrivacyScreenServiceHandlerServer(ctx context.Context, mux *runtime
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_PrivacyScreenService_RedactText_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_PrivacyScreenService_RedactTranscript_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_PrivacyScreenService_RedactTranscript_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/RedactTranscript", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/redact-transcript"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/RedactTranscript", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/redact-transcript"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -308,19 +302,17 @@ func RegisterPrivacyScreenServiceHandlerServer(ctx context.Context, mux *runtime
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_PrivacyScreenService_RedactTranscript_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
-	mux.Handle("GET", pattern_PrivacyScreenService_StreamingRedactTranscribedAudio_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_PrivacyScreenService_StreamingRedactTranscribedAudio_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
 
-	mux.Handle("GET", pattern_PrivacyScreenService_StreamingTranscribeAndRedact_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_PrivacyScreenService_StreamingTranscribeAndRedact_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -351,7 +343,6 @@ func RegisterPrivacyScreenServiceHandlerFromEndpoint(ctx context.Context, mux *r
 			}
 		}()
 	}()
-
 	return RegisterPrivacyScreenServiceHandler(ctx, mux, conn)
 }
 
@@ -367,14 +358,11 @@ func RegisterPrivacyScreenServiceHandler(ctx context.Context, mux *runtime.Serve
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "extPrivacyscreenv1.PrivacyScreenServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterPrivacyScreenServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client extPrivacyscreenv1.PrivacyScreenServiceClient) error {
-
-	mux.Handle("GET", pattern_PrivacyScreenService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_PrivacyScreenService_Version_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/Version", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/version"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/Version", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -385,18 +373,13 @@ func RegisterPrivacyScreenServiceHandlerClient(ctx context.Context, mux *runtime
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_PrivacyScreenService_Version_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_PrivacyScreenService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_PrivacyScreenService_ListModels_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/ListModels", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/list-models"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/ListModels", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -407,18 +390,13 @@ func RegisterPrivacyScreenServiceHandlerClient(ctx context.Context, mux *runtime
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_PrivacyScreenService_ListModels_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_PrivacyScreenService_RedactText_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_PrivacyScreenService_RedactText_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/RedactText", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/redact-text"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/RedactText", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/redact-text"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -429,18 +407,13 @@ func RegisterPrivacyScreenServiceHandlerClient(ctx context.Context, mux *runtime
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_PrivacyScreenService_RedactText_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("POST", pattern_PrivacyScreenService_RedactTranscript_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_PrivacyScreenService_RedactTranscript_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/RedactTranscript", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/redact-transcript"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/RedactTranscript", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/redact-transcript"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -451,18 +424,13 @@ func RegisterPrivacyScreenServiceHandlerClient(ctx context.Context, mux *runtime
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_PrivacyScreenService_RedactTranscript_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_PrivacyScreenService_StreamingRedactTranscribedAudio_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_PrivacyScreenService_StreamingRedactTranscribedAudio_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/StreamingRedactTranscribedAudio", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/streaming-redact-transcribed-audio"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/StreamingRedactTranscribedAudio", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/streaming-redact-transcribed-audio"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -473,18 +441,13 @@ func RegisterPrivacyScreenServiceHandlerClient(ctx context.Context, mux *runtime
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_PrivacyScreenService_StreamingRedactTranscribedAudio_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
-
-	mux.Handle("GET", pattern_PrivacyScreenService_StreamingTranscribeAndRedact_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_PrivacyScreenService_StreamingTranscribeAndRedact_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/StreamingTranscribeAndRedact", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/streaming-transcribe-and-redact"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.privacyscreen.v1.PrivacyScreenService/StreamingTranscribeAndRedact", runtime.WithHTTPPathPattern("/api/privacyscreen/v1/streaming-transcribe-and-redact"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -495,38 +458,25 @@ func RegisterPrivacyScreenServiceHandlerClient(ctx context.Context, mux *runtime
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-
 		forward_PrivacyScreenService_StreamingTranscribeAndRedact_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
-
 	})
-
 	return nil
 }
 
 var (
-	pattern_PrivacyScreenService_Version_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "privacyscreen", "v1", "version"}, ""))
-
-	pattern_PrivacyScreenService_ListModels_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "privacyscreen", "v1", "list-models"}, ""))
-
-	pattern_PrivacyScreenService_RedactText_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "privacyscreen", "v1", "redact-text"}, ""))
-
-	pattern_PrivacyScreenService_RedactTranscript_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "privacyscreen", "v1", "redact-transcript"}, ""))
-
+	pattern_PrivacyScreenService_Version_0                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "privacyscreen", "v1", "version"}, ""))
+	pattern_PrivacyScreenService_ListModels_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "privacyscreen", "v1", "list-models"}, ""))
+	pattern_PrivacyScreenService_RedactText_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "privacyscreen", "v1", "redact-text"}, ""))
+	pattern_PrivacyScreenService_RedactTranscript_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "privacyscreen", "v1", "redact-transcript"}, ""))
 	pattern_PrivacyScreenService_StreamingRedactTranscribedAudio_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "privacyscreen", "v1", "streaming-redact-transcribed-audio"}, ""))
-
-	pattern_PrivacyScreenService_StreamingTranscribeAndRedact_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "privacyscreen", "v1", "streaming-transcribe-and-redact"}, ""))
+	pattern_PrivacyScreenService_StreamingTranscribeAndRedact_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "privacyscreen", "v1", "streaming-transcribe-and-redact"}, ""))
 )
 
 var (
-	forward_PrivacyScreenService_Version_0 = runtime.ForwardResponseMessage
-
-	forward_PrivacyScreenService_ListModels_0 = runtime.ForwardResponseMessage
-
-	forward_PrivacyScreenService_RedactText_0 = runtime.ForwardResponseMessage
-
-	forward_PrivacyScreenService_RedactTranscript_0 = runtime.ForwardResponseMessage
-
+	forward_PrivacyScreenService_Version_0                         = runtime.ForwardResponseMessage
+	forward_PrivacyScreenService_ListModels_0                      = runtime.ForwardResponseMessage
+	forward_PrivacyScreenService_RedactText_0                      = runtime.ForwardResponseMessage
+	forward_PrivacyScreenService_RedactTranscript_0                = runtime.ForwardResponseMessage
 	forward_PrivacyScreenService_StreamingRedactTranscribedAudio_0 = runtime.ForwardResponseStream
-
-	forward_PrivacyScreenService_StreamingTranscribeAndRedact_0 = runtime.ForwardResponseStream
+	forward_PrivacyScreenService_StreamingTranscribeAndRedact_0    = runtime.ForwardResponseStream
 )
