@@ -23,6 +23,7 @@ package interactv3
 import (
 	v2 "github.com/cobaltspeech/go-genproto/cobaltspeech/chosun/v2"
 	v5 "github.com/cobaltspeech/go-genproto/cobaltspeech/cubic/v5"
+	v1 "github.com/cobaltspeech/go-genproto/cobaltspeech/voicegen/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -729,9 +730,10 @@ type StreamTTSRequest struct {
 	// Reply action contains reply text and model ID.
 	ReplyAction *ReplyAction `protobuf:"bytes,1,opt,name=reply_action,json=replyAction,proto3" json:"reply_action,omitempty"`
 	// Token data to provide session ID and other contextual information.
-	Token         *TokenData `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Token           *TokenData          `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	SynthesisConfig *v1.SynthesisConfig `protobuf:"bytes,3,opt,name=synthesis_config,json=synthesisConfig,proto3" json:"synthesis_config,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *StreamTTSRequest) Reset() {
@@ -774,6 +776,13 @@ func (x *StreamTTSRequest) GetReplyAction() *ReplyAction {
 func (x *StreamTTSRequest) GetToken() *TokenData {
 	if x != nil {
 		return x.Token
+	}
+	return nil
+}
+
+func (x *StreamTTSRequest) GetSynthesisConfig() *v1.SynthesisConfig {
+	if x != nil {
+		return x.SynthesisConfig
 	}
 	return nil
 }
@@ -837,9 +846,10 @@ type ModelInfo struct {
 	// The ASR audio sample rate, if ASR is enabled.
 	AsrSampleRate uint32 `protobuf:"varint,4,opt,name=asr_sample_rate,json=asrSampleRate,proto3" json:"asr_sample_rate,omitempty"`
 	// The TTS audio sample rate, if TTS is enabled.
-	TtsSampleRate uint32 `protobuf:"varint,5,opt,name=tts_sample_rate,json=ttsSampleRate,proto3" json:"tts_sample_rate,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	TtsSampleRate      uint32                `protobuf:"varint,5,opt,name=tts_sample_rate,json=ttsSampleRate,proto3" json:"tts_sample_rate,omitempty"`
+	TtsModelAttributes []*v1.ModelAttributes `protobuf:"bytes,6,rep,name=tts_model_attributes,json=ttsModelAttributes,proto3" json:"tts_model_attributes,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *ModelInfo) Reset() {
@@ -905,6 +915,13 @@ func (x *ModelInfo) GetTtsSampleRate() uint32 {
 		return x.TtsSampleRate
 	}
 	return 0
+}
+
+func (x *ModelInfo) GetTtsModelAttributes() []*v1.ModelAttributes {
+	if x != nil {
+		return x.TtsModelAttributes
+	}
+	return nil
 }
 
 // Used by Cobalt Interact to update the session state.
@@ -2485,7 +2502,7 @@ var File_cobaltspeech_interact_v3_interact_proto protoreflect.FileDescriptor
 
 const file_cobaltspeech_interact_v3_interact_proto_rawDesc = "" +
 	"\n" +
-	"'cobaltspeech/interact/v3/interact.proto\x12\x18cobaltspeech.interact.v3\x1a#cobaltspeech/chosun/v2/chosun.proto\x1a!cobaltspeech/cubic/v5/cubic.proto\"\x10\n" +
+	"'cobaltspeech/interact/v3/interact.proto\x12\x18cobaltspeech.interact.v3\x1a#cobaltspeech/chosun/v2/chosun.proto\x1a!cobaltspeech/cubic/v5/cubic.proto\x1a'cobaltspeech/voicegen/v1/voicegen.proto\"\x10\n" +
 	"\x0eVersionRequest\"o\n" +
 	"\x0fVersionResponse\x12\x1a\n" +
 	"\bdiatheke\x18\x01 \x01(\tR\bdiatheke\x12\x16\n" +
@@ -2510,18 +2527,20 @@ const file_cobaltspeech_interact_v3_interact_proto_rawDesc = "" +
 	"\x14UpdateSessionRequest\x12K\n" +
 	"\rsession_input\x18\x01 \x01(\v2&.cobaltspeech.interact.v3.SessionInputR\fsessionInput\"g\n" +
 	"\x15UpdateSessionResponse\x12N\n" +
-	"\x0esession_output\x18\x01 \x01(\v2'.cobaltspeech.interact.v3.SessionOutputR\rsessionOutput\"\x97\x01\n" +
+	"\x0esession_output\x18\x01 \x01(\v2'.cobaltspeech.interact.v3.SessionOutputR\rsessionOutput\"\xed\x01\n" +
 	"\x10StreamTTSRequest\x12H\n" +
 	"\freply_action\x18\x01 \x01(\v2%.cobaltspeech.interact.v3.ReplyActionR\vreplyAction\x129\n" +
-	"\x05token\x18\x02 \x01(\v2#.cobaltspeech.interact.v3.TokenDataR\x05token\")\n" +
+	"\x05token\x18\x02 \x01(\v2#.cobaltspeech.interact.v3.TokenDataR\x05token\x12T\n" +
+	"\x10synthesis_config\x18\x03 \x01(\v2).cobaltspeech.voicegen.v1.SynthesisConfigR\x0fsynthesisConfig\")\n" +
 	"\x11StreamTTSResponse\x12\x14\n" +
-	"\x05audio\x18\x01 \x01(\fR\x05audio\"\x9b\x01\n" +
+	"\x05audio\x18\x01 \x01(\fR\x05audio\"\xf8\x01\n" +
 	"\tModelInfo\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1a\n" +
 	"\blanguage\x18\x03 \x01(\tR\blanguage\x12&\n" +
 	"\x0fasr_sample_rate\x18\x04 \x01(\rR\rasrSampleRate\x12&\n" +
-	"\x0ftts_sample_rate\x18\x05 \x01(\rR\rttsSampleRate\"\xbf\x02\n" +
+	"\x0ftts_sample_rate\x18\x05 \x01(\rR\rttsSampleRate\x12[\n" +
+	"\x14tts_model_attributes\x18\x06 \x03(\v2).cobaltspeech.voicegen.v1.ModelAttributesR\x12ttsModelAttributes\"\xbf\x02\n" +
 	"\fSessionInput\x129\n" +
 	"\x05token\x18\x01 \x01(\v2#.cobaltspeech.interact.v3.TokenDataR\x05token\x129\n" +
 	"\x04text\x18\x02 \x01(\v2#.cobaltspeech.interact.v3.TextInputH\x00R\x04text\x127\n" +
@@ -2720,8 +2739,10 @@ var file_cobaltspeech_interact_v3_interact_proto_goTypes = []any{
 	nil,                                   // 37: cobaltspeech.interact.v3.CommandResult.OutParametersEntry
 	nil,                                   // 38: cobaltspeech.interact.v3.SetStory.ParametersEntry
 	nil,                                   // 39: cobaltspeech.interact.v3.CommandAction.InputParametersEntry
-	(*v2.ParseResponse)(nil),              // 40: cobaltspeech.chosun.v2.ParseResponse
-	(*v5.RecognitionResult)(nil),          // 41: cobaltspeech.cubic.v5.RecognitionResult
+	(*v1.SynthesisConfig)(nil),            // 40: cobaltspeech.voicegen.v1.SynthesisConfig
+	(*v1.ModelAttributes)(nil),            // 41: cobaltspeech.voicegen.v1.ModelAttributes
+	(*v2.ParseResponse)(nil),              // 42: cobaltspeech.chosun.v2.ParseResponse
+	(*v5.RecognitionResult)(nil),          // 43: cobaltspeech.cubic.v5.RecognitionResult
 }
 var file_cobaltspeech_interact_v3_interact_proto_depIdxs = []int32{
 	15, // 0: cobaltspeech.interact.v3.ListModelsResponse.models:type_name -> cobaltspeech.interact.v3.ModelInfo
@@ -2734,56 +2755,58 @@ var file_cobaltspeech_interact_v3_interact_proto_depIdxs = []int32{
 	21, // 7: cobaltspeech.interact.v3.UpdateSessionResponse.session_output:type_name -> cobaltspeech.interact.v3.SessionOutput
 	25, // 8: cobaltspeech.interact.v3.StreamTTSRequest.reply_action:type_name -> cobaltspeech.interact.v3.ReplyAction
 	17, // 9: cobaltspeech.interact.v3.StreamTTSRequest.token:type_name -> cobaltspeech.interact.v3.TokenData
-	17, // 10: cobaltspeech.interact.v3.SessionInput.token:type_name -> cobaltspeech.interact.v3.TokenData
-	18, // 11: cobaltspeech.interact.v3.SessionInput.text:type_name -> cobaltspeech.interact.v3.TextInput
-	31, // 12: cobaltspeech.interact.v3.SessionInput.asr:type_name -> cobaltspeech.interact.v3.ASRResult
-	19, // 13: cobaltspeech.interact.v3.SessionInput.cmd:type_name -> cobaltspeech.interact.v3.CommandResult
-	20, // 14: cobaltspeech.interact.v3.SessionInput.story:type_name -> cobaltspeech.interact.v3.SetStory
-	37, // 15: cobaltspeech.interact.v3.CommandResult.out_parameters:type_name -> cobaltspeech.interact.v3.CommandResult.OutParametersEntry
-	38, // 16: cobaltspeech.interact.v3.SetStory.parameters:type_name -> cobaltspeech.interact.v3.SetStory.ParametersEntry
-	17, // 17: cobaltspeech.interact.v3.SessionOutput.token:type_name -> cobaltspeech.interact.v3.TokenData
-	22, // 18: cobaltspeech.interact.v3.SessionOutput.action_list:type_name -> cobaltspeech.interact.v3.ActionData
-	23, // 19: cobaltspeech.interact.v3.ActionData.input:type_name -> cobaltspeech.interact.v3.WaitForUserAction
-	24, // 20: cobaltspeech.interact.v3.ActionData.command:type_name -> cobaltspeech.interact.v3.CommandAction
-	25, // 21: cobaltspeech.interact.v3.ActionData.reply:type_name -> cobaltspeech.interact.v3.ReplyAction
-	26, // 22: cobaltspeech.interact.v3.ActionData.transcribe:type_name -> cobaltspeech.interact.v3.TranscribeAction
-	39, // 23: cobaltspeech.interact.v3.CommandAction.input_parameters:type_name -> cobaltspeech.interact.v3.CommandAction.InputParametersEntry
-	40, // 24: cobaltspeech.interact.v3.CommandAction.nlu_result:type_name -> cobaltspeech.chosun.v2.ParseResponse
-	17, // 25: cobaltspeech.interact.v3.StreamASRRequest.token:type_name -> cobaltspeech.interact.v3.TokenData
-	31, // 26: cobaltspeech.interact.v3.StreamASRResponse.asr_result:type_name -> cobaltspeech.interact.v3.ASRResult
-	17, // 27: cobaltspeech.interact.v3.StreamASRWithPartialsRequest.token:type_name -> cobaltspeech.interact.v3.TokenData
-	41, // 28: cobaltspeech.interact.v3.StreamASRWithPartialsResponse.partial_result:type_name -> cobaltspeech.cubic.v5.RecognitionResult
-	31, // 29: cobaltspeech.interact.v3.StreamASRWithPartialsResponse.asr_result:type_name -> cobaltspeech.interact.v3.ASRResult
-	32, // 30: cobaltspeech.interact.v3.StreamASRWithPartialsResponse.wakeword_result:type_name -> cobaltspeech.interact.v3.WakewordResult
-	41, // 31: cobaltspeech.interact.v3.ASRResult.cubic_result:type_name -> cobaltspeech.cubic.v5.RecognitionResult
-	26, // 32: cobaltspeech.interact.v3.TranscribeRequest.action:type_name -> cobaltspeech.interact.v3.TranscribeAction
-	41, // 33: cobaltspeech.interact.v3.TranscribeResponse.cubic_result:type_name -> cobaltspeech.cubic.v5.RecognitionResult
-	2,  // 34: cobaltspeech.interact.v3.AudioFormat.codec:type_name -> cobaltspeech.interact.v3.AudioCodec
-	1,  // 35: cobaltspeech.interact.v3.AudioFormat.encoding:type_name -> cobaltspeech.interact.v3.AudioEncoding
-	0,  // 36: cobaltspeech.interact.v3.AudioFormat.byte_order:type_name -> cobaltspeech.interact.v3.ByteOrder
-	3,  // 37: cobaltspeech.interact.v3.InteractService.Version:input_type -> cobaltspeech.interact.v3.VersionRequest
-	5,  // 38: cobaltspeech.interact.v3.InteractService.ListModels:input_type -> cobaltspeech.interact.v3.ListModelsRequest
-	7,  // 39: cobaltspeech.interact.v3.InteractService.CreateSession:input_type -> cobaltspeech.interact.v3.CreateSessionRequest
-	9,  // 40: cobaltspeech.interact.v3.InteractService.DeleteSession:input_type -> cobaltspeech.interact.v3.DeleteSessionRequest
-	11, // 41: cobaltspeech.interact.v3.InteractService.UpdateSession:input_type -> cobaltspeech.interact.v3.UpdateSessionRequest
-	27, // 42: cobaltspeech.interact.v3.InteractService.StreamASR:input_type -> cobaltspeech.interact.v3.StreamASRRequest
-	29, // 43: cobaltspeech.interact.v3.InteractService.StreamASRWithPartials:input_type -> cobaltspeech.interact.v3.StreamASRWithPartialsRequest
-	33, // 44: cobaltspeech.interact.v3.InteractService.Transcribe:input_type -> cobaltspeech.interact.v3.TranscribeRequest
-	13, // 45: cobaltspeech.interact.v3.InteractService.StreamTTS:input_type -> cobaltspeech.interact.v3.StreamTTSRequest
-	4,  // 46: cobaltspeech.interact.v3.InteractService.Version:output_type -> cobaltspeech.interact.v3.VersionResponse
-	6,  // 47: cobaltspeech.interact.v3.InteractService.ListModels:output_type -> cobaltspeech.interact.v3.ListModelsResponse
-	8,  // 48: cobaltspeech.interact.v3.InteractService.CreateSession:output_type -> cobaltspeech.interact.v3.CreateSessionResponse
-	10, // 49: cobaltspeech.interact.v3.InteractService.DeleteSession:output_type -> cobaltspeech.interact.v3.DeleteSessionResponse
-	12, // 50: cobaltspeech.interact.v3.InteractService.UpdateSession:output_type -> cobaltspeech.interact.v3.UpdateSessionResponse
-	28, // 51: cobaltspeech.interact.v3.InteractService.StreamASR:output_type -> cobaltspeech.interact.v3.StreamASRResponse
-	30, // 52: cobaltspeech.interact.v3.InteractService.StreamASRWithPartials:output_type -> cobaltspeech.interact.v3.StreamASRWithPartialsResponse
-	34, // 53: cobaltspeech.interact.v3.InteractService.Transcribe:output_type -> cobaltspeech.interact.v3.TranscribeResponse
-	14, // 54: cobaltspeech.interact.v3.InteractService.StreamTTS:output_type -> cobaltspeech.interact.v3.StreamTTSResponse
-	46, // [46:55] is the sub-list for method output_type
-	37, // [37:46] is the sub-list for method input_type
-	37, // [37:37] is the sub-list for extension type_name
-	37, // [37:37] is the sub-list for extension extendee
-	0,  // [0:37] is the sub-list for field type_name
+	40, // 10: cobaltspeech.interact.v3.StreamTTSRequest.synthesis_config:type_name -> cobaltspeech.voicegen.v1.SynthesisConfig
+	41, // 11: cobaltspeech.interact.v3.ModelInfo.tts_model_attributes:type_name -> cobaltspeech.voicegen.v1.ModelAttributes
+	17, // 12: cobaltspeech.interact.v3.SessionInput.token:type_name -> cobaltspeech.interact.v3.TokenData
+	18, // 13: cobaltspeech.interact.v3.SessionInput.text:type_name -> cobaltspeech.interact.v3.TextInput
+	31, // 14: cobaltspeech.interact.v3.SessionInput.asr:type_name -> cobaltspeech.interact.v3.ASRResult
+	19, // 15: cobaltspeech.interact.v3.SessionInput.cmd:type_name -> cobaltspeech.interact.v3.CommandResult
+	20, // 16: cobaltspeech.interact.v3.SessionInput.story:type_name -> cobaltspeech.interact.v3.SetStory
+	37, // 17: cobaltspeech.interact.v3.CommandResult.out_parameters:type_name -> cobaltspeech.interact.v3.CommandResult.OutParametersEntry
+	38, // 18: cobaltspeech.interact.v3.SetStory.parameters:type_name -> cobaltspeech.interact.v3.SetStory.ParametersEntry
+	17, // 19: cobaltspeech.interact.v3.SessionOutput.token:type_name -> cobaltspeech.interact.v3.TokenData
+	22, // 20: cobaltspeech.interact.v3.SessionOutput.action_list:type_name -> cobaltspeech.interact.v3.ActionData
+	23, // 21: cobaltspeech.interact.v3.ActionData.input:type_name -> cobaltspeech.interact.v3.WaitForUserAction
+	24, // 22: cobaltspeech.interact.v3.ActionData.command:type_name -> cobaltspeech.interact.v3.CommandAction
+	25, // 23: cobaltspeech.interact.v3.ActionData.reply:type_name -> cobaltspeech.interact.v3.ReplyAction
+	26, // 24: cobaltspeech.interact.v3.ActionData.transcribe:type_name -> cobaltspeech.interact.v3.TranscribeAction
+	39, // 25: cobaltspeech.interact.v3.CommandAction.input_parameters:type_name -> cobaltspeech.interact.v3.CommandAction.InputParametersEntry
+	42, // 26: cobaltspeech.interact.v3.CommandAction.nlu_result:type_name -> cobaltspeech.chosun.v2.ParseResponse
+	17, // 27: cobaltspeech.interact.v3.StreamASRRequest.token:type_name -> cobaltspeech.interact.v3.TokenData
+	31, // 28: cobaltspeech.interact.v3.StreamASRResponse.asr_result:type_name -> cobaltspeech.interact.v3.ASRResult
+	17, // 29: cobaltspeech.interact.v3.StreamASRWithPartialsRequest.token:type_name -> cobaltspeech.interact.v3.TokenData
+	43, // 30: cobaltspeech.interact.v3.StreamASRWithPartialsResponse.partial_result:type_name -> cobaltspeech.cubic.v5.RecognitionResult
+	31, // 31: cobaltspeech.interact.v3.StreamASRWithPartialsResponse.asr_result:type_name -> cobaltspeech.interact.v3.ASRResult
+	32, // 32: cobaltspeech.interact.v3.StreamASRWithPartialsResponse.wakeword_result:type_name -> cobaltspeech.interact.v3.WakewordResult
+	43, // 33: cobaltspeech.interact.v3.ASRResult.cubic_result:type_name -> cobaltspeech.cubic.v5.RecognitionResult
+	26, // 34: cobaltspeech.interact.v3.TranscribeRequest.action:type_name -> cobaltspeech.interact.v3.TranscribeAction
+	43, // 35: cobaltspeech.interact.v3.TranscribeResponse.cubic_result:type_name -> cobaltspeech.cubic.v5.RecognitionResult
+	2,  // 36: cobaltspeech.interact.v3.AudioFormat.codec:type_name -> cobaltspeech.interact.v3.AudioCodec
+	1,  // 37: cobaltspeech.interact.v3.AudioFormat.encoding:type_name -> cobaltspeech.interact.v3.AudioEncoding
+	0,  // 38: cobaltspeech.interact.v3.AudioFormat.byte_order:type_name -> cobaltspeech.interact.v3.ByteOrder
+	3,  // 39: cobaltspeech.interact.v3.InteractService.Version:input_type -> cobaltspeech.interact.v3.VersionRequest
+	5,  // 40: cobaltspeech.interact.v3.InteractService.ListModels:input_type -> cobaltspeech.interact.v3.ListModelsRequest
+	7,  // 41: cobaltspeech.interact.v3.InteractService.CreateSession:input_type -> cobaltspeech.interact.v3.CreateSessionRequest
+	9,  // 42: cobaltspeech.interact.v3.InteractService.DeleteSession:input_type -> cobaltspeech.interact.v3.DeleteSessionRequest
+	11, // 43: cobaltspeech.interact.v3.InteractService.UpdateSession:input_type -> cobaltspeech.interact.v3.UpdateSessionRequest
+	27, // 44: cobaltspeech.interact.v3.InteractService.StreamASR:input_type -> cobaltspeech.interact.v3.StreamASRRequest
+	29, // 45: cobaltspeech.interact.v3.InteractService.StreamASRWithPartials:input_type -> cobaltspeech.interact.v3.StreamASRWithPartialsRequest
+	33, // 46: cobaltspeech.interact.v3.InteractService.Transcribe:input_type -> cobaltspeech.interact.v3.TranscribeRequest
+	13, // 47: cobaltspeech.interact.v3.InteractService.StreamTTS:input_type -> cobaltspeech.interact.v3.StreamTTSRequest
+	4,  // 48: cobaltspeech.interact.v3.InteractService.Version:output_type -> cobaltspeech.interact.v3.VersionResponse
+	6,  // 49: cobaltspeech.interact.v3.InteractService.ListModels:output_type -> cobaltspeech.interact.v3.ListModelsResponse
+	8,  // 50: cobaltspeech.interact.v3.InteractService.CreateSession:output_type -> cobaltspeech.interact.v3.CreateSessionResponse
+	10, // 51: cobaltspeech.interact.v3.InteractService.DeleteSession:output_type -> cobaltspeech.interact.v3.DeleteSessionResponse
+	12, // 52: cobaltspeech.interact.v3.InteractService.UpdateSession:output_type -> cobaltspeech.interact.v3.UpdateSessionResponse
+	28, // 53: cobaltspeech.interact.v3.InteractService.StreamASR:output_type -> cobaltspeech.interact.v3.StreamASRResponse
+	30, // 54: cobaltspeech.interact.v3.InteractService.StreamASRWithPartials:output_type -> cobaltspeech.interact.v3.StreamASRWithPartialsResponse
+	34, // 55: cobaltspeech.interact.v3.InteractService.Transcribe:output_type -> cobaltspeech.interact.v3.TranscribeResponse
+	14, // 56: cobaltspeech.interact.v3.InteractService.StreamTTS:output_type -> cobaltspeech.interact.v3.StreamTTSResponse
+	48, // [48:57] is the sub-list for method output_type
+	39, // [39:48] is the sub-list for method input_type
+	39, // [39:39] is the sub-list for extension type_name
+	39, // [39:39] is the sub-list for extension extendee
+	0,  // [0:39] is the sub-list for field type_name
 }
 
 func init() { file_cobaltspeech_interact_v3_interact_proto_init() }

@@ -286,16 +286,21 @@ func request_InteractService_Transcribe_0(ctx context.Context, marshaler runtime
 	return stream, metadata, nil
 }
 
+var filter_InteractService_StreamTTS_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
 func request_InteractService_StreamTTS_0(ctx context.Context, marshaler runtime.Marshaler, client extInteractv3.InteractServiceClient, req *http.Request, pathParams map[string]string) (extInteractv3.InteractService_StreamTTSClient, runtime.ServerMetadata, error) {
 	var (
 		protoReq extInteractv3.StreamTTSRequest
 		metadata runtime.ServerMetadata
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_InteractService_StreamTTS_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	stream, err := client.StreamTTS(ctx, &protoReq)
 	if err != nil {
@@ -321,7 +326,7 @@ func RegisterInteractServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/Version", runtime.WithHTTPPathPattern("/api/diatheke/v3/version"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/Version", runtime.WithHTTPPathPattern("/api/interact/v3/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -341,7 +346,7 @@ func RegisterInteractServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/ListModels", runtime.WithHTTPPathPattern("/api/diatheke/v3/list-models"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/ListModels", runtime.WithHTTPPathPattern("/api/interact/v3/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -361,7 +366,7 @@ func RegisterInteractServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/CreateSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/create-session"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/CreateSession", runtime.WithHTTPPathPattern("/api/interact/v3/create-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -381,7 +386,7 @@ func RegisterInteractServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/DeleteSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/delete-session"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/DeleteSession", runtime.WithHTTPPathPattern("/api/interact/v3/delete-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -401,7 +406,7 @@ func RegisterInteractServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/UpdateSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/update-session"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/UpdateSession", runtime.WithHTTPPathPattern("/api/interact/v3/update-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -416,28 +421,28 @@ func RegisterInteractServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		forward_InteractService_UpdateSession_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
-	mux.Handle(http.MethodPost, pattern_InteractService_StreamASR_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_InteractService_StreamASR_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
 
-	mux.Handle(http.MethodPost, pattern_InteractService_StreamASRWithPartials_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_InteractService_StreamASRWithPartials_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
 
-	mux.Handle(http.MethodPost, pattern_InteractService_Transcribe_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_InteractService_Transcribe_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
 
-	mux.Handle(http.MethodPost, pattern_InteractService_StreamTTS_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_InteractService_StreamTTS_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -487,7 +492,7 @@ func RegisterInteractServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/Version", runtime.WithHTTPPathPattern("/api/diatheke/v3/version"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/Version", runtime.WithHTTPPathPattern("/api/interact/v3/version"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -504,7 +509,7 @@ func RegisterInteractServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/ListModels", runtime.WithHTTPPathPattern("/api/diatheke/v3/list-models"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/ListModels", runtime.WithHTTPPathPattern("/api/interact/v3/list-models"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -521,7 +526,7 @@ func RegisterInteractServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/CreateSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/create-session"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/CreateSession", runtime.WithHTTPPathPattern("/api/interact/v3/create-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -538,7 +543,7 @@ func RegisterInteractServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/DeleteSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/delete-session"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/DeleteSession", runtime.WithHTTPPathPattern("/api/interact/v3/delete-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -555,7 +560,7 @@ func RegisterInteractServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/UpdateSession", runtime.WithHTTPPathPattern("/api/diatheke/v3/update-session"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/UpdateSession", runtime.WithHTTPPathPattern("/api/interact/v3/update-session"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -568,11 +573,11 @@ func RegisterInteractServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		}
 		forward_InteractService_UpdateSession_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_InteractService_StreamASR_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_InteractService_StreamASR_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/StreamASR", runtime.WithHTTPPathPattern("/api/diatheke/v3/stream-asr"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/StreamASR", runtime.WithHTTPPathPattern("/api/interact/v3/stream-asr"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -585,11 +590,11 @@ func RegisterInteractServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		}
 		forward_InteractService_StreamASR_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_InteractService_StreamASRWithPartials_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_InteractService_StreamASRWithPartials_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/StreamASRWithPartials", runtime.WithHTTPPathPattern("/api/diatheke/v3/stream-asr-with-partials"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/StreamASRWithPartials", runtime.WithHTTPPathPattern("/api/interact/v3/stream-asr-with-partials"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -602,11 +607,11 @@ func RegisterInteractServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		}
 		forward_InteractService_StreamASRWithPartials_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_InteractService_Transcribe_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_InteractService_Transcribe_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/Transcribe", runtime.WithHTTPPathPattern("/api/diatheke/v3/transcribe"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/Transcribe", runtime.WithHTTPPathPattern("/api/interact/v3/transcribe"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -619,11 +624,11 @@ func RegisterInteractServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		}
 		forward_InteractService_Transcribe_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_InteractService_StreamTTS_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_InteractService_StreamTTS_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/StreamTTS", runtime.WithHTTPPathPattern("/api/diatheke/v3/stream-tts"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/cobaltspeech.interact.v3.InteractService/StreamTTS", runtime.WithHTTPPathPattern("/api/interact/v3/stream-tts"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -640,15 +645,15 @@ func RegisterInteractServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 }
 
 var (
-	pattern_InteractService_Version_0               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "version"}, ""))
-	pattern_InteractService_ListModels_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "list-models"}, ""))
-	pattern_InteractService_CreateSession_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "create-session"}, ""))
-	pattern_InteractService_DeleteSession_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "delete-session"}, ""))
-	pattern_InteractService_UpdateSession_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "update-session"}, ""))
-	pattern_InteractService_StreamASR_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "stream-asr"}, ""))
-	pattern_InteractService_StreamASRWithPartials_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "stream-asr-with-partials"}, ""))
-	pattern_InteractService_Transcribe_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "transcribe"}, ""))
-	pattern_InteractService_StreamTTS_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "diatheke", "v3", "stream-tts"}, ""))
+	pattern_InteractService_Version_0               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "interact", "v3", "version"}, ""))
+	pattern_InteractService_ListModels_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "interact", "v3", "list-models"}, ""))
+	pattern_InteractService_CreateSession_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "interact", "v3", "create-session"}, ""))
+	pattern_InteractService_DeleteSession_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "interact", "v3", "delete-session"}, ""))
+	pattern_InteractService_UpdateSession_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "interact", "v3", "update-session"}, ""))
+	pattern_InteractService_StreamASR_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "interact", "v3", "stream-asr"}, ""))
+	pattern_InteractService_StreamASRWithPartials_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "interact", "v3", "stream-asr-with-partials"}, ""))
+	pattern_InteractService_Transcribe_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "interact", "v3", "transcribe"}, ""))
+	pattern_InteractService_StreamTTS_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "interact", "v3", "stream-tts"}, ""))
 )
 
 var (
