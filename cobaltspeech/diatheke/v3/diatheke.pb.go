@@ -1596,7 +1596,10 @@ type ReplyAction struct {
 	// Text of the reply
 	Text string `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
 	// TTS model to use with the TTSReply method
-	LunaModel     string `protobuf:"bytes,2,opt,name=luna_model,json=lunaModel,proto3" json:"luna_model,omitempty"`
+	LunaModel string `protobuf:"bytes,2,opt,name=luna_model,json=lunaModel,proto3" json:"luna_model,omitempty"`
+	// ID of the reply (or slot prompt) definition in the Diatheke model that
+	// produced this text.
+	ReplyId       string `protobuf:"bytes,3,opt,name=reply_id,json=replyId,proto3" json:"reply_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1641,6 +1644,13 @@ func (x *ReplyAction) GetText() string {
 func (x *ReplyAction) GetLunaModel() string {
 	if x != nil {
 		return x.LunaModel
+	}
+	return ""
+}
+
+func (x *ReplyAction) GetReplyId() string {
+	if x != nil {
+		return x.ReplyId
 	}
 	return ""
 }
@@ -2594,11 +2604,12 @@ const file_cobaltspeech_diatheke_v3_diatheke_proto_rawDesc = "" +
 	"nlu_result\x18\x03 \x01(\v2%.cobaltspeech.chosun.v2.ParseResponseR\tnluResult\x1aB\n" +
 	"\x14InputParametersEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"@\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"[\n" +
 	"\vReplyAction\x12\x12\n" +
 	"\x04text\x18\x01 \x01(\tR\x04text\x12\x1d\n" +
 	"\n" +
-	"luna_model\x18\x02 \x01(\tR\tlunaModel\"t\n" +
+	"luna_model\x18\x02 \x01(\tR\tlunaModel\x12\x19\n" +
+	"\breply_id\x18\x03 \x01(\tR\areplyId\"t\n" +
 	"\x10TranscribeAction\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12$\n" +
 	"\x0ecubic_model_id\x18\x02 \x01(\tR\fcubicModelId\x12*\n" +
