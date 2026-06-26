@@ -350,8 +350,14 @@ type ParseRequest struct {
 	// List of whitelisted intents. If the list is empty, all intents will be
 	// considered.
 	IntentWhitelist []string `protobuf:"bytes,8,rep,name=intent_whitelist,json=intentWhitelist,proto3" json:"intent_whitelist,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// Entities the caller expects for this query (for example, the slot being
+	// filled during slot filling). A slot-fill-aware extractor uses this to tag
+	// a bare answer as the expected slot. These are entity *names*, not values,
+	// and their order is not significant. If the list is empty, no expectation
+	// is supplied.
+	ExpectedEntities []string `protobuf:"bytes,9,rep,name=expected_entities,json=expectedEntities,proto3" json:"expected_entities,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ParseRequest) Reset() {
@@ -451,6 +457,13 @@ func (x *ParseRequest) GetContextFeatures() map[string]float32 {
 func (x *ParseRequest) GetIntentWhitelist() []string {
 	if x != nil {
 		return x.IntentWhitelist
+	}
+	return nil
+}
+
+func (x *ParseRequest) GetExpectedEntities() []string {
+	if x != nil {
+		return x.ExpectedEntities
 	}
 	return nil
 }
@@ -1073,7 +1086,7 @@ const file_cobaltspeech_chosun_v2_chosun_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"/\n" +
 	"\tModelInfo\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\"\xea\x03\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"\x97\x04\n" +
 	"\fParseRequest\x12\x19\n" +
 	"\bmodel_id\x18\x01 \x01(\tR\amodelId\x12\x16\n" +
 	"\x06domain\x18\x02 \x01(\tR\x06domain\x12\x14\n" +
@@ -1082,7 +1095,8 @@ const file_cobaltspeech_chosun_v2_chosun_proto_rawDesc = "" +
 	"\x04cnet\x18\x05 \x01(\v2\x1c.cobaltspeech.chosun.v2.CNetH\x00R\x04cnet\x12H\n" +
 	"\fnbest_tokens\x18\x06 \x01(\v2#.cobaltspeech.chosun.v2.NBestTokensH\x00R\vnbestTokens\x12d\n" +
 	"\x10context_features\x18\a \x03(\v29.cobaltspeech.chosun.v2.ParseRequest.ContextFeaturesEntryR\x0fcontextFeatures\x12)\n" +
-	"\x10intent_whitelist\x18\b \x03(\tR\x0fintentWhitelist\x1aB\n" +
+	"\x10intent_whitelist\x18\b \x03(\tR\x0fintentWhitelist\x12+\n" +
+	"\x11expected_entities\x18\t \x03(\tR\x10expectedEntities\x1aB\n" +
 	"\x14ContextFeaturesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\x02R\x05value:\x028\x01B\a\n" +
