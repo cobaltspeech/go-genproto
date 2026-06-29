@@ -2145,8 +2145,16 @@ func (x *ASRResult) GetCubicResult() *v5.RecognitionResult {
 // stream.
 type WakewordResult struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The end-timestamp of the detected wakeword in milliseconds
-	TimestampMs   uint64 `protobuf:"varint,1,opt,name=timestamp_ms,json=timestampMs,proto3" json:"timestamp_ms,omitempty"`
+	// The end-timestamp of the detected wakeword in milliseconds.
+	TimestampMs uint64 `protobuf:"varint,1,opt,name=timestamp_ms,json=timestampMs,proto3" json:"timestamp_ms,omitempty"`
+	// Confidence of the detected wakeword.
+	Confidence float64 `protobuf:"fixed64,2,opt,name=confidence,proto3" json:"confidence,omitempty"`
+	// True if the wakeword was accepted.
+	IsAccepted bool `protobuf:"varint,3,opt,name=is_accepted,json=isAccepted,proto3" json:"is_accepted,omitempty"`
+	// Metadata associated with this wakeword result, in JSON format. The contents
+	// are opaque to the API and may include system-specific information such as the
+	// location of stored audio.
+	Metadata      string `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2186,6 +2194,27 @@ func (x *WakewordResult) GetTimestampMs() uint64 {
 		return x.TimestampMs
 	}
 	return 0
+}
+
+func (x *WakewordResult) GetConfidence() float64 {
+	if x != nil {
+		return x.Confidence
+	}
+	return 0
+}
+
+func (x *WakewordResult) GetIsAccepted() bool {
+	if x != nil {
+		return x.IsAccepted
+	}
+	return false
+}
+
+func (x *WakewordResult) GetMetadata() string {
+	if x != nil {
+		return x.Metadata
+	}
+	return ""
 }
 
 // Data to send to the Transcribe stream. The first message on
@@ -2635,9 +2664,15 @@ const file_cobaltspeech_interact_v3_interact_proto_rawDesc = "" +
 	"confidence\x18\x02 \x01(\x01R\n" +
 	"confidence\x12\x1b\n" +
 	"\ttimed_out\x18\x03 \x01(\bR\btimedOut\x12K\n" +
-	"\fcubic_result\x18\x04 \x01(\v2(.cobaltspeech.cubic.v5.RecognitionResultR\vcubicResult\"3\n" +
+	"\fcubic_result\x18\x04 \x01(\v2(.cobaltspeech.cubic.v5.RecognitionResultR\vcubicResult\"\x90\x01\n" +
 	"\x0eWakewordResult\x12!\n" +
-	"\ftimestamp_ms\x18\x01 \x01(\x04R\vtimestampMs\"y\n" +
+	"\ftimestamp_ms\x18\x01 \x01(\x04R\vtimestampMs\x12\x1e\n" +
+	"\n" +
+	"confidence\x18\x02 \x01(\x01R\n" +
+	"confidence\x12\x1f\n" +
+	"\vis_accepted\x18\x03 \x01(\bR\n" +
+	"isAccepted\x12\x1a\n" +
+	"\bmetadata\x18\x04 \x01(\tR\bmetadata\"y\n" +
 	"\x11TranscribeRequest\x12D\n" +
 	"\x06action\x18\x01 \x01(\v2*.cobaltspeech.interact.v3.TranscribeActionH\x00R\x06action\x12\x16\n" +
 	"\x05audio\x18\x02 \x01(\fH\x00R\x05audioB\x06\n" +
