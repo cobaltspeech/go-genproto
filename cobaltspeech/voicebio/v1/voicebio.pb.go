@@ -337,7 +337,7 @@ func (*ListModelsRequest) Descriptor() ([]byte, []int) {
 // The message returned to the client by the `ListModels` method.
 type ListModelsResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// List of models available for use that match the request.
+	// List of models available for use.
 	Models        []*Model `protobuf:"bytes,1,rep,name=models,proto3" json:"models,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
