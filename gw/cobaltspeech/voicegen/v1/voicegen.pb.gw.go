@@ -85,14 +85,14 @@ func request_VoiceGenService_StreamingSynthesize_0(ctx context.Context, marshale
 		protoReq extVoicegenv1.StreamingSynthesizeRequest
 		metadata runtime.ServerMetadata
 	)
-	if req.Body != nil {
-		_, _ = io.Copy(io.Discard, req.Body)
-	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_VoiceGenService_StreamingSynthesize_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
 	}
 	stream, err := client.StreamingSynthesize(ctx, &protoReq)
 	if err != nil {
