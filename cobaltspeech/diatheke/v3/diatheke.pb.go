@@ -2048,10 +2048,12 @@ type StreamASRWithPartialsResponse_AsrResult struct {
 }
 
 type StreamASRWithPartialsResponse_WakewordResult struct {
-	// Result of a detected wakeword. This field is only available if alert
-	// words are configured on the server, and if the current context requires
-	// the presence of a wakeword. If this field is available, it is sent before
-	// the final `asr_result` is sent.
+	// Result about a wakeword candidate: the accepted wakeword or, when the
+	// server reports near misses, a near miss. This field is only available if
+	// wakewords are configured on the server, and if the current context
+	// requires the presence of a wakeword. Every `WakewordResult` is sent
+	// before the final `asr_result`. See `WakewordResult` for how many are sent
+	// and in what order.
 	WakewordResult *WakewordResult `protobuf:"bytes,3,opt,name=wakeword_result,json=wakewordResult,proto3,oneof"`
 }
 
@@ -2143,19 +2145,46 @@ func (x *ASRResult) GetCubicResult() *v5.RecognitionResult {
 	return nil
 }
 
-// The result from the ASR stream, sent when a wakeword has been detected in the
-// stream.
+// Information about a wakeword candidate: either the accepted wakeword or a
+// near miss.
+//
+// A `WakewordResult` does not by itself mean the wakeword was accepted; check
+// `is_accepted`. A near miss is a candidate whose confidence is above the
+// server's logging threshold but below its acceptance threshold. Both
+// thresholds are server configuration and are not sent to the client. The
+// server does not treat a near miss as a wake; a client may still act on one,
+// for example by asking "did you say...?".
+//
+// With a wakeword service available, the server accepts at most one wakeword
+// per stream. If it accepts one, no `partial_result` message is sent before
+// the accepted `WakewordResult`.
+//
+// With no wakeword service available, the server looks for the wakeword at
+// the start of each final transcript. When it finds one, it sends an accepted
+// result and removes the wakeword from that transcript. If nothing is left, no
+// final `asr_result` is sent and the stream continues. So a stream can carry
+// more than one accepted result. `partial_result` messages can come before an
+// accepted result.
+//
+// The server reports near misses only when it is configured to. Reporting is
+// off by default and needs a wakeword service. Each near miss is sent as soon
+// as it is detected and before any accepted `WakewordResult`.
 type WakewordResult struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The end-timestamp of the detected wakeword in milliseconds.
+	// Where the candidate is in the stream's audio, in milliseconds from its
+	// start. With a wakeword service available, this is the end of the
+	// wakeword. With no wakeword service available, it is the start of the
+	// utterance that contains the wakeword.
 	TimestampMs uint64 `protobuf:"varint,1,opt,name=timestamp_ms,json=timestampMs,proto3" json:"timestamp_ms,omitempty"`
 	// Confidence of the detected wakeword.
 	Confidence float64 `protobuf:"fixed64,2,opt,name=confidence,proto3" json:"confidence,omitempty"`
-	// True if the wakeword was accepted.
+	// True if the server accepted the wakeword. False means this result is a
+	// near miss.
 	IsAccepted bool `protobuf:"varint,3,opt,name=is_accepted,json=isAccepted,proto3" json:"is_accepted,omitempty"`
 	// Metadata associated with this wakeword result, in JSON format. The contents
 	// are opaque to the API and may include system-specific information such as the
-	// location of stored audio.
+	// location of stored audio. If the metadata names a stored file, the file
+	// may not exist yet when this result is received.
 	Metadata      string `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

@@ -80,13 +80,11 @@ type DiathekeServiceClient interface {
 	StreamASR(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[StreamASRRequest, StreamASRResponse], error)
 	// Performs bidirectional streaming speech recognition. Receive results while
 	// sending audio. Each result will either be a partial ASR result, or a final
-	// result. Partial results will be sent as soon as they are ready, and all
-	// results will be sent, regardless of any wakeword configuration in the
-	// session. A final result will be sent exactly once, and the stream will be
-	// closed then. If a session has a wakeword enabled, the final result will
-	// only be emitted if the required wakeword is present. The ASRResult in the
-	// final message maybe used in the UpdateSession method for further dialog
-	// processing.
+	// result. Partial results will be sent as soon as they are ready. A final
+	// result will be sent exactly once, and the stream will be closed then. If a
+	// session requires a wakeword, see `WakewordResult` for which results are
+	// sent. The ASRResult in the final message maybe used in the UpdateSession
+	// method for further dialog processing.
 	StreamASRWithPartials(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamASRWithPartialsRequest, StreamASRWithPartialsResponse], error)
 	// Create an ASR stream for transcription. Unlike StreamASR,
 	// Transcribe does not listen for a wakeword. This method
@@ -262,13 +260,11 @@ type DiathekeServiceServer interface {
 	StreamASR(grpc.ClientStreamingServer[StreamASRRequest, StreamASRResponse]) error
 	// Performs bidirectional streaming speech recognition. Receive results while
 	// sending audio. Each result will either be a partial ASR result, or a final
-	// result. Partial results will be sent as soon as they are ready, and all
-	// results will be sent, regardless of any wakeword configuration in the
-	// session. A final result will be sent exactly once, and the stream will be
-	// closed then. If a session has a wakeword enabled, the final result will
-	// only be emitted if the required wakeword is present. The ASRResult in the
-	// final message maybe used in the UpdateSession method for further dialog
-	// processing.
+	// result. Partial results will be sent as soon as they are ready. A final
+	// result will be sent exactly once, and the stream will be closed then. If a
+	// session requires a wakeword, see `WakewordResult` for which results are
+	// sent. The ASRResult in the final message maybe used in the UpdateSession
+	// method for further dialog processing.
 	StreamASRWithPartials(grpc.BidiStreamingServer[StreamASRWithPartialsRequest, StreamASRWithPartialsResponse]) error
 	// Create an ASR stream for transcription. Unlike StreamASR,
 	// Transcribe does not listen for a wakeword. This method
